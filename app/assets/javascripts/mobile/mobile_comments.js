@@ -112,7 +112,7 @@
           bottomBarContainer.getCommentsContainer().find("time.timeago").timeago();
           bottomBarContainer.activate();
           // Inform the comment action for new comments
-          $(".stream").trigger('comments.loaded');  
+          $(".stream").trigger("comments.loaded");
         },
         error: function(){
           bottomBarContainer.deactivate();
