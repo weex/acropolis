@@ -86,3 +86,14 @@ Feature: commenting
 
     When I click on selector ".toggle_post_comments"
     Then I should see "Comment 2"
+ 
+  Scenario: Like a comment in stream view
+   When "alice@alice.alice" has commented "That's cool" on "Look at this dog"
+   And I like the comment "That's cool"
+   Then I should see a ".entyp-heard" whitin ".media"
+   
+   When I follow "1 Like"
+   Then I should see a ".avatar" within ".bd"
+   When I follow "Unlike"
+   Then I should not see a ".avatar" within ".bd"
+   

@@ -1,6 +1,6 @@
 // This class contains code extracted from interactions.js to factorize likes management between posts and comments
 
-app.models.Post.LikeInteractions = Backbone.Model.extend({
+app.models.LikeInteractions = Backbone.Model.extend({
 
   initialize: function(options) {
     this.likes = new app.collections.Likes(this.get("likes"), options);
@@ -44,7 +44,6 @@ app.models.Post.LikeInteractions = Backbone.Model.extend({
     var self = this;
     this.userLike().destroy({
       success: function() {
-        // TODO: If user unlikes a post and the last like of all comments, then set participation to false
         self.post.set({participation: false});
         self.trigger("change");
         self.set({"likes_count": self.get("likes_count") - 1});
