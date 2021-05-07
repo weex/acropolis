@@ -88,12 +88,12 @@ Feature: commenting
     Then I should see "Comment 2"
  
   Scenario: Like a comment in stream view
-   When "alice@alice.alice" has commented "That's cool" on "Look at this dog"
-   And I like the comment "That's cool"
-   Then I should see a ".entyp-heard" whitin ".media"
-   
-   When I follow "1 Like"
-   Then I should see a ".avatar" within ".bd"
-   When I follow "Unlike"
-   Then I should not see a ".avatar" within ".bd"
-   
+    When "alice@alice.alice" has commented "That's cool" on "Look at this dog"
+    And I am on "alice@alice.alice"'s page
+    And I like the comment "That's cool"
+    Then I should see a heart within comment "That's cool"
+
+    When I expand likes within comment "That's cool"
+    Then I should see a micro avatar within comment "That's cool"
+    When I unlike comment "That's cool"
+    Then I should not see a micro avatar within comment "That's cool"
