@@ -50,6 +50,15 @@ module Configuration
         self["services.#{service}.authorized"] == true
     end
 
+    def local_posts_stream?(user)
+      return true if settings.enable_local_posts_stream == "admins" &&
+                     Role.is_admin?(user)
+      return true if settings.enable_local_posts_stream == "moderators" &&
+                     (Role.moderator?(user) || Role.is_admin?(user))
+
+      settings.enable_local_posts_stream == "everyone"
+    end
+
     def secret_token
       if heroku?
         return ENV["SECRET_TOKEN"] if ENV["SECRET_TOKEN"]
@@ -128,11 +137,6 @@ module Configuration
     end
 
     def bitcoin_donation_address
-      if AppConfig.settings.bitcoin_wallet_id.present?
-        warn "WARNING: bitcoin_wallet_id is now bitcoin_address. Change in diaspora.yml."
-        return AppConfig.settings.bitcoin_wallet_id
-      end
-
       if AppConfig.settings.bitcoin_address.present?
         AppConfig.settings.bitcoin_address
       end

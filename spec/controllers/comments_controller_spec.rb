@@ -29,7 +29,7 @@ describe CommentsController, :type => :controller do
 
       it 'responds to format mobile' do
         post :create, params: comment_hash, format: :mobile
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -45,7 +45,7 @@ describe CommentsController, :type => :controller do
       end
 
       it "doesn't overwrite author_id" do
-        new_user = FactoryGirl.create(:user)
+        new_user = FactoryBot.create(:user)
         comment_hash[:author_id] = new_user.person.id.to_s
         post :create, params: comment_hash
         expect(Comment.find_by_text(comment_hash[:text]).author_id).to eq(alice.person.id)
@@ -136,7 +136,7 @@ describe CommentsController, :type => :controller do
 
     it 'works for mobile' do
       get :index, params: {post_id: @message.id}, format: :mobile
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'returns all the comments for a post' do

@@ -6,14 +6,10 @@
 
 ENV["RAILS_ENV"] ||= "test"
 
-require 'coveralls'
-Coveralls.wear!('rails')
-
 require File.join(File.dirname(__FILE__), "..", "config", "environment")
 require Rails.root.join("spec", "helper_methods")
 require "rspec/rails"
 require "webmock/rspec"
-require "factory_girl"
 require "sidekiq/testing"
 require "shoulda/matchers"
 require "diaspora_federation/schemas"
@@ -108,6 +104,14 @@ RSpec.configure do |config|
   config.before(:each) do
     I18n.locale = :en
     stub_request(:post, "https://pubsubhubbub.appspot.com/")
+    stub_request(
+      :get,
+      "https://example.com/.well-known/webfinger?resource=acct:bob@example.com"
+    )
+    stub_request(
+      :get,
+      "https://example.com/.well-known/host-meta"
+    )
     $process_queue = false
   end
 
@@ -134,10 +138,11 @@ RSpec.configure do |config|
     RequestStore.store[:gon].gon.clear unless RequestStore.store[:gon].nil?
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.include JSON::SchemaMatchers
   config.json_schemas[:archive_schema] = ArchiveValidator::SchemaValidator::JSON_SCHEMA
+  config.json_schemas[:api_v1_schema] = "lib/schemas/api_v1.json"
 
   JSON::Validator.add_schema(
     JSON::Schema.new(
