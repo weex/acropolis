@@ -169,9 +169,6 @@ pt-BR:
         login_required: "Você deve entrar no sistema para autorizar esse aplicativo"
         title: "Opa! Alguma coisa deu errado :("
       scopes:
-        aud:
-          description: "O aplicativo teria acesso a aud"
-          name: "aud"
         name:
           description: "O aplicativo teria acesso ao seu nome"
           name: "nome"
@@ -187,15 +184,9 @@ pt-BR:
         profile:
           description: "O aplicativo teria permissão para ler seu perfil ampliado"
           name: "perfil ampliado"
-        read:
-          description: "O aplicativo teria permissão para ler seu fluxo, conversas e perfil completo"
-          name: "ler perfil, fluxo e conversas"
         sub:
           description: "O aplicativo teria acesso a sub"
           name: "sub"
-        write:
-          description: "O aplicativo teria permissão para publicar, conversar e enviar reações"
-          name: "enviar publicações, conversas e reações"
       user_applications:
         index:
           access: "%{name} tem acesso a:"
@@ -301,11 +292,12 @@ pt-BR:
     original: "Cinza original"
     original_white: "Fundo branco original"
   comments:
-    create:
-      error: "Falha ao comentar."
+    destroy:
+      success: "Comentário %{id} deletado com sucesso."
     new_comment:
       comment: "Comentar"
       commenting: "Comentando..."
+    not_found: "Publicação ou comentário não encontrado"
   contacts:
     index:
       add_contact: "Adicionar contato"
@@ -345,6 +337,7 @@ pt-BR:
       to: "Para"
     new_conversation:
       fail: "Mensagem inválida"
+    not_found: "Conversa não encontrada"
     show:
       delete: "Apagar conversa"
       hide: "Esconder e silenciar conversa"
@@ -413,11 +406,6 @@ pt-BR:
       what_is_an_aspect_q: "O que é um aspecto?"
       who_sees_post_a: "Uma publicação limitada é visível apenas para as pessoas incluídas anteriormente no aspecto (ou aspectos) ao qual ela é destinada. Contatos que não pertencem ao aspecto não podem, de nenhuma maneira, ver a publicação."
       who_sees_post_q: "Quando eu publico em um aspecto, quem vê?"
-    chat:
-      add_contact_roster_a: "Primeiro, é preciso habilitar o bate-papo para um dos aspectos que incluem essa pessoa. Para fazer isso, vá até a %{contacts_page}, selecione o aspecto desejado e clique no ícone de bate-papo. %{toggle_privilege} Se preferir, você pode criar um aspecto apenas com quem você quer conversar. Então, basta entrar na sala de bate-papo do aspecto e selecionar a pessoa."
-      add_contact_roster_q: "Como bater papo com alguém na diaspora*?"
-      contacts_page: "página de contatos"
-      title: "Bate-papo"
     community_guidelines: "normas da comunidade"
     faq: "FAQ"
     foundation_website: "site da Fundação Diaspora"
@@ -431,7 +419,7 @@ pt-BR:
       get_support_a_wiki: "Pesquise na %{link}"
       get_support_q: "E se minha pergunta não for respondida neste FAQ? Onde mais eu posso encontrar ajuda?"
       getting_started_a: "Você está com sorte. Experimente a %{tutorial_series} no site do projeto. Ela é um guia, passo a passo, para o processo de cadastro e para os recursos básicos da diaspora*."
-      getting_started_q: "Socorro! Preciso de alguma ajuda básica para começar!"
+      getting_started_q: "Socorro! Preciso aprender o básico para começar!"
       title: "Obter ajuda"
     getting_started_tutorial: "a série tutorial \"Começando\""
     here: "aqui"
@@ -593,9 +581,11 @@ pt-BR:
       byline: "O mundo social on-line em que você está no controle"
       choose_your_audience: "Escolha sua plateia"
       choose_your_audience_info: "Os aspectos da diaspora* permitem que você decida com quem vai compartilhar. Você escolhe quanta privacidade quer ter. Compartilhe uma foto engraçada com todo mundo e guarde aquele segredo para os seus amigos mais próximos. Você está no controle."
+      diaspora_site_link: "rede federada diaspora*"
       headline: "É bom ver você em %{pod_name}"
       own_your_data: "Os seus dados são seus"
       own_your_data_info: "Várias redes lucram com seus dados, analisando as suas interações e usando as informações obtidas para fazer publicidade. A diaspora* não usa seus dados para nada além de possibilitar que você se conecte e compartilhe com outras pessoas."
+      part_of_diaspora: "Parte da %{diaspora_site_link}"
     podmin:
       byline: "Você está prestes a revolucionar a internet. Vamos começar?"
       configuration_info: "Abra %{database_path} e %{diaspora_path} no seu editor de texto favorito e revise-os cuidadosamente, estão minuciosamente comentados."
@@ -660,6 +650,15 @@ pt-BR:
       error: "Falha ao curtir."
     destroy:
       error: "Falha ao descurtir."
+    not_found: "Publicação ou curtida não encontrada"
+    people_like_this:
+      one: "%{count} curtida"
+      other: "%{count} curtidas"
+      zero: "Nenhuma curtida"
+    people_like_this_comment:
+      one: "%{count} curtida"
+      other: "%{count} curtidas"
+      zero: "Nenhuma curtida"
   limited: "Limitado"
   more: "Mais"
   no_results: "Nenhum resultado encontrado"
@@ -989,7 +988,11 @@ pt-BR:
       updated: "Perfil Atualizado!"
   public: "Público"
   registrations:
-    closed: "Os cadastros estão temporariamente desabilitados neste servidor diaspora*."
+    closed:
+      another_pod: "outro pod"
+      closed_pod: "Este pod está fechado para novos cadastros, porém você ainda pode entrar na rede diaspora* cadastrando-se em %{wiki}. Como todos os pods estão interconectados, de lá você terá acesso ao mesmo conteúdo."
+      find_pods: "Há uma lista de pods nos quais você pode se cadastrar em %{poduptime}."
+      other_questions: "Se você tiver alguma outra pergunta sobre a seleção de pods, confira nossa %{wiki}."
     create:
       success: "Você se juntou à diaspora*!"
     invalid_invite: "O link com o convite não é mais válido."
@@ -1176,6 +1179,41 @@ pt-BR:
         one: "1 pessoa marcada com %{tag}"
         other: "%{count} pessoas marcadas com %{tag}"
         zero: "Ninguém marcado com %{tag}"
+  two_factor_auth:
+    activated:
+      change_button: "Desativar"
+      change_label: "Insira sua senha para desativar a autenticação em duas etapas"
+      status: "Autenticação em duas etapas ativada"
+    confirm:
+      activate_button: "Confirmar e ativar"
+      input_explanation: "Depois de escanear ou digitar a senha, insira o código de seis dígitos que apareceu para você e confirme."
+      input_title: "Confirme com o código TOTP"
+      manual_explanation: "Caso não possa escanear o código QR de forma automática, digite a senha manualmente no aplicativo."
+      manual_explanation_cont: "Usamos senhas únicas baseadas em tempo (TOTP) com códigos de seis dígitos. Caso o seu aplicativo pergunte intervalo de tempo e algoritmo, insira 30 segundos e SHA-1, respectivamente. <br /> Os espaços servem apenas para melhorar a legibilidade; por favor, digite o código sem eles."
+      scan_explanation: "Por favor, escaneie o código QR com um aplicativo que leia TOTP, tal como andOTP (Android), FreeOTP (iOS) ou SailOTP (SailfishOS)."
+      scan_title: "Escaneie o código QR"
+      status: "A autenticação em duas etapas ainda não foi ativada completamente; você precisa confirmar a ativação com um código TOTP."
+      title: "Confirmar ativação"
+    deactivated:
+      change_button: "Ativar"
+      change_label: "Ativar autenticação em duas etapas"
+      status: "Autenticação em duas etapas desativada"
+    explanation: "A autenticação em duas etapas é uma maneira eficiente de garantir que você seja a única pessoa capaz de entrar na sua conta. Ao entrar, você terá que digitar um código de seis dígitos, além da sua senha, para provar a sua identidade. Mas cuidado: se você perder seu celular e os códigos de recuperação criados durante a ativação deste recurso, o acesso à sua conta na diaspora* será bloqueado para sempre."
+    flash:
+      error_token: "Código incorreto ou inválido"
+      success_activation: "Autenticação em duas etapas ativada com sucesso"
+      success_deactivation: "Autenticação em duas etapas desativada com sucesso"
+    input_token:
+      label: "Código de autenticação"
+      placeholder: "código de autenticação com seis dígitos"
+    recovery:
+      button: "Gerar novos códigos de recuperação"
+      explanation: "Se algum dia você perder o seu celular, poderá usar um dos códigos de recuperação abaixo para recuperar o acesso à sua conta. Guarde-os em segurança. Por exemplo, você pode imprimi-los e armazená-los junto com outros documentos importantes."
+      explanation_short: "Códigos de recuperação permitem que você recupere o acesso à conta caso perca seu celular. Repare que você só pode usar cada código uma única vez."
+      invalidation_notice: "Se você perder seus códigos de recuperação, poderá regerá-los aqui. Os antigos serão invalidados."
+      reminder: "Uma alternativa é usar um dos códigos de recuperação."
+      title: "Códigos de recuperação"
+    title: "Autenticação em duas etapas"
   username: "Usuário"
   users:
     confirm_email:

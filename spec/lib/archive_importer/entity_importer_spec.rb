@@ -19,11 +19,11 @@ describe ArchiveImporter::EntityImporter do
       JSON
 
       context "with known author" do
-        let!(:author) { FactoryGirl.create(:person, diaspora_handle: "author@example.com") }
+        let!(:author) { FactoryBot.create(:person, diaspora_handle: "author@example.com") }
 
         it "runs entity receive routine" do
           expect(Diaspora::Federation::Receive).to receive(:perform)
-            .with(kind_of(DiasporaFederation::Entities::StatusMessage))
+            .with(kind_of(DiasporaFederation::Entities::StatusMessage), skip_relaying: true)
             .and_call_original
           instance.import
 
@@ -45,8 +45,8 @@ describe ArchiveImporter::EntityImporter do
     end
 
     context "with comment" do
-      let(:status_message) { FactoryGirl.create(:status_message) }
-      let(:author) { FactoryGirl.create(:user) }
+      let(:status_message) { FactoryBot.create(:status_message) }
+      let(:author) { FactoryBot.create(:user) }
       let(:comment_entity) {
         data = Fabricate.attributes_for(:comment_entity,
                                         author:      author.diaspora_handle,
@@ -59,12 +59,30 @@ describe ArchiveImporter::EntityImporter do
 
       it "runs entity receive routine" do
         expect(Diaspora::Federation::Receive).to receive(:perform)
-          .with(kind_of(DiasporaFederation::Entities::Comment))
+          .with(kind_of(DiasporaFederation::Entities::Comment), skip_relaying: true)
           .and_call_original
         instance.import
         comment = Comment.find_by(guid: guid)
         expect(comment).not_to be_nil
         expect(comment.author).to eq(author.person)
+      end
+
+      it "does not relay a remote comment during import" do
+        comment_author = FactoryBot.build(:user)
+        comment_author.person.owner = nil
+        comment_author.person.pod = Pod.find_or_create_by(url: "http://example.net")
+        comment_author.person.save!
+
+        status_message = FactoryBot.create(:status_message, author: alice.person, public: true)
+        comment_data = Fabricate.attributes_for(:comment_entity,
+                                                author:      comment_author.diaspora_handle,
+                                                parent_guid: status_message.guid).tap do |data|
+          data[:author_signature] = Fabricate(:comment_entity, data).sign_with_key(comment_author.encryption_key)
+        end
+
+        expect(Diaspora::Federation::Dispatcher).not_to receive(:defer_dispatch)
+
+        ArchiveImporter::EntityImporter.new(Fabricate(:comment_entity, comment_data).to_json.as_json, nil).import
       end
 
       it "rescues DiasporaFederation::Entities::Signable::SignatureVerificationFailed" do

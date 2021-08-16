@@ -76,6 +76,8 @@ sl:
         two: "%{count} uporabnika"
         zero: "%{count} uporabnikov"
       week: "Teden"
+    user_entry:
+      current_sign_in_ip: "Naslov IP ob trenutni prijavi"
     user_search:
       add_invites: "dodaj vabila"
       email_to: "Povabila na e-poštni naslov"
@@ -443,7 +445,6 @@ sl:
       updated: "Profil posodobljen"
   public: "Javni"
   registrations:
-    closed: "Za ta Pod Diaspore registracije trenutno niso mogoče."
     create:
       success: "Pridružili ste se v omrežje Diaspora!"
     invalid_invite: "Povezava na povabilo, ki ste jo uporabili ni več veljavna!"

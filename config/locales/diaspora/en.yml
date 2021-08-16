@@ -146,6 +146,7 @@ en:
       email: "Email"
       diaspora_handle: "diaspora* ID"
       last_seen: "Last seen"
+      current_sign_in_ip: "IP address at current sign in"
       account_closed: "Account closed"
       nsfw: "#nsfw"
       admin: "Admin"
@@ -288,6 +289,12 @@ en:
     new_comment:
       comment: "Comment"
       commenting: "Commenting..."
+    create:
+      fail: "Comment creation has failed"
+    destroy:
+      success: "Comment %{id} has been successfully deleted"
+      fail: "Comment deletion has failed"
+    not_found: "Post or comment not found"
 
   contacts:
     index:
@@ -335,6 +342,7 @@ en:
     destroy:
       delete_success: "Conversation successfully deleted"
       hide_success: "Conversation successfully hidden"
+    not_found: "Conversation not found"
   date:
     formats:
       fullmonth_day: "%B %d"
@@ -400,11 +408,6 @@ en:
       rename_aspect_a: "Click “My aspects” in the side-bar from a stream view and click the pencil icon by the aspect you want to rename, or go to your Contacts page and select the relevant aspect. Then click the edit icon next to the aspect name at the top of this page, change the name and press “Update”."
       delete_aspect_q: "How do I delete an aspect?"
       delete_aspect_a: "Click “My aspects” in the side-bar from a stream view and click the pencil icon by the aspect you want to delete, or go to your Contacts page and select the relevant aspect. Then click the trash icon in the top right of the page."
-    chat:
-      title: "Chat"
-      contacts_page: "contacts page"
-      add_contact_roster_q: "How do I chat with someone in diaspora*?"
-      add_contact_roster_a: "First, you need to enable chat for one of the aspects that person is in. To do so, go to the %{contacts_page}, select the aspect you want and click on the chat icon to enable chat for the aspect. %{toggle_privilege} You could, if you prefer, create a special aspect called “Chat” and add the people you want to chat with to that aspect. Once you’ve done this, open the chat interface and select the person you want to chat with."
     mentions:
       title: "Mentions"
       what_is_a_mention_q: "What is a “mention”?"
@@ -553,6 +556,8 @@ en:
   home:
     default:
       headline: "Welcome to %{pod_name}"
+      part_of_diaspora: "Part of the %{diaspora_site_link}"
+      diaspora_site_link: "diaspora* federated network"
       byline: "The online social world where you are in control"
       be_who_you_want_to_be: "Be who you want to be"
       be_who_you_want_to_be_info: "A lot of networks insist that you use your real identity. Not diaspora*. Here you can choose who you want to be, and share as much or as little about yourself as you want. It really is up to you how you want to interact with other people."
@@ -626,8 +631,22 @@ en:
   likes:
     create:
       error: "Failed to like."
+      fail: "Like creation has failed"
     destroy:
       error: "Failed to unlike."
+    people_like_this:
+      zero: "No likes"
+      one: "%{count} like"
+      other: "%{count} likes"
+    people_like_this_comment:
+      zero: "No likes"
+      one: "%{count} like"
+      other: "%{count} likes"
+    people_dislike_this:
+      zero: "No dislikes"
+      one: "%{count} dislike"
+      other: "%{count} dislikes"
+    not_found: "Post or like not found"
 
   notifications:
     started_sharing:
@@ -886,6 +905,8 @@ en:
           deny: "Deny"
           bad_request: "Missing client id or redirect URI"
           client_id_not_found: "No client with client_id %{client_id} with redirect URI %{redirect_uri} found"
+          private_contacts_linkage_error: "private:read and private:modify require contacts:read as well"
+          unknown_scope: "Unknown scope: %{scope_name}"
         destroy:
           fail: "The attempt to revoke the authorization with ID %{id} failed"
       user_applications:
@@ -896,39 +917,72 @@ en:
           no_requirement: "%{name} requires no permissions"
         no_applications: "You have no authorized applications"
         revoke_autorization: "Revoke"
-        tos: "See the application's terms of service"
-        policy: "See the application's privacy policy"
+        tos: "See the application’s terms of service"
+        policy: "See the application’s privacy policy"
       scopes:
         openid:
-          name: "basic profile"
-          description: "This allows the application to read your basic profile"
+          name: "Basic profile information"
+          description: "This grants read-only access to your basic profile information."
         sub:
-          name: "sub"
-          description: "This grants sub permissions to the application"
-        aud:
-          name: "aud"
-          description: "This grants aud permissions to the application"
+          name: "Unique identifier"
+          description: "This grants read-only access to your unique identifier."
         name:
-          name: "name"
-          description: "This grants name permissions to the application"
+          name: "Full name"
+          description: "This grants read-only access to your full name."
         nickname:
-          name: "nickname"
-          description: "This grants nickname permissions to the application"
-        profile:
-          name: "extended profile"
-          description: "This allows the application to read your extended profile"
+          name: "Username"
+          description: "This grants read-only access to your username."
         picture:
-          name: "picture"
-          description: "This grants picture permissions to the application"
-        read:
-          name: "read profile, stream and conversations"
-          description: "This allows the application to read your stream, your conversations and your complete profile"
-        write:
-          name: "send posts, conversations and reactions"
-          description: "This allows the application to send new posts, write conversations, and send reactions"
+          name: "Profile picture"
+          description: "This grants read-only access to your profile picture."
+        'contacts:read':
+          name: "Contacts (Read-only)"
+          description: "This grants read-only access to contacts and related data (such as aspects)."
+        'contacts:modify':
+          name: "Contacts (Write)"
+          description: "This grants write access to contacts and related data (such as aspects)."
+        conversations:
+          name: "Conversations"
+          description: "This grants read and write permission to private messages."
+        email:
+          name: "E-Mail"
+          description: "This grants read-only access to your email address."
+        interactions:
+          name: "Interactions"
+          description: "This grants access to interact with posts, for instance liking or submitting a comment."
+        notifications:
+          name: "Notifications"
+          description: "This grants read and write access to your notifications."
+        'private:read':
+          name: "Private Posts (Read-only)"
+          description: "This grants read-only access to your and your contacts’ private posts."
+        'private:modify':
+          name: "Private Posts (Write)"
+          description: "This grants access to publish private posts."
+        'public:read':
+          name: "Public Posts (Read-only)"
+          description: "This grants access to your public posts, including interactions and related data."
+        'public:modify':
+          name: "Public Posts (Write)"
+          description: "This grants write access to publish public posts and related data (such as votes and attached media)."
+        profile:
+          name: "Extended profile (Read-only)"
+          description: "This grants read-only access to your extended profile data."
+        'profile:modify':
+          name: "Extended profile (Write)"
+          description: "This grants access to update your extended profile data."
+        'profile:read_private':
+          name: "Private profile data (Read-only)"
+          description: "This grants read-only access to your private profile data."
+        'tags:read':
+          name: "Tags (Read-only)"
+          description: "This grants read-only access to your followed tags and tag streams."
+        'tags:modify':
+          name: "Tags (Write)"
+          description: "This grants access to change the tags you follow."
       error_page:
         title: "Oh! Something went wrong :("
-        contact_developer: "You should contact the developer of the application and include the following detailed error message:"
+        contact_developer: "Please contact the application’s developer and include the following detailed error message:"
         login_required: "You must first login before you can authorize this application"
         could_not_authorize: "The application could not be authorized"
 
@@ -1050,7 +1104,11 @@ en:
       terms_link: "terms of service"
     create:
       success: "You’ve joined diaspora*!"
-    closed: "Signups are closed on this diaspora* pod."
+    closed:
+      closed_pod: "This pod is currently closed to new registrations. However, you can still join the diaspora* network by registering on %{wiki}. Because all pods are interconnected, you will have access to the same content there."
+      another_pod: "another pod"
+      find_pods: "There’s a list of pods you can sign up to at %{poduptime}."
+      other_questions: "If you have any other questions regarding choosing a pod, check out our %{wiki}."
     invalid_invite: "The invite link you provided is no longer valid!"
 
   reshares:
@@ -1190,6 +1248,9 @@ en:
 
     public:
       title: "Public activity"
+
+    local_public:
+      title: "Local posts"
 
     multi:
       title: "Stream"
@@ -1374,3 +1435,5 @@ en:
     disabled: "Not available"
     open: "Open"
     closed: "Closed"
+
+

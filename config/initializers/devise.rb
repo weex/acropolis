@@ -15,11 +15,6 @@ end
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  config.warden do |manager|
-    manager.default_strategies(scope: :user).unshift :two_factor_authenticatable
-    manager.default_strategies(scope: :user).unshift :two_factor_backupable
-  end
-
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -36,7 +31,7 @@ Devise.setup do |config|
       Rails.logger.warn("No smtp sender address set, mail may fail.")
       warn "WARNING: No smtp sender address set, mail may fail."
     end
-    config.mailer_sender = "please-change-me@config-diaspora-yml.com"
+    config.mailer_sender = "please-change-me@config-diaspora-toml.com"
   end
 
   # Configure the class responsible to send e-mails.

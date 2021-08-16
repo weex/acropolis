@@ -264,9 +264,6 @@ nds:
       title: "Aspekte"
       what_is_an_aspect_q: "Wat is een Aspekt?"
       who_sees_post_q: "Wer sütt dat, wenn ik wat an bestimmte Aspekte schriev?"
-    chat:
-      contacts_page: "Kontaktesiet"
-      title: "Tippschnack"
     faq: "FAQ"
     foundation_website: "Websiet von de diaspora* foundation"
     getting_help:
@@ -582,7 +579,6 @@ nds:
       updated: "Profil aktualisiert"
   public: "Öffentlich"
   registrations:
-    closed: "Registrerungen sind op dissen diaspora*-Pod schloten."
     create:
       success: "Du bist nu bi diaspora*!"
     invalid_invite: "Dien Inlodungslink is nich mehr gültig!"

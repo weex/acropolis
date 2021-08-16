@@ -50,6 +50,15 @@ module Configuration
         self["services.#{service}.authorized"] == true
     end
 
+    def local_posts_stream?(user)
+      return true if settings.enable_local_posts_stream == "admins" &&
+                     Role.is_admin?(user)
+      return true if settings.enable_local_posts_stream == "moderators" &&
+                     (Role.moderator?(user) || Role.is_admin?(user))
+
+      settings.enable_local_posts_stream == "everyone"
+    end
+
     def secret_token
       if heroku?
         return ENV["SECRET_TOKEN"] if ENV["SECRET_TOKEN"]
@@ -65,24 +74,6 @@ module Configuration
         system "DISABLE_SPRING=1 bin/rake generate:secret_token" unless File.exist? token_file
         require token_file
         Diaspora::Application.config.secret_key_base
-      end
-    end
-
-    def twofa_encryption_key
-      if heroku?
-        return ENV["TWOFA_ENCRYPTION_KEY"] if ENV["TWOFA_ENCRYPTION_KEY"]
-
-        warn "FATAL: Running on Heroku with TWOFA_ENCRYPTION_KEY unset"
-        warn "       Run heroku config:add TWOFA_ENCRYPTION_KEY=#{SecureRandom.hex(32)}"
-        abort
-      else
-        key_file = File.expand_path(
-          "../config/initializers/twofa_encryption_key.rb",
-          File.dirname(__FILE__)
-        )
-        system "DISABLE_SPRING=1 bin/rake generate:twofa_key" unless File.exist? key_file
-        require key_file
-        Diaspora::Application.config.twofa_encryption_key
       end
     end
 
@@ -146,11 +137,6 @@ module Configuration
     end
 
     def bitcoin_donation_address
-      if AppConfig.settings.bitcoin_wallet_id.present?
-        warn "WARNING: bitcoin_wallet_id is now bitcoin_address. Change in diaspora.yml."
-        return AppConfig.settings.bitcoin_wallet_id
-      end
-
       if AppConfig.settings.bitcoin_address.present?
         AppConfig.settings.bitcoin_address
       end
