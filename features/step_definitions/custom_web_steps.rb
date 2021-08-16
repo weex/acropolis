@@ -61,18 +61,6 @@ And /^I submit the form$/ do
   find("input[type='submit']").click
 end
 
-And /^I expand the publisher$/ do
- click_publisher
-end
-
-And /^I close the publisher$/ do
-  find("#publisher .md-cancel").click
-end
-
-Then /^the publisher should be expanded$/ do
-  find("#publisher")["class"].should_not include("closed")
-end
-
 Then /^the text area wrapper mobile should be with attachments$/ do
   find("#publisher-textarea-wrapper")["class"].should include("with_attachments")
 end
@@ -88,50 +76,6 @@ And /^I hover over the "([^"]+)"$/ do |element|
   find("#{element}", match: :first).hover
 end
 
-When /^I prepare the deletion of the first post$/ do
-  find(".stream .stream-element", match: :first).hover
-  within(find(".stream .stream-element", match: :first)) do
-    ctrl = find(".control-icons")
-    ctrl.hover
-    ctrl.find(".remove_post").click
-  end
-end
-
-When /^I prepare hiding the first post$/ do
-  find(".stream .stream-element", match: :first).hover
-  within(find(".stream .stream-element", match: :first)) do
-    ctrl = find(".control-icons")
-    ctrl.hover
-    ctrl.find(".hide_post").click
-  end
-end
-
-When /^I click to delete the first post$/ do
-  accept_alert do
-    step "I prepare the deletion of the first post"
-  end
-  expect(find(".stream")).to have_no_css(".stream-element.loaded.deleting")
-end
-
-When /^I click to hide the first post$/ do
-  accept_alert do
-    step "I prepare hiding the first post"
-  end
-end
-
-When /^I click to delete the first comment$/ do
-  within("div.comment", match: :first) do
-    find(".comment_delete", visible: false).click
-  end
-end
-
-When /^I click to delete the first uploaded photo$/ do
-  page.execute_script("$('#photodropzone .x').css('display', 'block');")
-  image_count = all(".publisher_photo img").count
-  find("#photodropzone .x", match: :first).trigger "click"
-  page.assert_selector(".publisher_photo img", count: image_count - 1)
-end
-
 And /^I click on selector "([^"]*)"$/ do |selector|
   find(selector).click
 end
@@ -141,7 +85,19 @@ And /^I click on the first selector "([^"]*)"$/ do |selector|
 end
 
 And /^I confirm the alert after (.*)$/ do |action|
+  accept_confirm do
+    step action
+  end
+end
+
+And /^I accept the alert after (.*)$/ do |action|
   accept_alert do
+    step action
+  end
+end
+
+And /^I confirm the prompt after (.*)$/ do |action|
+  accept_prompt do
     step action
   end
 end
@@ -217,6 +173,10 @@ Then /^I should see (\d+) contacts$/ do |n_posts|
   has_css?("#people-stream .stream-element", count: n_posts.to_i).should be true
 end
 
+When /^I scroll a bit$/ do
+  page.execute_script("window.scrollBy(0,200)")
+end
+
 And /^I scroll down$/ do
   page.execute_script("window.scrollBy(0,3000000)")
 end
@@ -229,15 +189,7 @@ When /^I resize my window to 800x600$/ do
   page.driver.resize(800, 600)
 end
 
-Then 'I should see an image attached to the post' do
-  step %(I should see a "img" within ".stream-element div.photo-attachments")
-end
-
-Then 'I press the attached image' do
-  step %(I press the 1st "img" within ".stream-element div.photo-attachments")
-end
-
-And "I wait for the popovers to appear" do
+And /^I wait for the popovers to appear$/ do
   expect(page).to have_selector(".popover", count: 3)
 end
 
@@ -288,22 +240,6 @@ end
 
 When /^I focus the "([^"]+)" field$/ do |field|
   find_field(field).click
-end
-
-Given /^I have configured a Bitcoin address$/ do
-  AppConfig.settings.bitcoin_address = "AAAAAA"
-end
-
-Then /^I should see the Bitcoin address$/ do
-  find("#bitcoin_address")['value'].should == "AAAAAA"
-end
-
-Given /^I have configured a Liberapay username$/ do
-  AppConfig.settings.liberapay_username = "BBBBBB"
-end
-
-Then /^I should see the Liberapay donate button$/ do
-  find("#liberapay-button")["href"].should == "https://liberapay.com/BBBBBB/donate"
 end
 
 Given /^"([^"]*)" is hidden$/ do |selector|

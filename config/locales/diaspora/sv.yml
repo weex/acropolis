@@ -34,7 +34,7 @@ sv:
         reshare:
           attributes:
             root_guid:
-              taken: "Du gillar detta, eller hur?  Du har nämligen redan delat detta inlägg!"
+              taken: "Du gillar detta, eller hur?  Du har nämligen redan delat inlägget!"
         user:
           attributes:
             email:
@@ -59,6 +59,7 @@ sv:
       pod_status: "Podstatus"
     pods:
       pod_desktop_link: "skrivbordsvy"
+      pod_desktop_view: "Denna sida är inte tillgänglig i mobilvy. Vänligen växla till %{desktop_link}."
       pod_network: "Podnätverk"
     stats:
       2weeks: "Två veckor"
@@ -89,15 +90,19 @@ sv:
       week: "Vecka"
     user_entry:
       account_closed: "Konto borttaget"
+      admin: "Administratör"
+      current_sign_in_ip: "IP-address för denna inloggning"
       diaspora_handle: "Diaspora*-id"
       email: "E-post"
       guid: "Globalt identifieringsnummer (GUID)"
       id: "id"
       invite_token: "Inbjudningskort"
       last_seen: "Sedd senast"
+      moderator: "Moderator"
       ? "no"
       : Nej
       nsfw: "#nsfw"
+      spotlight: "Strålkastarljus"
       unknown: "Okänd"
       ? "yes"
       : Ja
@@ -105,14 +110,29 @@ sv:
       account_closing_scheduled: "Kontot för %{name} är låst och kommer att raderas om en stund."
       account_locking_scheduled: "Kontot för användaren %{name} är schemalagt för att låsas. Det kommer ske om en liten stund..."
       account_unlocking_scheduled: "Kontot för användaren %{name} är schemalagt för att låsas upp. Det kommer ske om en liten stund..."
+      add_admin: "%{name} har gjorts till administratör."
       add_invites: "Lägg till inbjudningar"
+      add_moderator: "%{name} har gjorts till moderator."
+      add_spotlight: "%{name} har lagts i strålkastarljuset."
       are_you_sure: "Är du säker på att du vill ta bort ditt konto?"
       are_you_sure_lock_account: "Är du säker på att du vill låsa detta konto?"
       are_you_sure_unlock_account: "Är du säker på att du vill låsa upp detta konta?"
       close_account: "Ta bort konto"
+      delete_admin: "%{name} har tagits bort ur administratörslistan."
+      delete_moderator: "%{name} har tagits ur moderatorlistan."
+      delete_spotlight: "%{name} har tagits ur strålkastarljuset."
+      does_not_exist: "Användare finns inte!"
       email_to: "Skicka ett e-brev för att bjuda in"
       invite: "Bjud in"
       lock_account: "Lås konto"
+      make_admin: "Gör administratör"
+      make_moderator: "Gör moderator"
+      make_spotlight: "Lägg in i strålkastarljuset"
+      remove_admin: "Ta bort som admin"
+      remove_moderator: "Ta bort som moderator"
+      remove_spotlight: "Ta bort ur strålkastarljustet"
+      role_implemented: "%{name} har redan tillgivits rollen!"
+      role_removal_implemented: "%{name} har redan ifråntagits rollen!"
       under_13: "Visa användare som är yngre än 13 år"
       unlock_account: "Lås upp konto"
       users:
@@ -143,40 +163,85 @@ sv:
           client_id_not_found: "Ingen klient med client_id %{client_id} med omdirigerings-URI %{redirect_uri} funnen."
           deny: "Neka"
           no_requirement: "%{name} kräver inga tillstånd."
+          private_contacts_linkage_error: "privat:läst och privat:ändra förväntade kontakter:också läst"
           redirection_message: "Är du säker på att du vill ge tillgång till %{redirect_uri}?"
+          unknown_scope: "Okänt omfång: %{scope_name}"
       error_page:
         contact_developer: "Du borde kontakta tillämpningsutvecklaren och bifoga följande felmeddelande:"
         could_not_authorize: "Denna tillämpning kunde inte auktoriseras."
         login_required: "Du måste logga in innan du kan auktorisera denna tillämpning."
         title: "Rackarns! Något gick åt pipan."
       scopes:
-        aud:
-          description: "Detta skänker aud-rättigheter till applikationen"
-          name: "aud"
+        ? "contacts:modify"
+        :
+          description: "Det här ger skrivrättigheter av kontakter och besläktad data (såsom aspekter) till applikationen"
+          name: "kontakter:ändra"
+        ? "contacts:read"
+        :
+          description: "Det här ger läsrättigheter av kontakter och besläktad data (såsom aspekter) till applikationen."
+          name: "kontakter:läst"
+        conversations:
+          description: "Det här ger skriv- och läsrättigheter av privata meddelanden till applikationen."
+          name: "konversationer"
+        email:
+          description: "Det här ger läsrättigheter av användares e-postadress till applikationen."
+          name: "e-post"
+        interactions:
+          description: "Det ger läs- och skrivrättigheter av interaktioner med inlägg till applikationen."
+          name: "interaktioner"
         name:
-          description: "Det här beviljar namnrättigheter till applikationen."
+          description: "Det här beviljar läsrättigheter av namndata till applikationen."
           name: "namn"
         nickname:
-          description: "Det här beviljar smeknamnsrättigheter till applikationen."
+          description: "Det här beviljar läsrättigheter av smeknamnsdata till applikationen."
           name: "smeknamn"
+        notifications:
+          description: "Det här ger läs- och skrivrättigheter av interaktioner med användaren till applikationen."
+          name: "notifikationer"
         openid:
-          description: "Detta låter tillämpningar att läsa din grundprofil."
+          description: "Detta tillåter andra program att läsa din grundprofil."
           name: "grundprofil"
         picture:
-          description: "Det här beviljar bildrättigheter till applikationen."
+          description: "Det här beviljar läsrättigheter av användarens bilddata till applikationen."
           name: "bild"
+        ? "private:modify"
+        :
+          description: "Det här ändringsrättigheter av privata inlägg och strömningar, inklusive privata delningar, till applikationen."
+          name: "privat:ändra"
+        ? "private:read"
+        :
+          description: "Det här ger läsrättigheter av privata inlägg och strömningar till applikationer."
+          name: "privat:läst"
         profile:
           description: "Det här beviljar rättigheter att se din utökade profil till applikationen."
           name: "utökad profil"
-        read:
-          description: "Detta låter tillämpningar att läsa din ström, dina konversationer och hela din profil."
-          name: "läs profil, ström och konversationer"
+        ? "profile:modify"
+        :
+          description: "Det här ger applikationen rättigheter att ändra användarprofilen."
+          name: "profil:ändra"
+        ? "profile:read_private"
+        :
+          description: "Det här ger läsrättigheter till din privata profildata till applikationen."
+          name: "profil:läst_privat"
+        ? "public:modify"
+        :
+          description: "Det här ger skrivrättigheter av offentliga inlägg (inklusive skriva offentliga inlägg), interaktioner och användardata till applikationen."
+          name: "offentlig:ändra"
+        ? "public:read"
+        :
+          description: "Det här ger läsrättigheter av offentliga inlägg, interaktioner och användardata till applikationen."
+          name: "publik:läst"
         sub:
           description: "Det här skänker dig underprivilegier för denna tillämpning."
           name: "under"
-        write:
-          description: "Detta låter tillämpningar att skicka nya bilder, författa konversationer och skicka reaktioner"
-          name: "göra inlägg, konversationer och reaktioner"
+        ? "tags:modify"
+        :
+          description: "Det här ger rättigheter att ändra tillgång till användarens följda taggar till applikationen."
+          name: "taggar:ändra"
+        ? "tags:read"
+        :
+          description: "Det här ger läsrättigheter av användarens följda taggar och taggstörmmar till applikationen."
+          name: "tagg:läst"
       user_applications:
         index:
           access: "%{name} har tillgång till:"
@@ -189,6 +254,7 @@ sv:
         tos: "Kika på tillämpningens användarvillkor."
   are_you_sure: "Är du säker?"
   are_you_sure_delete_account: "Är du säker på att du vill avsluta ditt konto? Detta kan inte ångras!"
+  are_you_sure_ignore_user: "Du kommer att ignorera användaren. Är du säker på din sak?"
   aspect_memberships:
     destroy:
       failure: "Kunde inte ta bort personen från aspekten"
@@ -231,7 +297,7 @@ sv:
         mail_podmin: "Podadministratörens e-post"
         need_help: "Behöver du hjälp?"
         support_forum: "Du kan också ansluta till %{support_forum}"
-        support_forum_link: "hjälp-forumet"
+        support_forum_link: "hjälpforum"
         tag_bug: "bugg"
         tag_feature: "funktionalitet"
         tag_question: "fråga"
@@ -277,13 +343,19 @@ sv:
     dark: "Mörk"
     dark_green: "Mörkgrön"
     egyptian_blue: "Egyptisk blå"
+    magenta: "Magenta"
     original: "Originalgrå"
+    original_white: "Ursprunglig vit bakgrund"
   comments:
     create:
-      error: "Lyckades inte kommentera."
+      fail: "Misslyckades att skapa kommentar"
+    destroy:
+      fail: "Misslyckades att ta bort kommentar"
+      success: "Kommentar %{id} har tagits bort"
     new_comment:
       comment: "Kommentera"
       commenting: "Kommenterar..."
+    not_found: "Inlägg eller kommentar ej funnen"
   contacts:
     index:
       add_contact: "Lägg till kontakt"
@@ -323,6 +395,7 @@ sv:
       to: "Till"
     new_conversation:
       fail: "Ogiltigt meddelande"
+    not_found: "Konversationen ej funnen"
     show:
       delete: "Ta bort konversationen"
       hide: "Dölj och tysta konversation"
@@ -343,8 +416,17 @@ sv:
     need_javascript: "Denna webbplats behöver JavaScript för att fungera ordentligt. Har du inaktiverat JavaScript, får du vara så snäll att aktivera det och ladda om sidan."
   errors:
     messages:
-      carrierwave_download_error: "kunde inte laddas ner"
+      carrierwave_download_error: "kunde inte laddas ned"
       carrierwave_integrity_error: "är inte av en giltig filtyp"
+      carrierwave_processing_error: "kunde inte processa"
+      content_type_blacklist_error: "Man får inte ladda upp filer som %{content_type}"
+      content_type_whitelist_error: "Man får inte ladda upp filer som %{content_type}"
+      extension_blacklist_error: "Filändelsen %{extension} tillåts inte. Otillåtna är: %{prohibited_types}"
+      extension_whitelist_error: "Filändelsen %{extension} tillåts inte. Tillåtna är: %{allowed_types}"
+      max_size_error: "Filstorleken får inte överskrida %{max_size}"
+      min_size_error: "Filstorleken måste överskrida %{min_size}"
+      mini_magick_processing_error: "Kunde inte manipulera bilden med MiniMagick. Är det ens en bild? Ursprungligt fel: %{e}"
+      rmagick_processing_error: "Kunde inte manipulera bilden med rmagick. Är det ens en bild?"
   fill_me_out: "Fyll i mig"
   find_people: "Hitta personer eller #taggar"
   help:
@@ -382,14 +464,11 @@ sv:
       what_is_an_aspect_q: "Vad är en Aspekt?"
       who_sees_post_a: "Om du skulle göra ett inlägg med begränsad spridning, kommer det bara vara synligt för dem du har i just den aspekten (eller de aspekterna, om det skickas till flertalet aspekter). Kontakter som inte finns i aspekten kommer inte att kunna se inlägget. Bara offentliga inlägg kommer att bli synliga för dina kontakter som inte ligger i någon aspekt."
       who_sees_post_q: "Vem ser det inlägg jag gjort i en aspekt?"
-    chat:
-      add_contact_roster_a: "Först av allt måste du tillåta chatt i aspekter med dem du vill chatta med. Du gör genom att gå till %{contacts_page} och väljer aspekten du vill tillåta chatt i. %{toggle_privilege} Om du hellre vill, kan du skapa en egen aspekt speciellt för dem du vill chatta med. När du har aspekt med chattar tillåtna, är det bara att öppna chatten och välj den du vill chatta med."
-      add_contact_roster_q: "Hur chattar jag med någon på Diaspora?"
-      contacts_page: "kontaktsida"
-      title: "Chatt"
+    community_guidelines: "Gemenskapsriktlinjer"
     faq: "Vanliga frågor"
     foundation_website: "Diaspora*-föreningens hemsida"
     getting_help:
+      get_support_a_discourse: "Finn diskussioner rörande ditt ämne eller starta en ny tråd i vårt forum på %{discourse}"
       get_support_a_faq: "Läs vår sida med %{faq} på wikin."
       get_support_a_hashtag: "Fråga med ett publikt inlägg på Diaspora* och använd taggen %{question}"
       get_support_a_irc: "Ta kontakt med oss på %{irc} (chatt)"
@@ -419,6 +498,7 @@ sv:
     mentions:
       how_to_mention_a: "Skriv ett snabel-a innan du skriver personens namn. En meny borde då dyka upp med dina kontakter i, för att hjälpa dig att nämna rätt person. Observera att du bara kan nämna personer som finns i någon av dina aspekter."
       how_to_mention_q: "Hur nämner jag någon när jag skriver ett inlägg?"
+      mention_in_comment_a: "Sedan version 0.7.0.0, ja! Du kan nämna någon i en kommentar på samma vis du skulle göra det i ett inlägg med \"@\" före personens namn. Observera att du icke-publika inlägg bara kan nämna dem som redan deltagit inägget."
       mention_in_comment_q: "Kan jag @nämna någon i en kommentar?"
       see_mentions_a: "Ja. Tryck på \"@Omnämnanden\" i vänstra kolonnen på din sida."
       see_mentions_q: "Är det möjligt för mig att se inlägg jag nämnts i?"
@@ -448,13 +528,18 @@ sv:
       char_limit_services_q: "Vad händer med inlägg som delats genom liknande tjänster med lägre teckenbegräsning?"
       character_limit_a: "65 535 tecken. Det är 65 395 tecken fler än vad Twitter tillåter! ;-)"
       character_limit_q: "Vad är teckenbegränsning för inlägg?"
-      embed_multimedia_a: "Det ska räcka med att bara klistra in länken till vad du vill bifoga i inlägget. Några av de sidor som stöds är: YouTube, Vimeo, SoundCloud och Flickr. Diaspora* använder oEmbed för den här egenskapen. Vi lägger till stöd för andra sidor hela tiden. Kom ihåg att göra enkla inlägg och bara använda fullständiga länkar, inga URL-förkortare. Inga operatorer efter länken och vänta ett slag efter att du klistrat in inlägget innan du laddar om sidan, efter att du skrivit inlägget."
+      embed_multimedia_a: "Det ska räcka med att bara klistra in länken till vad du vill bifoga i inlägget. Sidor som stöds är: YouTube, Vimeo, SoundCloud och Flickr. Diaspora* använder oEmbed för den här egenskapen. Vi lägger till stöd för andra sidor hela tiden. Kom ihåg att göra enkla inlägg och bara använda fullständiga länkar, inga URL-förkortare. Inga operatorer efter länken och vänta ett slag efter att du klistrat in inlägget innan du laddar om sidan, efter att du skrivit inlägget."
       embed_multimedia_q: "Hur bäddar jag in en video, ljudspår eller annat multimediainnehåll i ett inlägg?"
-      format_text_a: "Du kan använda %{markdown}-systemet. Du kan se systemets syntax %{here}. Använd knappen för att förhandsgranska inlägget så att du ser att det blir som du hade tänkt dig."
+      format_text_a: "Diaspora använder ett förenklat system som kallas %{markdown}. När du skriver finns knappar för att hjälpa dig formatera texten. Om du vill formatera manuallt, hittar du hela syntaxen %{here}. Fliken för att förhandsvisa, ger dig möjlighet att se meddelandet innan du delar. Glöm inte att inte kan ändra efter publikation; var därför nogrann med att förhandsgranska innan!"
       format_text_q: "Hur kan jag formatera texten i mina inlägg? (Fet stil, kursivera, etcetera.)"
       hide_posts_a: "Om du pekar muspekaren överst på ett inlägg kommer ett kryss att dyka upp till höger. Tryck på det för att dölja inlägget och avsluta notifieringarna berörande det. Du kommer fortfarande kunna se inlägget om du besöker författarens profilsida."
       hide_posts_q: "Hur döljer jag ett inlägg?"
-      insert_images_a: "Tryck på den lilla kameraikonen för att bifoga en bild till inlägget. Tryck på ikonen igen för att lägga till fler foton. Du kan välja fler att ladda upp flera bilder samtidigt"
+      ignore_user_a1: "Delar du med personen, ta bort dem ur dina aspekter för att sluta se dess inlägg i ditt flöde. Ett mer fullständigt sätt, är att ignorera kontot. Detta motverkar alla inlägg från att dyka upp i ditt flöde och personen kommer inte kunna gilla eller kommentera dina inlägg. Men, de kommer fortfarande kunna sprida dina inlägg och kommentera dessa. Deras kommentarer av andras inlägg kommer fortfarande vara synliga för dig."
+      ignore_user_a2: "För att ignorera någon, tryck ikonen \"ignorera\" (cirkel med ett diagonalt streck) i övre högra hörnet av inlägg. Deras inlägg kommer omedelbart försvinna ur ditt flöde. Alternativt, kan du gå till deras profilsida och trycka på ignoreraknappen där. Du kan fortfarande se personens inlägg på dennes profilsida."
+      ignore_user_a3: "Du hittar listan över ignorerade personer under Sekretess bland dina kontoinställningar. För att sluta ignorera någon, ta bort personen ur listan."
+      ignore_user_q: "Hur tar jag bort någon från min ström?"
+      insert_images_a: "Om du vill ha en bild som finns på din dator i ett inlägg, välj den lilla kameraikonen. Du kan också dra bilden från katalogen, eller fler bilder, från datorn till ikonen. Om du vill ha bild från en annan webbsida i inlägget, väljer du istället formateringsknappen som då skriver in Markdown-koden åt dig."
+      insert_images_comments_a: "Använd Markdown för att lägga in bilder från webben i en kommentar, precis som i ett inlägg. Du kan dock inte ladda upp bilder från din dator till kommentarer. Ladda upp dem på någon bilddelningssida och lägg därefter in bilderna i kommentarer."
       insert_images_comments_q: "Kan jag lägga till bilder i kommentarer?"
       insert_images_q: "Hur lägger jag in bilder till mitt inlägg?"
       post_location_a: "Tryck på knappnålsikonen bredvid kameran där du laddar upp bilder. Det här kommer att lägga till din plats från OpenStreetMap.org. Du själv kan ändra platsen, för att bara ange staden du befinner dig i och inte den exakta adressen."
@@ -463,7 +548,7 @@ sv:
       post_notification_q: "Hur gör jag för att ändra mina notifikationsinställningar för ett inlägg?"
       post_poll_a: "Tryck på grafikonen för att skapa en omröstning. Skriv in din fråga och åtminstone två alternativ. Glöm inte att göra inlägget publikt om du vill att alla ska kunna delta."
       post_poll_q: "Hur lägger jag till en omröstning till mitt inlägg?"
-      post_report_a: "Tryck på varningstriangeln i inläggets övre, högra hörn för att anmäla det till din podadminstratör. Ange sedan, noggrant, varför du valt att anmäla inlägget."
+      post_report_a: "Tryck på varningstriangeln i inläggets övre, högra hörn för att anmäla det till din podadminstratör. Ange sedan noggrant varför du valt att anmäla inlägget. Var så bussig och anmäl bara inlägg som bryter mot våra %{community_guidelines} eller användarvilkoren för din pod. Det kan exempelvis vara olagligt material, eller kränkande innehåll och spam."
       post_report_q: "Hur meddelar jag om kränkande inlägg?"
       size_of_images_a: "Nej. Bildernas storlek justeras automatiskt för att passa strömmen."
       size_of_images_q: "Kan jag själv anpassa bildstorleken i inlägg och kommentarer?"
@@ -485,13 +570,17 @@ sv:
       who_sees_post_q: "Vem kan se mitt inlägg till en aspekt, alltså ett privat inlägg?"
     profile:
       title: "Profil"
+      what_do_tags_do_a: "De hjälper andra att lära känna dig. Din profilbild kommer synas till vänster på störmsidor för taggarna, ihop med andra som har taggarna i sina profiler."
+      what_do_tags_do_q: "Vad gör taggarna som syns i min huvudsakliga profil?"
+      whats_in_profile_a: "Din profil består av två delar: din huvudsakliga profil och din utökade. Din huvudsakliga visar ditt namn, dina fem valda taggar och din bild. Din utökade visar din biografi, plats, kön och födelsedag. All denna information väljer du själv om du vill visa och hur anonym du vill göra den. Din utökade profil visas i den västra kolumnen på din profilsida, under ditt foto."
       whats_in_profile_q: "Vad finns i min profil?"
+      who_sees_profile_a: "Din huvudsakliga profil (namn, foto och #taggar) är offentlig. Din utökade profil är däremot privat, men du kan göra den offentlig om du vill. Bara dem du delar med (dvs. med i dina aspekter) kan se din utökade profil om du har den privat. Andra kan endast se din offentliga information. När en profil blivit offentlig, kan vem som helst ta del av den och den kan indexeras av sökmotorer."
       who_sees_profile_q: "Vem ser min profil?"
     public_posts:
-      can_comment_reshare_like_a: "Bara de som är inloggade på Diaspora* kan kommentera, dela vidare och gilla dina offentliga inlägg."
+      can_comment_reshare_like_a: "Bara de som är inloggade på Diaspora* kan kommentera, dela vidare och gilla dina offentliga inlägg. Undantaget är dem du valt att ignorera. De kommer inte kunna gilla och kommentera dina inlägg."
       can_comment_reshare_like_q: "Vilka kan kommentera, dela och gilla mina publika inlägg?"
       deselect_aspect_posting_a: "Du påverkar inte dina publika inlägg genom att välja bort aspekter från dem. Inläggen kommer ändå att synas hos alla dina kontakter. Vill du bara att några aspekter ska se ditt inlägg, väljer du dem i listan under utgivaren."
-      deselect_aspect_posting_q: "Vad händer när jag tar väljer bort aspekter när jag ska göra ett offentligt inlägg?"
+      deselect_aspect_posting_q: "Vad händer när jag tar väljer bort aspekter i vänstra kolumnen när jag ska göra ett offentligt inlägg?"
       find_public_post_a: "Dina publika inlägg kommer att dyka upp i strömmarna som följer dig. Om du har fyrkantstaggar i dina publika inlägg kommer alla som följer taggen se inlägget i strömmen. Varje publikt inlägg ges en specifik webbadress så att vem som helst kan komma åt det, även om de inte är inloggade. Publika inlägg kan alltså länkas till direkt från (till exempel) Twitter och bloggar. De publika inläggen kan då också bli indexerade av sökmotorer."
       find_public_post_q: "Hur hittar man mina publika inlägg?"
       see_comment_reshare_like_a: "Kommentarer, gillanden och vidaredelningar av publika inlägg kommer att vara publika. Alla inloggade på Diaspora* och vem som helst på Internet kan se dina interaktioner med ett publikt inlägg."
@@ -529,7 +618,7 @@ sv:
     tags:
       filter_tags_a: "Det är inte ännu inte möjligt att utföra i Diaspora*. Men något %{third_party_tools} kan finnas som stödjer denna funktion."
       filter_tags_q: "Hur filtrerar jag bort några av taggarna från mitt flöde?"
-      followed_tags_a: "När du sökt en tagg kan du trycka på knappen överst på taggens sida för att följa taggen. Då kommer då synas till vänster med andra taggar du följer. Trycker du på någon tagg i listan hamnar du på taggens sida och kommer att se de senaste inläggen med taggen. Tryck \"#Följda taggar\" för att se ett flöde med alla taggar du följer."
+      followed_tags_a: "När du sökt en tagg kan du trycka på knappen överst på taggens sida för att följa taggen. Då kommer den synas till vänster med andra taggar du följer. Trycker du på någon tagg i listan hamnar du på taggens sida och kommer att se de senaste inläggen med taggen. Tryck \"#Följda taggar\" för att se ett flöde med alla taggar du följer. Inlägg med den taggen kommer dyka upp i ditt huvudflöde."
       followed_tags_q: "Vad är \"#Följda taggar\" och hur följer man en tagg?"
       people_tag_page_a: "Det är personer som lagt till taggen i sin beskrivning på sin publika profilsida."
       people_tag_page_q: "Vilka är personerna till vänster på taggens sida?"
@@ -550,9 +639,11 @@ sv:
       byline: "Den sociala världen på nätet där du har kontrollen."
       choose_your_audience: "Välj din publik"
       choose_your_audience_info: "Med Diasporas aspekter, kan du välja med vilka du delar med dig till. Du kan vara hur offentlig eller privat du vill. Dela med dig av roliga bilder med hela världen eller en hemlighet med dina närmaste vänner. Du bestämmer."
+      diaspora_site_link: "Diaspora* federerat nätverk"
       headline: "Välkommen till %{pod_name}"
       own_your_data: "Du äger din data"
       own_your_data_info: "Många nätverk använder din data för att tjäna pengar genom att analysera dig och använda din data för att sälja reklam riktad mot dig. Diaspora* använder inte din data för något annat än att låta dig kommunicera med andra."
+      part_of_diaspora: "En del av %{diaspora_site_link}"
     podmin:
       byline: "Du är just på väg att förändra Internet. Är du redo för att komma igång?"
       configuration_info: "Öppna %{database_path} och %{diaspora_path} i en textredigerare och gå igenom dem noggrant. De är fyllda med kommentarer."
@@ -598,11 +689,13 @@ sv:
     application:
       back_to_top: "Åter till början"
       be_excellent: "Var förträffliga mot varandra! ♥"
+      discourse: "Projektdiskussion och support"
       powered_by: "Drivs med Diaspora*"
       public_feed: "Offentligt Diaspora*-flöde för %{name}"
       source_package: "Ladda ned källkodspaketet"
       statistics_link: "Serverstatistik"
-      toggle: "Slå om mobiltelefonanpassning"
+      switch_to_standard_mode: "Ändra till standardläge."
+      switch_to_touch_optimized_mode: "Ändra till fingervänligt läge."
       whats_new: "Vad är nytt?"
     header:
       code: "Källkod"
@@ -613,8 +706,22 @@ sv:
   likes:
     create:
       error: "Lyckades inte gilla."
+      fail: "Gillande misslyckades"
     destroy:
       error: "Misslyckades med ogillandet."
+    not_found: "Inlägg eller gillning ej funnen"
+    people_dislike_this:
+      one: "En ogillar"
+      other: "%{count} ogillar"
+      zero: "Ingen ogillar"
+    people_like_this:
+      one: "En gillar"
+      other: "%{count} gillar"
+      zero: "Ingen gillar"
+    people_like_this_comment:
+      one: "En gillar"
+      other: "%{count} gillar"
+      zero: "Ingen gillar"
   limited: "Begränsad"
   more: "Mer"
   no_results: "Inga sökresultat"
@@ -631,6 +738,10 @@ sv:
       one: "%{actors} har kommenterat %{post_link}."
       other: "%{actors} har kommenterat %{post_link}."
       zero: "Ingen har kommenterat %{post_link}."
+    contacts_birthday:
+      one: "%{actors} fyller år %{date}."
+      other: "%{actors} fyller år %{date}."
+      zero: "Ingen har födelsedag %{date}."
     index:
       all_notifications: "Alla notiser"
       also_commented: "Även kommenterade"
@@ -649,7 +760,8 @@ sv:
       mark_all_shown_as_read: "Märk allt som läst"
       mark_read: "Lästmärk"
       mark_unread: "Markera som oläst"
-      mentioned: "Omnämnd"
+      mentioned: "Omnämnd i inlägg"
+      mentioned_in_comment: "Nämnd i kommentar"
       no_notifications: "Du har inga notifikationer än."
       notifications: "Notiser"
       reshared: "Återdelad"
@@ -672,6 +784,12 @@ sv:
       one: "%{actors} har nämnt dig i ett raderat inlägg."
       other: "%{actors} har nämnt dig i ett raderat inlägg."
       zero: "inga inlägg där du är nämnd har raderats."
+    mentioned_in_comment:
+      one: "%{actors} har nämnt dig i en <a href='%{comment_path}'>kommentar</a> till inlägget %{post_link}."
+      other: "%{actors} har nämnt dig i en <a href='%{comment_path}'>kommentar</a> till inlägget %{post_link}."
+    mentioned_in_comment_deleted:
+      one: "%{actors} har nämnt dig en borttagen kommentar."
+      other: "%{actors} har nämnt dig en borttagen kommentar."
     private_message:
       one: "%{actors} har skickat dig ett meddelande."
       other: "%{actors} har skickat dig ett meddelande."
@@ -702,15 +820,18 @@ sv:
       click_link: "För att aktivera din nya e-postadress %{unconfirmed_email}, klicka här:"
       subject: "Var vänlig och aktivera din nya e-postadress %{unconfirmed_email}"
     contacts_birthday:
-      subject: "%{name} har sin födelsedag idag"
-      view_profile: "Visa %{name}'s profil"
+      birthday: "Gratta %{name} som fyller år i dag!"
+      subject: "%{name} har födelsedag idag"
+      view_profile: "Visa %{name}s profil"
     csrf_token_fail:
       body: |-
           Hej, %{name}.
 
-          Diaspora* har märkt av ett potentiellt oauktoriserat försökt tilla tt komma åt din session. För att undkomma att din data själs, har du loggats ut. Räds icke; du kan nu logga in säkert igen.
+          Diaspora* har märkt av ett potentiellt oauktoriserat försökt till att komma åt din session. För att undkomma att din data själs, har du loggats ut. Räds icke; du kan gott och väl logga in säkert på nytt.
 
-          En förfrågan med ogiltigt eller helt saknar CSRF-insegel. Det skulle kunna vara helt oskyldigt, men det skulle kunna vara ett försökt av en sida att låtsas vara en annan sida (s.k. "cross-site request forgery", CSRF). En sådan kan vara orsakat av:
+          En förfrågan med ogiltigt eller helt saknar CSRF-insegel. Det skulle kunna vara helt oskyldigt, men det skulle kunna vara ett försökt av en sida att låtsas vara en annan sida (s.k. "cross-site request forgery", CSRF).
+
+          En sådan kan vara orsakat av:
 
             - Ett tillägg som manipulerar förfrågningar eller gör förfrågningar utan insegel;
             - En flik från tidigare session finns kvar i webbläsaren;
@@ -786,7 +907,7 @@ sv:
 
           Diasporas e-postrobot!
 
-          PS. Om du inte (ännu) vet vad Diaspora* är, kan du läsa om det [här][2]!
+          PS. Om du inte (ännu) vet vad Diaspora* är, kan du läsa om det [här][2]! DS.
 
           [1]: %{invite_url}
           [2]: %{diasporafoundation_url}
@@ -798,6 +919,9 @@ sv:
     mentioned:
       limited_post: "Du nämndes i ett begränsat inlägg."
       subject: "%{name} har nämnt dig på Diaspora*"
+    mentioned_in_comment:
+      limited_post: "Du var nämnd i en kommentar till ett inlägg med begränsad åtkomst."
+      reply: "Svara på inlägg eller läs på konversationen >"
     private_message:
       reply_to_or_view: "Svara på eller läs denna konversation >"
       subject: "Du fått ett förtroligt meddelande"
@@ -878,9 +1002,9 @@ sv:
       has_not_shared_with_you_yet: "%{name} har inte delat några inlägg med dig än!"
   photos:
     create:
-      integrity_error: "Fotouppladdning misslyckades. Är du säker på att det var en bild?"
-      runtime_error: "Fotouppladdning misslyckades. Har du säkerhetsbältet på?"
-      type_error: "Fotouppladdning misslyckades. Är du säker på att en bild blev tillagd?"
+      integrity_error: "Fotouppladdningen misslyckades. Är du säker på att det var en bild?"
+      runtime_error: "Fotouppladdningen misslyckades. Har du säkerhetsbältet på?"
+      type_error: "Fotouppladdningen misslyckades. Är du säker på att en bild blev tillagd?"
     destroy:
       notice: "Fotot är borttaget."
     new_profile_photo:
@@ -936,7 +1060,11 @@ sv:
       updated: "Profilen har uppdaterats"
   public: "Publik"
   registrations:
-    closed: "Registreringsformuläret är avstängt på den här Diaspora*-servern."
+    closed:
+      another_pod: "annan pod"
+      closed_pod: "Denna pod är för närvarande stängd för nya registreringar. Du kan ändå gå med i Diaspora* genom registrering på %{wiki}. I och med att alla poddar är anslutna till varandra, kommer du komma åt allt innehåll ändå."
+      find_pods: "En lista med poddar du kan registrera dig på finns på %{poduptime}."
+      other_questions: "Om du har frågor gällande att välja pod, kan du läsa vår %{wiki}."
     create:
       success: "Du har nu gått med i Diaspora*!"
     invalid_invite: "Den angivna inbjudningslänken gäller inte längre."
@@ -954,13 +1082,13 @@ sv:
       terms_link: "användarvillkor"
       username: "Användarnamn"
   report:
-    comment_label: "<b>Kommentar</b>:%{data}"
+    comment_label: "<strong>Kommentar</strong>: %{data}"
     confirm_deletion: "Vill de radera objektet?"
     delete_link: "Radera objekt"
     not_found: "Inlägget eller kommentaren fanns inte. Det tycks har blivit borttaget av användaren."
-    post_label: "<b>Inlägg</b>: %{title}"
+    post_label: "<strong>Inlägg</strong>: %{content}"
     reason_label: "Orsak:"
-    reported_label: "<b>Anmält av</b> %{person}"
+    reported_label: "<strong>Anmält av</strong> %{person}"
     reported_user_details: "Detaljer gällande anmäld användare"
     review_link: "Markera som genomgånget"
     status:
@@ -1002,7 +1130,6 @@ sv:
       share_to: "Dela till %{provider}"
       title: "Hantera anslutna tjänster"
     provider:
-      facebook: "Facebook"
       tumblr: "Tumblr"
       twitter: "Twitter"
       wordpress: "Wordpress"
@@ -1024,11 +1151,11 @@ sv:
       control_your_audience: "Välj din publik"
       logged_in: "Inloggad på %{service}"
       manage: "hantera anslutna tjänster"
-      new_user_welcome_message: "Använd #fyrkantstaggar för att klassificera dina inlägg och hitta folk som delar dina intressen. Ropa ut till häftiga personer med @Mentions"
+      new_user_welcome_message: "Använd #fyrkantstaggar för att klassificera dina inlägg och hitta folk som delar dina intressen. Kalla på häftiga personer med @Mentions"
       outside: "Publika meddelanden kan läsas av användare utanför Diaspora."
       share: "Dela"
       title: "Hantera anslutna tjänster"
-      visibility_dropdown: "Använd den här rullisten för att bestämma vilka som kan se ditt inlägg (vi föreslår att du gör det här första inlägget publikt)."
+      visibility_dropdown: "Använd den här rullisten för att bestämma vilka som kan se ditt inlägg (vi föreslår att du gör första inlägget publikt)."
     publisher:
       discard_post: "Släng inlägg"
       formatWithMarkdown: "Använd %{markdown_link} för att formatera dina inlägg."
@@ -1070,6 +1197,7 @@ sv:
     total_users: "Totala antalet användare"
     version: "Version"
   status_messages:
+    bad_aspects: "Tillhandahållna aspekt-id:n är inte tillämpbara (finns ej eller ägs ej)"
     new:
       mentioning: "Nämner: %{person}"
     too_long: "Var god håll längden på meddelandet under %{count} tecken. Just nu är det %{current_length} tecken långt."
@@ -1123,6 +1251,41 @@ sv:
         one: "En person är taggad med %{tag}"
         other: "%{count} personer är taggade med %{tag}"
         zero: "Ingen har taggats med %{tag}"
+  two_factor_auth:
+    activated:
+      change_button: "Inaktivera"
+      change_label: "Inaktivera tvåfaktorautentisering med ditt lösenord"
+      status: "Tvåfaktorautentisering aktiverat"
+    confirm:
+      activate_button: "Bekräfta och aktivera"
+      input_explanation: "Efter skanning eller att ha skrivit den hemliga koden, skriver du in den sexsiffriga kod du ser och bekräftar uppsättningen."
+      input_title: "Bekräfta med TOTP-pollett."
+      manual_explanation: "Om du inte kan skanna QR-koden automatiskt, kan du göra det manuellt i din app med den hemliga koden."
+      manual_explanation_cont: "Vi använder oss av tidsbegränsade engångslösenord (TOTP) med sex siffror långa polletter. Om din applikation frågar om ett tidintervall och algoritm, anger du 30 sekunder och sh1.<br /> Mellanrummen är bara för läsbarhetens skull; du ska inte skriva dem."
+      scan_explanation: "Skanna QR-koden med en TOTP-kompatibel applikation, såsom andOTP (för Android), FreeOTP (för iOS), SailOTP (för SailfishOS)."
+      scan_title: "Läs in QR-kod"
+      status: "Tvåfaktorautentisering har inte the fullo aktiverats än. Du behöver verifiera med en TOTP-pollett."
+      title: "Bekräfta aktivering"
+    deactivated:
+      change_button: "Aktivera"
+      change_label: "Aktivera tvåfaktorautentisering"
+      status: "Tvåfaktorautentisering inaktiverat"
+    explanation: "Tvåfaktorautentisering är ett kraftfullt sätt att försäkra om att det bara är du som kan logga in på ditt konto. När du loggar in, kommer du ange en sexsiffrig kod tillsammans med ditt löseord för att påvisa din identitet. Men var ändock aktsam: om du blir av med din telefon och koderna som genereras för denna funktionalitet, kommer du aldrig kunna komma åt ditt konto igen."
+    flash:
+      error_token: "Polletten var fel eller ogiltig"
+      success_activation: "Aktivering av tvåstegsautentisering lyckades"
+      success_deactivation: "Avaktivering av tvåstegsautentisering lyckades"
+    input_token:
+      label: "Tvåstegspollett"
+      placeholder: "Sexssiffrig tvåstegspollett"
+    recovery:
+      button: "Generera nya återställningskoder"
+      explanation: "Om du någonsin blir av med din telefon, kan du använda en av återställningskoderna nedanför för att återfå tillgång till ditt konto. Spara koderna på en säker plats. Du kan till exompel skriva ut dem och ha dem bland dina andra viktiga dokument."
+      explanation_short: "Återställningsskoder används för att återfå tillgång till ditt konto utifall att du blir av med din telefon. Du kan bara använda varje kod en enda gång."
+      invalidation_notice: "Om du blir av med dina återställningskoder, kan du generera nya här. Dina tidigare koder blir då ogiltiga."
+      reminder: "Alternativt kan du använda en återställningskod."
+      title: "Återställningsskoder"
+    title: "Tvåfaktorautentisering"
   username: "Användarnamn"
   users:
     confirm_email:
@@ -1136,7 +1299,7 @@ sv:
       also_commented: "någon kommenterar ett inlägg som du redan kommenterat"
       auto_follow_aspect: "Aspekt för de användare som följts automatiskt:"
       auto_follow_back: "Följ automatiskt dem som börjar följa dig"
-      birthday: "någon har sin födelsedag"
+      birthday: "någon har fyller år i dag"
       change: "Ändra"
       change_color_theme: "Byt färgtema"
       change_email: "Ändra e-postadress"
@@ -1167,8 +1330,14 @@ sv:
       last_exported_html: "(Uppdaterades senast %{timeago})"
       liked: "någon gillar dina inlägg"
       mentioned: "du nämns i ett inlägg."
+      mentioned_in_comment: "du är omnämnd i en kommentar"
       new_password: "Nytt lösenord"
       private_message: "du mottager ett privat meddelande."
+      protocol_handler:
+        browser: "Protokollet är för närvarande i en testfas och hur bra det kommer fungera kommer bero på din webbläsare. Om du vill ändra eller ta bort denna hantering, kommer du göra det med din webbläsares inställningar. Knappen nedanför kommer alltid vara påslagen och du behöver sätta hanteringen separat för varje webbläsare du använder."
+        description: "web+diaspora:// är ett nytt webbprotokoll vi har introducerat. Alla sådana länkar, både på Diaspora* och ute på nätet, kan öppnas i den pod du har ditt konto på. Tryck på knappen nedanför för att få %{pod_url} att känna av externa länkar av typen web+diaspora://."
+        register: "Registrera web+diaspora:// på din webbläsare"
+        title: "Hantera protokollet web+diaspora://"
       receive_email_notifications: "Skicka notiser via e-post när:"
       request_export: "Efterfråga min profildata"
       request_export_photos: "Begär mina bilder"
@@ -1186,8 +1355,6 @@ sv:
     getting_started:
       awesome_take_me_to_diaspora: "Häftigt! Ta mig till Diaspora*"
       community_welcome: "Vi i Diaspora*-gemenskapen är glada att ha dig här!"
-      connect_to_facebook: "Vi kan skynda på processen genom %{link} till Diaspora. Det kommer att hämta ditt namn, din bild och tillåta korsinlägg."
-      connect_to_facebook_link: "Länka ihop ditt Facebook-konto"
       hashtag_explanation: "Taggar gör det möjligt att diskutera och följa dina intressen. Det är också ett bra sätt att lära känna nya människor på Diaspora*."
       hashtag_suggestions: "Testa att följa taggar såsom #konst, #film, #gif, etc."
       well_hello_there: "Hej på dig!"
@@ -1209,7 +1376,7 @@ sv:
       follow_settings_not_changed: "Kunde inte ändra inställningar för att följa."
       language_changed: "Språket har ändrats"
       language_not_changed: "Språket kunde inte ändras"
-      password_changed: "Lösenordet har nu ändrats och du kan nu logga in med ditt nya lösenord."
+      password_changed: "Lösenordet är ändrat och du kan nu logga in med det."
       password_not_changed: "Lösenordet kunde inte ändras"
       settings_not_updated: "Kunde inte uppdatera inställningar"
       settings_updated: "Inställningarna har ändrats"

@@ -40,6 +40,8 @@ module NavigationHelpers
       edit_user_path
     when /^forgot password page$/
       new_user_password_path
+    when /^the two-factor authentication page$/
+      two_factor_authentication_path
     when %r{^"(/.*)"}
       Regexp.last_match(1)
     else
@@ -68,10 +70,12 @@ module NavigationHelpers
   end
 
   def confirm_on_page(page_name)
-    if page_name == "my profile page"
-      expect(page).to have_path_in([person_path(@me.person), user_profile_path(@me.username)])
-    else
-      expect(page).to have_path(path_to(page_name))
+    page.driver.send(:retry_if_wrong_world) do
+      if page_name == "my profile page"
+        expect(page).to have_path_in([person_path(@me.person), user_profile_path(@me.username)])
+      else
+        expect(page).to have_path(path_to(page_name))
+      end
     end
   end
 end

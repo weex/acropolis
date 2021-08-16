@@ -3,32 +3,44 @@
 describe Api::OpenidConnect::ClientsController, type: :controller, suppress_csrf_verification: :none do
   describe "#create" do
     context "when valid parameters are passed" do
-      it "should return a client id" do
+      before do
         stub_request(:get, "http://example.com/uris")
           .with(headers: {
                   "Accept"          => "*/*",
                   "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                  "User-Agent"      => "Faraday v0.12.2"
+                  "User-Agent"      => "Faraday v#{Faraday::VERSION}"
                 })
           .to_return(status: 200, body: "[\"http://localhost\"]", headers: {})
         post :create, params: {redirect_uris: ["http://localhost"], client_name: "diaspora client",
              response_types: [], grant_types: [], application_type: "web", contacts: [],
              logo_uri: "http://example.com/logo.png", client_uri: "http://example.com/client",
              policy_uri: "http://example.com/policy", tos_uri: "http://example.com/tos",
-             sector_identifier_uri: "http://example.com/uris", subject_type: "pairwise"}
+             sector_identifier_uri: "http://example.com/uris", subject_type: "pairwise"}      end
+
+      it "should return a client id" do
         client_json = JSON.parse(response.body)
         expect(client_json["client_id"].length).to eq(32)
         expect(client_json["ppid"]).to eq(true)
       end
+
+      it "should return a client secret expiration time" do
+        client_json = JSON.parse(response.body)
+        expect(client_json["client_secret_expires_at"]).to eq(0)
+      end
+
+      it "should return a default token endpoint authentication method" do
+        client_json = JSON.parse(response.body)
+        expect(client_json["token_endpoint_auth_method"]).to eq("client_secret_post")
+      end
     end
 
     context "when valid parameters with jwks is passed" do
-      it "should return a client id" do
+      before do
         stub_request(:get, "http://example.com/uris")
           .with(headers: {
                   "Accept"          => "*/*",
                   "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                  "User-Agent"      => "Faraday v0.12.2"
+                  "User-Agent"      => "Faraday v#{Faraday::VERSION}"
                 })
           .to_return(status: 200, body: "[\"http://localhost\"]", headers: {})
         post :create, params: {redirect_uris: ["http://localhost"], client_name: "diaspora client",
@@ -77,9 +89,17 @@ describe Api::OpenidConnect::ClientsController, type: :controller, suppress_csrf
                        }
                      ]
              }}
+      end
+
+      it "should return a client id" do
         client_json = JSON.parse(response.body)
         expect(client_json["client_id"].length).to eq(32)
         expect(client_json["ppid"]).to eq(true)
+      end
+
+      it "should retain the token endpoint authentication  method" do
+        client_json = JSON.parse(response.body)
+        expect(client_json["token_endpoint_auth_method"]).to eq("private_key_jwt")
       end
     end
 
@@ -89,14 +109,14 @@ describe Api::OpenidConnect::ClientsController, type: :controller, suppress_csrf
           .with(headers: {
                   "Accept"          => "*/*",
                   "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                  "User-Agent"      => "Faraday v0.12.2"
+                  "User-Agent"      => "Faraday v#{Faraday::VERSION}"
                 })
           .to_return(status: 200, body: "[\"http://localhost\"]", headers: {})
         stub_request(:get, "https://kentshikama.com/api/openid_connect/jwks.json")
           .with(headers: {
                   "Accept"          => "*/*",
                   "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                  "User-Agent"      => "Faraday v0.12.2"
+                  "User-Agent"      => "Faraday v#{Faraday::VERSION}"
                 })
           .to_return(status: 200,
                      body: "{\"keys\":[{\"kty\":\"RSA\",\"e\":\"AQAB\",\"n\":\"qpW\",\"use\":\"sig\"}]}", headers: {})
@@ -125,7 +145,7 @@ describe Api::OpenidConnect::ClientsController, type: :controller, suppress_csrf
   end
 
   describe "#find" do
-    let!(:client) { FactoryGirl.create(:o_auth_application) }
+    let!(:client) { FactoryBot.create(:o_auth_application) }
 
     context "when an OIDC client already exists" do
       it "should return a client id" do
