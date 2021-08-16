@@ -18,6 +18,7 @@ class ArchiveImporter
     import_relayables
     import_subscriptions
     import_others_relayables
+    import_blocks
   end
 
   def create_user(attr)
@@ -25,10 +26,12 @@ class ArchiveImporter
       email strip_exif show_community_spotlight_in_stream language disable_mail auto_follow_back
     ]
     data = convert_keys(archive_hash["user"], allowed_keys)
+    # setting getting_started to false as the user doesn't need to see the getting started wizard
     data.merge!(
       username:              attr[:username],
       password:              attr[:password],
       password_confirmation: attr[:password],
+      getting_started:       false,
       person:                {
         profile_attributes: profile_attributes
       }
@@ -64,7 +67,7 @@ class ArchiveImporter
   def import_aspects
     contact_groups.each do |group|
       begin
-        user.aspects.create!(group.slice("name", "chat_enabled"))
+        user.aspects.create!(group.slice("name"))
       rescue ActiveRecord::RecordInvalid => e
         logger.warn "#{self}: #{e}"
       end
@@ -82,6 +85,10 @@ class ArchiveImporter
 
   def import_others_relayables
     import_collection(others_relayables, EntityImporter)
+  end
+
+  def import_blocks
+    import_collection(blocks, BlockImporter)
   end
 
   def import_collection(collection, importer_class)
