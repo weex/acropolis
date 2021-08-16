@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Stream::Base
   TYPES_OF_POST_IN_STREAM = ['StatusMessage', 'Reshare']
 
@@ -13,12 +15,6 @@ class Stream::Base
   #requied to implement said stream
   def link(opts={})
     'change me in lib/base_stream.rb!'
-  end
-
-  # @return [Boolean]
-  def can_comment?(post)
-    return true if post.author.local?
-    post_is_from_contact?(post)
   end
 
   def post_from_group(post)
@@ -65,10 +61,6 @@ class Stream::Base
     aspects.first
   end
 
-  def aspect_ids
-    aspects.map {|x| x.try(:id) }
-  end
-
   def max_time=(time_string)
     @max_time = Time.at(time_string.to_i) unless time_string.blank?
     @max_time ||= (Time.now + 1)
@@ -106,14 +98,5 @@ class Stream::Base
   # @return [Array<Contact>]
   def contacts_in_stream
     @contacts_in_stream ||= Contact.where(:user_id => user.id, :person_id => people.map(&:id)).load
-  end
-
-  # @param post [Post]
-  # @return [Boolean]
-  def post_is_from_contact?(post)
-    @can_comment_cache ||= {}
-    @can_comment_cache[post.id] ||= contacts_in_stream.find{|contact| contact.person_id == post.author.id}.present?
-    @can_comment_cache[post.id] ||= (user.person_id == post.author_id)
-    @can_comment_cache[post.id]
   end
 end

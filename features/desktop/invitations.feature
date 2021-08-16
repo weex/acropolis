@@ -12,12 +12,11 @@ Feature: Invitations
     And I press "Create account"
     Then I should be on the getting started page
     And I should see "Well, hello there!"
-    And I fill in the following:
+    When I fill in the following:
       | profile_first_name         | O             |
-
-    And I confirm the alert after I follow "awesome_button"
-    Then I should be on the stream page
-    And I close the publisher
+    Then I wait until ajax requests finished
+    When I go to the stream page
+    Then I close the publisher
 
   Scenario: accept invitation from user
     Given I have been invited by "alice@alice.alice"
@@ -27,22 +26,21 @@ Feature: Invitations
     Then I should be on the getting started page
     And I should see "Well, hello there!"
     And I should be able to friend "alice@alice.alice"
-    And I fill in the following:
+    When I fill in the following:
       | profile_first_name         | O             |
-
-    And I confirm the alert after I follow "awesome_button"
-    Then I should be on the stream page
+    Then I wait until ajax requests finished
+    When I go to the stream page
     And I close the publisher
     And I log out
     And I sign in as "alice@alice.alice"
     And I click on "Invite your friends" navbar title
-    And I click on selector "#invitations-button"
+    And I click on selector ".invitations-button"
     Then I should see one less invite
 
   Scenario: sends an invitation from the sidebar
     When I sign in as "alice@alice.alice"
     And I click on "Invite your friends" navbar title
-    And I click on selector "#invitations-button"
+    And I click on selector ".invitations-button"
     And I fill in the following:
       | email_inviter_emails         | alex@example.com    |
     And I press "Send an invitation"
@@ -67,7 +65,7 @@ Feature: Invitations
     When I sign in as "alice@alice.alice"
     And I search for "test"
     Then I should see "Users matching test" within "#search_title"
-    When I click on selector "#invitations-button"
+    When I click on selector ".invitations-button"
     And I fill in the following:
       | email_inviter_emails         | alex@example.com    |
     And I press "Send an invitation"

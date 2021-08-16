@@ -19,10 +19,12 @@ Feature: Change settings
 
   Scenario: Change my email preferences
     When I uncheck "user_email_preferences_mentioned"
+    And I scroll a bit
     And I press "change_email_preferences"
     Then I should see "Email notifications changed"
     And the "user_email_preferences_mentioned" checkbox should not be checked
     When I uncheck "user_email_preferences_mentioned_in_comment"
+    And I scroll a bit
     And I press "change_email_preferences"
     Then I should see "Email notifications changed"
     And the "user_email_preferences_mentioned_in_comment" checkbox should not be checked
@@ -55,6 +57,6 @@ Feature: Change settings
     Then I should see "Public" within ".aspect-dropdown"
 
   Scenario: exporting profile data
-    When I click on the first selector "#account_data a"
+    When I click on the first selector ".account-data a"
     Then I should see "Download my profile"
     And I should have 1 email delivery

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe Export::UserSerializer do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:serializer) { Export::UserSerializer.new(user, root: false) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:serializer) { Export::UserSerializer.new(user.id, root: false) }
 
   it "has basic user's attributes" do
     expect(serializer.attributes).to eq(
@@ -12,7 +14,8 @@ describe Export::UserSerializer do
       show_community_spotlight_in_stream: user.show_community_spotlight_in_stream,
       auto_follow_back:                   user.auto_follow_back,
       auto_follow_back_aspect:            user.auto_follow_back_aspect,
-      strip_exif:                         user.strip_exif
+      strip_exif:                         user.strip_exif,
+      blocks:                             user.blocks
     )
   end
 

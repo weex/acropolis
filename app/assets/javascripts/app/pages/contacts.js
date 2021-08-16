@@ -5,16 +5,12 @@ app.pages.Contacts = Backbone.View.extend({
   el: "#contacts_container",
 
   events: {
-    "click #contacts_visibility_toggle" : "toggleContactVisibility",
-    "click #chat_privilege_toggle" : "toggleChatPrivilege",
     "click #change_aspect_name" : "showAspectNameForm",
     "click .conversation_button": "showMessageModal",
-    "click #invitations-button": "showInvitationsModal"
+    "click .invitations-button": "showInvitationsModal"
   },
 
   initialize: function(opts) {
-    this.visibilityToggle = $("#contacts_visibility_toggle i");
-    this.chatToggle = $("#chat_privilege_toggle i");
     this.stream = opts.stream;
     this.stream.render();
     $("#people-stream.contacts .header i").tooltip({"placement": "bottom"});
@@ -27,41 +23,6 @@ app.pages.Contacts = Backbone.View.extend({
     this.aspectCreateView.render();
 
     this.setupAspectSorting();
-  },
-
-  toggleChatPrivilege: function() {
-    if (this.chatToggle.hasClass("enabled")) {
-      this.chatToggle.tooltip("destroy")
-                      .removeClass("enabled")
-                      .removeAttr("data-original-title")
-                      .attr("title", Diaspora.I18n.t("contacts.aspect_chat_is_not_enabled"))
-                      .tooltip({"placement": "bottom"});
-    } else {
-      this.chatToggle.tooltip("destroy")
-                      .addClass("enabled")
-                      .removeAttr("data-original-title")
-                      .attr("title", Diaspora.I18n.t("contacts.aspect_chat_is_enabled"))
-                      .tooltip({"placement": "bottom"});
-    }
-  },
-
-  toggleContactVisibility: function() {
-    if (this.visibilityToggle.hasClass("entypo-lock-open")) {
-      this.visibilityToggle.removeClass("entypo-lock-open")
-                            .addClass("entypo-lock")
-                            .tooltip("destroy")
-                            .removeAttr("data-original-title")
-                            .attr("title", Diaspora.I18n.t("contacts.aspect_list_is_not_visible"))
-                            .tooltip({"placement": "bottom"});
-    }
-    else {
-      this.visibilityToggle.removeClass("entypo-lock")
-                            .addClass("entypo-lock-open")
-                            .tooltip("destroy")
-                            .removeAttr("data-original-title")
-                            .attr("title", Diaspora.I18n.t("contacts.aspect_list_is_visible"))
-                            .tooltip({"placement": "bottom"});
-    }
   },
 
   showAspectNameForm: function() {
@@ -81,7 +42,7 @@ app.pages.Contacts = Backbone.View.extend({
   showMessageModal: function(){
     $("#conversationModal").on("modal:loaded", function() {
       var people = _.pluck(app.contacts.filter(function(contact) {
-        return contact.inAspect(app.aspect.get("id"));
+        return contact.person.get("relationship") === "mutual" && contact.inAspect(app.aspect.get("id"));
       }), "person");
       new app.views.ConversationsForm({prefill: people});
     });

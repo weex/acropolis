@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -11,7 +13,7 @@ describe Devise::PasswordsController, type: :controller do
     context "when there is no such user" do
       it "succeeds" do
         post :create, params: {user: {email: "foo@example.com"}}
-        expect(response).to be_success
+        expect(response).to redirect_to(new_user_session_path)
       end
 
       it "doesn't send email" do

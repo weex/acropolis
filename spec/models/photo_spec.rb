@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -195,7 +197,7 @@ describe Photo, :type => :model do
 
       @saved_photo.destroy
 
-      Diaspora::Federation::Receive.photo(federation_photo)
+      Diaspora::Federation::Receive.perform(federation_photo)
 
       new_photo = Photo.find_by(guid: @saved_photo.guid)
       expect(new_photo.url).to eq(url)

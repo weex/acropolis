@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -39,8 +41,8 @@ shared_examples_for "it is relayable" do
       end
 
       it "returns remote persons of the parents original audience not on same pod as the author, if author is remote" do
-        person1 = FactoryGirl.create(:person, pod: remote_raphael.pod)
-        person2 = FactoryGirl.create(:person, pod: FactoryGirl.create(:pod))
+        person1 = FactoryBot.create(:person, pod: remote_raphael.pod)
+        person2 = FactoryBot.create(:person, pod: FactoryBot.create(:pod))
         local_luke.share_with(person1, local_luke.aspects.first)
         local_luke.share_with(person2, local_luke.aspects.first)
 
@@ -63,7 +65,7 @@ shared_examples_for "it is relayable" do
       remote_object_on_local_parent.signature = signature_class.new(
         author_signature: "signature",
         additional_data:  {"new_property" => "some text"},
-        signature_order:  FactoryGirl.create(:signature_order)
+        signature_order:  FactoryBot.create(:signature_order)
       )
     end
 

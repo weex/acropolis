@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Conversation < ApplicationRecord
   include Diaspora::Federated::Base
   include Diaspora::Fields::Guid
@@ -7,12 +9,7 @@ class Conversation < ApplicationRecord
   has_many :participants, class_name: "Person", through: :conversation_visibilities, source: :person
   has_many :messages, -> { order("created_at ASC") }, inverse_of: :conversation
 
-  validate :max_participants
   validate :local_recipients
-
-  def max_participants
-    errors.add(:max_participants, "too many participants") if participants.count > 20
-  end
 
   def local_recipients
     recipients.each do |recipient|
@@ -38,9 +35,13 @@ class Conversation < ApplicationRecord
   end
 
   def set_read(user)
+    update_read_for(user, read: true)
+  end
+
+  def update_read_for(user, read:)
     visibility = conversation_visibilities.find_by(person_id: user.person.id)
     return unless visibility
-    visibility.unread = 0
+    visibility.unread = read ? 0 : 1
     visibility.save
   end
 

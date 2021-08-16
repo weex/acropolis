@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2009, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
 class Photo < ApplicationRecord
   include Diaspora::Federated::Base
-  include Diaspora::Commentable
   include Diaspora::Shareable
 
   # NOTE API V1 to be extracted
@@ -18,7 +19,8 @@ class Photo < ApplicationRecord
       {
         small:  photo.url(:thumb_small),
         medium: photo.url(:thumb_medium),
-        large:  photo.url(:scaled_full)
+        large:  photo.url(:scaled_full),
+        raw:    photo.url
       }
     }, :as => :sizes
     t.add lambda { |photo|
@@ -65,11 +67,9 @@ class Photo < ApplicationRecord
 
   def ownership_of_status_message
     message = StatusMessage.find_by_guid(self.status_message_guid)
-    if self.status_message_guid && message
-      self.diaspora_handle == message.diaspora_handle
-    else
-      true
-    end
+    return unless status_message_guid && message && diaspora_handle != message.diaspora_handle
+
+    errors.add(:base, "Photo must have the same owner as status message")
   end
 
   def self.diaspora_initialize(params={})

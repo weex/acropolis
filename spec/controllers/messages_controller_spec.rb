@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -78,7 +80,7 @@ describe MessagesController, :type => :controller do
       end
 
       it "doesn't overwrite author_id" do
-        new_user = FactoryGirl.create(:user)
+        new_user = FactoryBot.create(:user)
         @message_params[:author_id] = new_user.person.id.to_s
 
         post :create, params: @message_params

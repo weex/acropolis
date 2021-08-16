@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2011 nov matake
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -40,6 +42,13 @@ module Api
       before_validation :setup, on: :create
       before_validation do
         redirect_uris.sort!
+      end
+
+      def as_json(opts={})
+        data = super
+        data["client_secret_expires_at"] = 0
+        data["token_endpoint_auth_method"] ||= "client_secret_post"
+        data
       end
 
       def setup

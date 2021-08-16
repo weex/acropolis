@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe Diaspora::Federation::Dispatcher::Private do
-  let(:post) { FactoryGirl.create(:status_message, author: alice.person, text: "hello", public: false) }
-  let(:comment) { FactoryGirl.create(:comment, author: alice.person, post: post) }
+  let(:post) { FactoryBot.create(:status_message, author: alice.person, text: "hello", public: false) }
+  let(:comment) { FactoryBot.create(:comment, author: alice.person, post: post) }
 
   before do
     alice.share_with(remote_raphael, alice.aspects.first)
@@ -14,7 +16,7 @@ describe Diaspora::Federation::Dispatcher::Private do
         aspect2 = alice.aspects.create(name: "cat people")
         alice.add_contact_to_aspect(alice.contact_for(bob.person), aspect2)
 
-        post = FactoryGirl.create(
+        post = FactoryBot.create(
           :status_message,
           author:  alice.person,
           text:    "hello",
@@ -56,7 +58,7 @@ describe Diaspora::Federation::Dispatcher::Private do
       end
 
       it "does not queue a private send job when no remote recipients specified" do
-        bobs_post = FactoryGirl.create(:status_message, author: alice.person, text: "hello", public: false)
+        bobs_post = FactoryBot.create(:status_message, author: alice.person, text: "hello", public: false)
         bob.add_to_streams(bobs_post, [bob.aspects.first])
 
         expect(Workers::SendPrivate).not_to receive(:perform_async)
@@ -65,7 +67,7 @@ describe Diaspora::Federation::Dispatcher::Private do
       end
 
       it "queues private send job for a specific subscriber" do
-        remote_person = FactoryGirl.create(:person)
+        remote_person = FactoryBot.create(:person)
 
         expect(Workers::SendPrivate).to receive(:perform_async) do |user_id, _entity_string, targets|
           expect(user_id).to eq(alice.id)
@@ -81,7 +83,7 @@ describe Diaspora::Federation::Dispatcher::Private do
         expect(magic_env).to receive(:envelop).with(encryption_key).and_return(magic_env_xml)
         expect(DiasporaFederation::Salmon::EncryptedMagicEnvelope).to receive(:encrypt) do |magic_env, public_key|
           expect(magic_env).to eq(magic_env_xml)
-          expect(public_key.to_s).to eq(remote_raphael.public_key.to_s)
+          expect(public_key.to_s).to eq(remote_person.public_key.to_s)
           json
         end
 
@@ -89,9 +91,9 @@ describe Diaspora::Federation::Dispatcher::Private do
       end
 
       it "only queues a private send job for a active pods" do
-        remote_person = FactoryGirl.create(:person)
-        offline_pod = FactoryGirl.create(:pod, status: :net_failed, offline_since: DateTime.now.utc - 15.days)
-        offline_person = FactoryGirl.create(:person, pod: offline_pod)
+        remote_person = FactoryBot.create(:person)
+        offline_pod = FactoryBot.create(:pod, status: :net_failed, offline_since: DateTime.now.utc - 15.days)
+        offline_person = FactoryBot.create(:person, pod: offline_pod)
 
         expect(Workers::SendPrivate).to receive(:perform_async) do |user_id, _entity_string, targets|
           expect(user_id).to eq(alice.id)
@@ -107,7 +109,7 @@ describe Diaspora::Federation::Dispatcher::Private do
         expect(magic_env).to receive(:envelop).with(encryption_key).and_return(magic_env_xml)
         expect(DiasporaFederation::Salmon::EncryptedMagicEnvelope).to receive(:encrypt) do |magic_env, public_key|
           expect(magic_env).to eq(magic_env_xml)
-          expect(public_key.to_s).to eq(remote_raphael.public_key.to_s)
+          expect(public_key.to_s).to eq(remote_person.public_key.to_s)
           json
         end
 

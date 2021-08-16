@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -16,6 +18,13 @@ describe StreamHelper, type: :helper do
       expect(helper).to receive(:current_page?).with(:public_stream).and_return(true)
       allow(helper).to receive(:controller).and_return(build_controller(StreamsController))
       expect(helper.next_page_path).to include "/public"
+    end
+
+    it "works for local-public page when current page is local-public stream" do
+      allow(helper).to receive(:current_page?).and_return(false)
+      expect(helper).to receive(:current_page?).with(:local_public_stream).and_return(true)
+      allow(helper).to receive(:controller).and_return(build_controller(StreamsController))
+      expect(helper.next_page_path).to include local_public_stream_path
     end
 
     it "works for stream page when current page is stream" do

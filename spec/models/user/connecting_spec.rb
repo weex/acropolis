@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -6,7 +8,7 @@ describe User::Connecting, type: :model do
   let(:aspect1) { alice.aspects.first }
   let(:aspect2) { alice.aspects.create(name: "other") }
 
-  let(:person) { FactoryGirl.create(:person) }
+  let(:person) { FactoryBot.create(:person) }
 
   describe "disconnecting" do
     describe "#disconnected_by" do
@@ -102,6 +104,16 @@ describe User::Connecting, type: :model do
           alice.disconnect(contact)
         }.to change(contact.aspects, :count).from(2).to(0)
       end
+
+      it "raises when a contact for an improperly deleted user was passed" do
+        contact = alice.contact_for(bob.person)
+
+        bob.delete
+        expect {
+          alice.disconnect(contact)
+        }.to raise_error "FATAL: user entry is missing from the DB. Aborting"
+        expect(Contact.where(id: contact.id)).to exist
+      end
     end
   end
 
@@ -188,7 +200,7 @@ describe User::Connecting, type: :model do
     end
 
     it "should mark the corresponding notification as 'read'" do
-      FactoryGirl.create(:notification, target: eve.person, recipient: alice, type: "Notifications::StartedSharing")
+      FactoryBot.create(:notification, target: eve.person, recipient: alice, type: "Notifications::StartedSharing")
       expect(Notifications::StartedSharing.find_by(recipient_id: alice.id, target: eve.person).unread).to be_truthy
 
       alice.share_with(eve.person, aspect1)

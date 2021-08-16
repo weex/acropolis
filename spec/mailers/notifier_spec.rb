@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 describe Notifier, type: :mailer do
-  let(:person) { FactoryGirl.create(:person) }
+  let(:person) { FactoryBot.create(:person) }
   let(:pod_name) { AppConfig.settings.pod_name }
 
 
@@ -21,7 +23,7 @@ describe Notifier, type: :mailer do
       before do
         @users = []
         5.times do
-          @users << FactoryGirl.create(:user)
+          @users << FactoryBot.create(:user)
         end
       end
       it "has a body" do
@@ -77,10 +79,27 @@ describe Notifier, type: :mailer do
     end
   end
 
+  describe ".contacts_birthday" do
+    let(:contact) { alice.contact_for(bob.person) }
+    let(:mail) { Notifier.send_notification("contacts_birthday", alice.id, nil, bob.person.id) }
+
+    it "TO: goes to the right person" do
+      expect(mail.to).to eq([alice.email])
+    end
+
+    it "SUBJECT: has the name of birthday person in the subject" do
+      expect(mail.subject).to include(bob.person.name)
+    end
+
+    it "has a link to the birthday profile in the body" do
+      expect(mail.body.encoded).to include(user_profile_url(bob.person.username))
+    end
+  end
+
   describe ".mentioned" do
     before do
       @user = alice
-      @post = FactoryGirl.create(:status_message, public: true)
+      @post = FactoryBot.create(:status_message, public: true)
       @mention = Mention.create(person: @user.person, mentions_container: @post)
 
       @mail = Notifier.send_notification("mentioned", @user.id, @post.author.id, @mention.id)
@@ -110,7 +129,7 @@ describe Notifier, type: :mailer do
 
   describe ".mentioned_in_comment" do
     let(:user) { alice }
-    let(:comment) { FactoryGirl.create(:comment) }
+    let(:comment) { FactoryBot.create(:comment) }
     let(:mention) { Mention.create(person: user.person, mentions_container: comment) }
     let(:mail) { Notifier.send_notification("mentioned_in_comment", user.id, comment.author.id, mention.id) }
 
@@ -144,7 +163,7 @@ describe Notifier, type: :mailer do
   describe ".mentioned limited" do
     before do
       @user = alice
-      @post = FactoryGirl.create(:status_message, public: false)
+      @post = FactoryBot.create(:status_message, public: false)
       @mention = Mention.create(person: @user.person, mentions_container: @post)
 
       @mail = Notifier.send_notification("mentioned", @user.id, @post.author.id, @mention.id)
@@ -169,7 +188,7 @@ describe Notifier, type: :mailer do
 
   describe ".liked" do
     before do
-      @post = FactoryGirl.create(:status_message, author: alice.person, public: true)
+      @post = FactoryBot.create(:status_message, author: alice.person, public: true)
       @like = @post.likes.create!(author: bob.person)
       @mail = Notifier.send_notification("liked", alice.id, @like.author.id, @like.id)
     end
@@ -191,16 +210,24 @@ describe Notifier, type: :mailer do
     end
 
     it "can handle a reshare" do
-      reshare = FactoryGirl.create(:reshare)
+      reshare = FactoryBot.create(:reshare)
       like = reshare.likes.create!(author: bob.person)
       Notifier.send_notification("liked", alice.id, like.author.id, like.id)
+    end
+
+    it "can handle status_messages without text" do
+      photo = FactoryBot.create(:photo, public: true, author: alice.person)
+      status = FactoryBot.create(:status_message, author: alice.person, text: nil, photos: [photo], public: true)
+      like = status.likes.create!(author: bob.person)
+      mail = Notifier.send_notification("liked", alice.id, like.author.id, like.id)
+      expect(mail.body.encoded).to include(I18n.t("posts.show.photos_by", count: 1, author: alice.name))
     end
   end
 
   describe ".reshared" do
     before do
-      @post = FactoryGirl.create(:status_message, author: alice.person, public: true)
-      @reshare = FactoryGirl.create(:reshare, root: @post, author: bob.person)
+      @post = FactoryBot.create(:status_message, author: alice.person, public: true)
+      @reshare = FactoryBot.create(:reshare, root: @post, author: bob.person)
       @mail = Notifier.send_notification("reshared", alice.id, @reshare.author.id, @reshare.id)
     end
 
@@ -315,7 +342,7 @@ describe Notifier, type: :mailer do
 
       [:reshare].each do |post_type|
         context post_type.to_s do
-          let(:commented_post) { FactoryGirl.create(post_type, author: bob.person) }
+          let(:commented_post) { FactoryBot.create(post_type, author: bob.person) }
           it "succeeds" do
             expect {
               comment_mail
@@ -360,7 +387,7 @@ describe Notifier, type: :mailer do
       end
       [:reshare].each do |post_type|
         context post_type.to_s do
-          let(:commented_post) { FactoryGirl.create(post_type, author: bob.person) }
+          let(:commented_post) { FactoryBot.create(post_type, author: bob.person) }
           it "succeeds" do
             expect {
               comment_mail

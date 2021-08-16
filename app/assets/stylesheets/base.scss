@@ -10,14 +10,15 @@ body {
 .page-contacts,
 .page-conversations,
 .page-notifications,
-.page-people.action-show,
 .page-people.action-contacts,
+.page-people.action-show,
 .page-photos,
 .page-posts,
 .page-profiles.action-edit,
 .page-services.action-index,
 .page-streams,
 .page-tags,
+.page-two_factor_authentications,
 .page-user_applications,
 .page-users.action-edit,
 .page-users.action-update,
@@ -70,20 +71,29 @@ pre { word-wrap: break-word; }
   height: 50px;
   line-height: 50px;
   opacity: 0;
+  pointer-events: none;
   position: fixed;
   right: 20px;
+  text-decoration: none;
   transition: opacity ease 400ms;
   width: 50px;
   z-index: 49;
 
   &:hover,
-  &.visible:hover {
+  &:focus,
+  &:active {
     color: $white;
-    opacity: .85;
     text-decoration: none;
   }
 
-  &.visible { opacity: .5; }
+  &.visible {
+    opacity: .5;
+    pointer-events: auto;
+
+    &:hover {
+      opacity: .85;
+    }
+  }
 }
 
 .noscript {

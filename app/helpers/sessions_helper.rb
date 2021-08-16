@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SessionsHelper
   def prefilled_username
     uri = Addressable::URI.parse(session["user_return_to"])
@@ -9,7 +11,7 @@ module SessionsHelper
   end
 
   def display_registration_link?
-    AppConfig.settings.enable_registrations? && devise_mapping.registerable? && controller_name != "registrations"
+    AppConfig.settings.enable_registrations? && controller_name != "registrations"
   end
 
   def display_password_reset_link?

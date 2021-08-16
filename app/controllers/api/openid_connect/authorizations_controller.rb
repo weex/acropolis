@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module OpenidConnect
     class AuthorizationsController < ApplicationController
@@ -102,8 +104,9 @@ module Api
       end
 
       def handle_start_point_response(endpoint)
-        _status, header, response = endpoint.call(request.env)
-        if response.redirect?
+        status, header, _response = endpoint.call(request.env)
+
+        if status.in?([301, 302, 303, 307, 308])
           redirect_to header["Location"]
         else
           save_params_and_render_consent_form(endpoint)
@@ -117,6 +120,7 @@ module Api
         @scopes = endpoint.scopes
         save_request_parameters
         @app = UserApplicationPresenter.new @o_auth_application, @scopes
+        override_content_security_policy_directives(form_action: %w[])
         render :new
       end
 

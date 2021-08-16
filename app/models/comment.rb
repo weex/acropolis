@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -12,6 +14,7 @@ class Comment < ApplicationRecord
   include Diaspora::Taggable
   include Diaspora::Likeable
   include Diaspora::MentionsContainer
+  include Reference::Source
 
   acts_as_taggable_on :tags
   extract_tags_from :text

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -29,7 +31,7 @@ describe Contact, type: :model do
     end
 
     it "validates uniqueness" do
-      person = FactoryGirl.create(:person)
+      person = FactoryBot.create(:person)
 
       contact1 = alice.contacts.create(person: person)
       expect(contact1).to be_valid
@@ -40,7 +42,7 @@ describe Contact, type: :model do
 
     describe "#not_contact_with_closed_account" do
       it "adds error if the person's account is closed" do
-        person = FactoryGirl.create(:person, closed_account: true)
+        person = FactoryBot.create(:person, closed_account: true)
         bad_contact = alice.contacts.create(person: person)
 
         expect(bad_contact).not_to be_valid
@@ -82,13 +84,13 @@ describe Contact, type: :model do
     describe "sharing" do
       it "returns contacts with sharing true" do
         expect {
-          alice.contacts.create!(sharing: true, person: FactoryGirl.create(:person))
+          alice.contacts.create!(sharing: true, person: FactoryBot.create(:person))
         }.to change {
           Contact.sharing.count
         }.by(1)
 
         expect {
-          alice.contacts.create!(sharing: false, person: FactoryGirl.create(:person))
+          alice.contacts.create!(sharing: false, person: FactoryBot.create(:person))
         }.to change {
           Contact.sharing.count
         }.by(0)
@@ -98,13 +100,13 @@ describe Contact, type: :model do
     describe "receiving" do
       it "returns contacts with sharing true" do
         expect {
-          alice.contacts.create!(receiving: true, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: true, person: FactoryBot.build(:person))
         }.to change {
           Contact.receiving.count
         }.by(1)
 
         expect {
-          alice.contacts.create!(receiving: false, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: false, person: FactoryBot.build(:person))
         }.to change {
           Contact.receiving.count
         }.by(0)
@@ -114,14 +116,14 @@ describe Contact, type: :model do
     describe "mutual" do
       it "returns contacts with sharing true and receiving true" do
         expect {
-          alice.contacts.create!(receiving: true, sharing: true, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: true, sharing: true, person: FactoryBot.build(:person))
         }.to change {
           Contact.mutual.count
         }.by(1)
 
         expect {
-          alice.contacts.create!(receiving: false, sharing: true, person: FactoryGirl.build(:person))
-          alice.contacts.create!(receiving: true, sharing: false, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: false, sharing: true, person: FactoryBot.build(:person))
+          alice.contacts.create!(receiving: true, sharing: false, person: FactoryBot.build(:person))
         }.to change {
           Contact.mutual.count
         }.by(0)
@@ -131,15 +133,15 @@ describe Contact, type: :model do
     describe "only_sharing" do
       it "returns contacts with sharing true and receiving false" do
         expect {
-          alice.contacts.create!(receiving: false, sharing: true, person: FactoryGirl.build(:person))
-          alice.contacts.create!(receiving: false, sharing: true, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: false, sharing: true, person: FactoryBot.build(:person))
+          alice.contacts.create!(receiving: false, sharing: true, person: FactoryBot.build(:person))
         }.to change {
           Contact.only_sharing.count
         }.by(2)
 
         expect {
-          alice.contacts.create!(receiving: true, sharing: true, person: FactoryGirl.build(:person))
-          alice.contacts.create!(receiving: true, sharing: false, person: FactoryGirl.build(:person))
+          alice.contacts.create!(receiving: true, sharing: true, person: FactoryBot.build(:person))
+          alice.contacts.create!(receiving: true, sharing: false, person: FactoryBot.build(:person))
         }.to change {
           Contact.only_sharing.count
         }.by(0)
@@ -148,68 +150,12 @@ describe Contact, type: :model do
 
     describe "all_contacts_of_person" do
       it "returns all contacts where the person is the passed in person" do
-        person = FactoryGirl.create(:person)
+        person = FactoryBot.create(:person)
 
-        contact1 = FactoryGirl.create(:contact, person: person)
-        FactoryGirl.create(:contact) # contact2
+        contact1 = FactoryBot.create(:contact, person: person)
+        FactoryBot.create(:contact) # contact2
 
         expect(Contact.all_contacts_of_person(person)).to eq([contact1])
-      end
-    end
-  end
-
-  describe "#contacts" do
-    before do
-      bob.aspects.create(name: "next")
-
-      @original_aspect = bob.aspects.where(name: "generic").first
-      @new_aspect = bob.aspects.where(name: "next").first
-
-      @people1 = []
-      @people2 = []
-
-      1.upto(5) do
-        person = FactoryGirl.build(:person)
-        bob.contacts.create(person: person, aspects: [@original_aspect])
-        @people1 << person
-      end
-      1.upto(5) do
-        person = FactoryGirl.build(:person)
-        bob.contacts.create(person: person, aspects: [@new_aspect])
-        @people2 << person
-      end
-      # eve <-> bob <-> alice
-    end
-
-    context "on a contact for a local user" do
-      before do
-        alice.reload
-        alice.aspects.reload
-        @contact = alice.contact_for(bob.person)
-      end
-
-      it "returns the target local user's contacts that are in the same aspect" do
-        expect(@contact.contacts.map(&:id)).to match_array([eve.person].concat(@people1).map(&:id))
-      end
-
-      it "returns nothing if contacts_visible is false in that aspect" do
-        @original_aspect.contacts_visible = false
-        @original_aspect.save
-        expect(@contact.contacts).to eq([])
-      end
-
-      it "returns no duplicate contacts" do
-        [alice, eve].each {|c| bob.add_contact_to_aspect(bob.contact_for(c.person), bob.aspects.last) }
-        contact_ids = @contact.contacts.map(&:id)
-        expect(contact_ids.uniq).to eq(contact_ids)
-      end
-    end
-
-    context "on a contact for a remote user" do
-      let(:contact) { bob.contact_for @people1.first }
-
-      it "returns an empty array" do
-        expect(contact.contacts).to eq([])
       end
     end
   end
@@ -248,7 +194,7 @@ describe Contact, type: :model do
 
   describe "#object_to_receive" do
     it "returns the contact for the recipient" do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       contact = alice.contacts.create(person: user.person)
       receive = contact.object_to_receive
       expect(receive.user).to eq(user)

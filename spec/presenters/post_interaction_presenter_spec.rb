@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 describe PostInteractionPresenter do
   let(:status_message_without_participation) {
-    FactoryGirl.create(:status_message_without_participation)
+    FactoryBot.create(:status_message_without_participation)
   }
   let(:status_message_with_participations) {
-    FactoryGirl.create(:status_message_with_participations, participants: [alice, bob])
+    FactoryBot.create(:status_message_with_participations, participants: [alice, bob])
   }
 
   context "with an user" do

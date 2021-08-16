@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe Notifications::MentionedInPost, type: :model do
   let(:sm) {
-    FactoryGirl.create(:status_message, author: alice.person, text: "hi @{bob; #{bob.diaspora_handle}}", public: true)
+    FactoryBot.create(:status_message, author: alice.person, text: "hi @{bob; #{bob.diaspora_handle}}", public: true)
   }
   let(:mentioned_notification) { Notifications::MentionedInPost.new(recipient: bob) }
 
@@ -21,7 +23,7 @@ describe Notifications::MentionedInPost, type: :model do
     end
 
     it "does nothing if the mentioned person is not local" do
-      sm = FactoryGirl.create(
+      sm = FactoryBot.create(
         :status_message,
         author: alice.person,
         text:   "hi @{raphael; #{remote_raphael.diaspora_handle}}",
@@ -44,7 +46,7 @@ describe Notifications::MentionedInPost, type: :model do
 
     context "with private post" do
       let(:private_sm) {
-        FactoryGirl.create(
+        FactoryBot.create(
           :status_message,
           author: remote_raphael,
           text:   "hi @{bob; #{bob.diaspora_handle}}",

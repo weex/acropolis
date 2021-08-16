@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe Diaspora::Federation::Receive do
-  let(:sender) { FactoryGirl.create(:person) }
-  let(:post) { FactoryGirl.create(:status_message, text: "hello", public: true, author: alice.person) }
+  let(:sender) { FactoryBot.create(:person) }
+  let(:post) { FactoryBot.create(:status_message, text: "hello", public: true, author: alice.person) }
 
   describe ".account_deletion" do
     let(:account_deletion_entity) { Fabricate(:account_deletion_entity, author: sender.diaspora_handle) }
@@ -10,17 +12,59 @@ describe Diaspora::Federation::Receive do
 
       expect(AccountDeletion.exists?(person: sender)).to be_truthy
     end
+
+    it "ignores duplicate the account deletion" do
+      AccountDeletion.create(person: sender)
+
+      expect(AccountDeletion).not_to receive(:create!)
+
+      Diaspora::Federation::Receive.account_deletion(account_deletion_entity)
+
+      expect(AccountDeletion.exists?(person: sender)).to be_truthy
+    end
+
+    it "handles race conditions on parallel receive" do
+      expect(AccountDeletion).to receive(:create!) do
+        AccountDeletion.create(person: sender)
+        raise "Some database error"
+      end
+
+      Diaspora::Federation::Receive.account_deletion(account_deletion_entity)
+
+      expect(AccountDeletion.exists?(person: sender)).to be_truthy
+    end
   end
 
   describe ".account_migration" do
-    let(:new_person) { FactoryGirl.create(:person) }
+    let(:new_person) { FactoryBot.create(:person) }
     let(:profile_entity) { Fabricate(:profile_entity, author: new_person.diaspora_handle) }
     let(:account_migration_entity) {
       Fabricate(:account_migration_entity, author: sender.diaspora_handle, profile: profile_entity)
     }
 
     it "saves the account deletion" do
-      Diaspora::Federation::Receive.account_migration(account_migration_entity)
+      Diaspora::Federation::Receive.perform(account_migration_entity)
+
+      expect(AccountMigration.exists?(old_person: sender, new_person: new_person)).to be_truthy
+    end
+
+    it "ignores duplicate the account migrations" do
+      AccountMigration.create(old_person: sender, new_person: new_person)
+
+      expect(AccountMigration).not_to receive(:create!)
+
+      expect(Diaspora::Federation::Receive.perform(account_migration_entity)).to be_nil
+
+      expect(AccountMigration.exists?(old_person: sender, new_person: new_person)).to be_truthy
+    end
+
+    it "handles race conditions on parallel receive" do
+      expect(AccountMigration).to receive(:create!) do
+        AccountMigration.create(old_person: sender, new_person: new_person)
+        raise "Some database error"
+      end
+
+      expect(Diaspora::Federation::Receive.perform(account_migration_entity)).to be_nil
 
       expect(AccountMigration.exists?(old_person: sender, new_person: new_person)).to be_truthy
     end
@@ -66,13 +110,14 @@ describe Diaspora::Federation::Receive do
 
       expect(comment.signature).not_to be_nil
       expect(comment.signature.author_signature).to eq("aa")
-      expect(comment.signature.additional_data).to eq("new_property" => "data")
+      expect(comment.signature.additional_data["new_property"]).to eq("data")
+      expect(comment.signature.additional_data["edited_at"]).to be_within(1.second).of(comment_entity.edited_at)
       expect(comment.signature.order).to eq(comment_entity.signature_order.map(&:to_s))
     end
 
     let(:entity) { comment_entity }
     it_behaves_like "it ignores existing object received twice", Comment
-    it_behaves_like "it rejects if the parent author ignores the author", Comment
+    it_behaves_like "it rejects if the root author ignores the author", Comment
     it_behaves_like "it relays relayables", Comment
   end
 
@@ -239,13 +284,54 @@ describe Diaspora::Federation::Receive do
 
     let(:entity) { like_entity }
     it_behaves_like "it ignores existing object received twice", Like
-    it_behaves_like "it rejects if the parent author ignores the author", Like
+    it_behaves_like "it rejects if the root author ignores the author", Like
     it_behaves_like "it relays relayables", Like
+
+    context "like for a comment" do
+      let(:comment) { FactoryBot.create(:comment, post: post) }
+      let(:like_entity) {
+        build_relayable_federation_entity(
+          :like,
+          {
+            author:           sender.diaspora_handle,
+            parent_guid:      comment.guid,
+            parent_type:      "Comment",
+            author_signature: "aa"
+          },
+          "new_property" => "data"
+        )
+      }
+
+      it "attaches the like to the comment" do
+        Diaspora::Federation::Receive.perform(like_entity)
+
+        like = Like.find_by!(guid: like_entity.guid)
+
+        expect(comment.likes).to include(like)
+        expect(like.target).to eq(comment)
+      end
+
+      it "saves the signature data" do
+        Diaspora::Federation::Receive.perform(like_entity)
+
+        like = Like.find_by!(guid: like_entity.guid)
+
+        expect(like.signature).not_to be_nil
+        expect(like.signature.author_signature).to eq("aa")
+        expect(like.signature.additional_data).to eq("new_property" => "data")
+        expect(like.signature.order).to eq(like_entity.signature_order.map(&:to_s))
+      end
+
+      let(:entity) { like_entity }
+      it_behaves_like "it ignores existing object received twice", Like
+      it_behaves_like "it rejects if the root author ignores the author", Like
+      it_behaves_like "it relays relayables", Like
+    end
   end
 
   describe ".message" do
     let(:conversation) {
-      FactoryGirl.build(:conversation, author: alice.person).tap do |conv|
+      FactoryBot.build(:conversation, author: alice.person).tap do |conv|
         conv.participants << sender
         conv.save!
       end
@@ -360,7 +446,7 @@ describe Diaspora::Federation::Receive do
   end
 
   describe ".poll_participation" do
-    let(:post_with_poll) { FactoryGirl.create(:status_message_with_poll, author: alice.person) }
+    let(:post_with_poll) { FactoryBot.create(:status_message_with_poll, author: alice.person) }
     let(:poll_participation_entity) {
       build_relayable_federation_entity(
         :poll_participation,
@@ -406,7 +492,7 @@ describe Diaspora::Federation::Receive do
 
     let(:entity) { poll_participation_entity }
     it_behaves_like "it ignores existing object received twice", PollParticipation
-    it_behaves_like "it rejects if the parent author ignores the author", PollParticipation
+    it_behaves_like "it rejects if the root author ignores the author", PollParticipation
     it_behaves_like "it relays relayables", PollParticipation
   end
 
@@ -456,11 +542,15 @@ describe Diaspora::Federation::Receive do
     it_behaves_like "it ignores existing object received twice", Reshare do
       let(:entity) { reshare_entity }
     end
+
+    it_behaves_like "it sends a participation to the author" do
+      let(:entity) { reshare_entity }
+    end
   end
 
   describe ".retraction" do
     it "destroys the post" do
-      remote_post = FactoryGirl.create(:status_message, author: sender, public: true)
+      remote_post = FactoryBot.create(:status_message, author: sender, public: true)
 
       retraction = Fabricate(
         :retraction_entity,
@@ -504,8 +594,8 @@ describe Diaspora::Federation::Receive do
 
     context "Relayable" do
       it "relays the retraction and destroys the relayable when the parent-author is local" do
-        local_post = FactoryGirl.create(:status_message, author: alice.person, public: true)
-        remote_comment = FactoryGirl.create(:comment, author: sender, post: local_post)
+        local_post = FactoryBot.create(:status_message, author: alice.person, public: true)
+        remote_comment = FactoryBot.create(:comment, author: sender, post: local_post)
 
         retraction = Fabricate(
           :retraction_entity,
@@ -527,8 +617,8 @@ describe Diaspora::Federation::Receive do
       end
 
       it "destroys the relayable when the parent-author is not local" do
-        remote_post = FactoryGirl.create(:status_message, author: sender, public: true)
-        remote_comment = FactoryGirl.create(:comment, author: sender, post: remote_post)
+        remote_post = FactoryBot.create(:status_message, author: sender, public: true)
+        remote_comment = FactoryBot.create(:comment, author: sender, post: remote_post)
 
         retraction = Fabricate(
           :retraction_entity,
@@ -581,17 +671,6 @@ describe Diaspora::Federation::Receive do
         expect_any_instance_of(StatusMessage).not_to receive(:create_or_update)
 
         Diaspora::Federation::Receive.perform(status_message_entity)
-      end
-
-      it "finds the correct author if the author is not lowercase" do
-        status_message_entity = Fabricate(:status_message_entity, author: sender.diaspora_handle.upcase)
-
-        received = Diaspora::Federation::Receive.perform(status_message_entity)
-
-        status_message = StatusMessage.find_by!(guid: status_message_entity.guid)
-
-        expect(received).to eq(status_message)
-        expect(status_message.author).to eq(sender)
       end
     end
 
@@ -678,7 +757,7 @@ describe Diaspora::Federation::Receive do
       end
 
       it "does not overwrite the photos if they already exist" do
-        received_photo = Diaspora::Federation::Receive.photo(photo1)
+        received_photo = Diaspora::Federation::Receive.perform(photo1)
         received_photo.text = "foobar"
         received_photo.save!
 
@@ -691,6 +770,18 @@ describe Diaspora::Federation::Receive do
 
         expect(status_message.photos.map(&:guid)).to include(photo1.guid, photo2.guid)
         expect(status_message.photos.map(&:text)).to include(received_photo.text, photo2.text)
+      end
+
+      it_behaves_like "it sends a participation to the author" do
+        let(:entity) { status_message_entity }
+      end
+
+      it "doesn't send participations for a private post" do
+        status_message_entity = Fabricate(:status_message_entity, author: sender.diaspora_handle, public: false)
+
+        expect(Diaspora::Federation::Dispatcher).not_to receive(:build)
+
+        Diaspora::Federation::Receive.perform(status_message_entity)
       end
     end
   end

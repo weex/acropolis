@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
 describe "making sure the spec runner works" do
   it "factory creates a user with a person saved" do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     loaded_user = User.find(user.id)
     expect(loaded_user.person.owner_id).to eq(user.id)
   end

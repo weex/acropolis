@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module OpenidConnect
     module AuthorizationPoint
@@ -17,10 +19,6 @@ module Api
           else
             req.access_denied!
           end
-        end
-
-        def replace_profile_scope_with_specific_claims(_req)
-          # Empty
         end
 
         def build_from_request_object(_req)

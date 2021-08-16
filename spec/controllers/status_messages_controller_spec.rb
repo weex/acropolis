@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -15,7 +17,7 @@ describe StatusMessagesController, :type => :controller do
   describe '#bookmarklet' do
     it 'succeeds' do
       get :bookmarklet
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'contains a complete html document' do
@@ -32,14 +34,14 @@ describe StatusMessagesController, :type => :controller do
         title: "Surprised Kitty",
         notes: "cute kitty"
       }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
   describe '#new' do
     it 'succeeds' do
       get :new, params: {person_id: bob.person.id}
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'should redirect on desktop version' do
@@ -130,23 +132,26 @@ describe StatusMessagesController, :type => :controller do
         status_message = StatusMessage.find_by_text(text)
         expect(status_message.aspect_visibilities.map(&:aspect)).to match_array([@aspect1, @aspect2])
       end
+
+      it "responses 422 when aspect_ids don't contain any applicable aspect identifiers" do
+        bad_ids = [Aspect.ids.max.next, bob.aspects.first.id]
+        post :create, params: status_message_hash.merge(aspect_ids: bad_ids.to_s), format: :json
+        expect(response.status).to eq(422)
+      end
     end
 
     it "dispatches the post to the specified services" do
-      s1 = Services::Facebook.new
-      alice.services << s1
       alice.services << Services::Twitter.new
-      status_message_hash[:services] = ['facebook']
+      status_message_hash[:services] = ["twitter"]
       service_types = Service.titles(status_message_hash[:services])
-      expect(alice).to receive(:dispatch_post).with(anything(), hash_including(:service_types => service_types))
+      expect(alice).to receive(:dispatch_post).with(anything, hash_including(service_types: service_types))
       post :create, params: status_message_hash
     end
 
     it "works if services is a string" do
-      s1 = Services::Facebook.new
-      alice.services << s1
-      status_message_hash[:services] = "facebook"
-      expect(alice).to receive(:dispatch_post).with(anything(), hash_including(:service_types => ["Services::Facebook"]))
+      alice.services << Services::Twitter.new
+      status_message_hash[:services] = "twitter"
+      expect(alice).to receive(:dispatch_post).with(anything, hash_including(service_types: ["Services::Twitter"]))
       post :create, params: status_message_hash
     end
 

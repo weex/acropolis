@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User
   alias_method :share_with_original, :share_with
 
@@ -22,6 +24,12 @@ class User
 
       p = build_post(class_name, opts)
       p.aspects = aspects
+
+      if class_name == :photo
+        p.width = 42 unless opts.has_key? :width
+        p.height = 42 unless opts.has_key? :height
+      end
+
       if p.save!
         self.aspects.reload
 

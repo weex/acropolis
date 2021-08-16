@@ -1,18 +1,15 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
 ENV["RAILS_ENV"] ||= "test"
 
-require 'coveralls'
-Coveralls.wear!('rails')
-
 require File.join(File.dirname(__FILE__), "..", "config", "environment")
 require Rails.root.join("spec", "helper_methods")
-require Rails.root.join("spec", "spec-doc")
 require "rspec/rails"
 require "webmock/rspec"
-require "factory_girl"
 require "sidekiq/testing"
 require "shoulda/matchers"
 require "diaspora_federation/schemas"
@@ -22,6 +19,8 @@ include HelperMethods
 Dir["#{File.dirname(__FILE__)}/shared_behaviors/**/*.rb"].each do |f|
   require f
 end
+
+RSpec::Matchers.define_negated_matcher :remain, :change
 
 ProcessedImage.enable_processing = false
 UnprocessedImage.enable_processing = false
@@ -81,9 +80,6 @@ def client_assertion_with_nonexistent_client_id_path
                                                            "client_assertion_with_nonexistent_client_id.txt")
 end
 
-# Force fixture rebuild
-FileUtils.rm_f(Rails.root.join("tmp", "fixture_builder.yml"))
-
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
 fixture_builder_file = "#{File.dirname(__FILE__)}/support/fixture_builder.rb"
@@ -92,6 +88,9 @@ support_files.each {|f| require f }
 require fixture_builder_file
 
 RSpec.configure do |config|
+  config.fixture_path = Rails.root.join("spec", "fixtures")
+  config.global_fixtures = :all
+
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.mock_with :rspec
@@ -105,6 +104,14 @@ RSpec.configure do |config|
   config.before(:each) do
     I18n.locale = :en
     stub_request(:post, "https://pubsubhubbub.appspot.com/")
+    stub_request(
+      :get,
+      "https://example.com/.well-known/webfinger?resource=acct:bob@example.com"
+    )
+    stub_request(
+      :get,
+      "https://example.com/.well-known/host-meta"
+    )
     $process_queue = false
   end
 
@@ -131,10 +138,11 @@ RSpec.configure do |config|
     RequestStore.store[:gon].gon.clear unless RequestStore.store[:gon].nil?
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.include JSON::SchemaMatchers
-  config.json_schemas[:archive_schema] = "lib/schemas/archive-format.json"
+  config.json_schemas[:archive_schema] = ArchiveValidator::SchemaValidator::JSON_SCHEMA
+  config.json_schemas[:api_v1_schema] = "lib/schemas/api_v1.json"
 
   JSON::Validator.add_schema(
     JSON::Schema.new(

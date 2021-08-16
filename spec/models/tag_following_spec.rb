@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe TagFollowing, :type => :model do
   before do
-    @tag = FactoryGirl.build(:tag)
+    @tag = FactoryBot.build(:tag)
     TagFollowing.create!(:tag => @tag, :user => alice)
   end
 

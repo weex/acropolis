@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given /^I am signed in( on the mobile website)?$/ do |mobile|
   automatic_login
   confirm_login mobile
@@ -29,7 +31,7 @@ When /^I (?:sign|log) in with password "([^"]*)"( on the mobile website)?$/ do |
 end
 
 When /^I put in my password in "([^"]*)"$/ do |field|
- step %(I fill in "#{field}" with "#{@me.password}")
+  step %(I fill in "#{field}" with "#{@me.password}")
 end
 
 When /^I fill out change password section with my password and "([^"]*)" and "([^"]*)"$/ do |new_pass, confirm_pass|
@@ -71,4 +73,12 @@ end
 
 Then (/^I should see the 'getting started' contents$/) do
   confirm_getting_started_contents
+end
+
+Given /^the registrations are closed$/ do
+  AppConfig.settings.enable_registrations = false
+end
+
+When /^I fill in the new user form$/ do
+  fill_in_new_user_form
 end

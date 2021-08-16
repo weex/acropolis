@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Logging::Rails.configure do |config|
   # Configure the Logging framework with the default log levels
   Logging.init %w(debug info warn error fatal)
@@ -84,7 +86,7 @@ Logging::Rails.configure do |config|
   # Default log-level (development=debug, production=info)
   Logging.logger.root.level = config.log_level
 
-  # log-levels from the diaspora.yml for SQL and federation debug-logging
+  # log-levels from the diaspora.toml for SQL and federation debug-logging
   Logging.logger[ActionView::Base].level = Rails.env.development? ? :debug : :warn
   Logging.logger[ActiveRecord::Base].level = AppConfig.environment.logging.debug.sql? ? :debug : :info
   Logging.logger[DiasporaFederation::Salmon::MagicEnvelope].level =

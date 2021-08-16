@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NodeInfoPresenter
   delegate :as_json, :content_type, to: :document
 
@@ -21,7 +23,7 @@ class NodeInfoPresenter
     doc.services.outbound        = available_services
     doc.open_registrations       = open_registrations?
     doc.metadata["nodeName"]     = name
-    doc.metadata["xmppChat"]     = chat_enabled?
+    doc.metadata["camo"]         = camo_config
     doc.metadata["adminAccount"] = admin_account
   end
 
@@ -67,8 +69,12 @@ class NodeInfoPresenter
     AppConfig.settings.enable_registrations?
   end
 
-  def chat_enabled?
-    AppConfig.chat.enabled?
+  def camo_config
+    {
+      markdown:   AppConfig.privacy.camo.proxy_markdown_images?,
+      opengraph:  AppConfig.privacy.camo.proxy_opengraph_thumbnails?,
+      remotePods: AppConfig.privacy.camo.proxy_remote_pod_images?
+    }
   end
 
   def admin_account
@@ -94,15 +100,19 @@ class NodeInfoPresenter
   end
 
   def local_posts
-    @local_posts ||= Post.where(type: "StatusMessage")
-                         .joins(:author)
-                         .where("owner_id IS NOT null")
-                         .count
+    Rails.cache.fetch("NodeInfoPresenter/local_posts", expires_in: 1.hour) do
+      @local_posts ||= Post.where(type: "StatusMessage")
+                           .joins(:author)
+                           .where.not(people: {owner_id: nil})
+                           .count
+    end
   end
 
   def local_comments
-    @local_comments ||= Comment.joins(:author)
-                               .where("owner_id IS NOT null")
-                               .count
+    Rails.cache.fetch("NodeInfoPresenter/local_comments", expires_in: 1.hour) do
+      @local_comments ||= Comment.joins(:author)
+                                 .where.not(people: {owner_id: nil})
+                                 .count
+    end
   end
 end

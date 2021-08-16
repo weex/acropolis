@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 describe Diaspora::Federation::Entities do
   describe ".build" do
     it "builds an account deletion" do
-      diaspora_entity = FactoryGirl.build(:account_deletion)
+      diaspora_entity = FactoryBot.build(:account_deletion)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::AccountDeletion)
@@ -9,7 +11,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds an account migration" do
-      diaspora_entity = FactoryGirl.build(:account_migration)
+      diaspora_entity = FactoryBot.build(:account_migration)
       diaspora_entity.old_private_key = OpenSSL::PKey::RSA.generate(1024).export
       federation_entity = described_class.build(diaspora_entity)
 
@@ -19,7 +21,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a comment" do
-      diaspora_entity = FactoryGirl.build(:comment)
+      diaspora_entity = FactoryBot.build(:comment)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Comment)
@@ -27,12 +29,13 @@ describe Diaspora::Federation::Entities do
       expect(federation_entity.guid).to eq(diaspora_entity.guid)
       expect(federation_entity.parent_guid).to eq(diaspora_entity.post.guid)
       expect(federation_entity.text).to eq(diaspora_entity.text)
+      expect(federation_entity.created_at).to eq(diaspora_entity.created_at)
       expect(federation_entity.author_signature).to be_nil
       expect(federation_entity.additional_data).to be_empty
     end
 
     it "builds a comment with signature" do
-      diaspora_entity = FactoryGirl.build(:comment, signature: FactoryGirl.build(:comment_signature))
+      diaspora_entity = FactoryBot.build(:comment, signature: FactoryBot.build(:comment_signature))
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Comment)
@@ -40,13 +43,34 @@ describe Diaspora::Federation::Entities do
       expect(federation_entity.guid).to eq(diaspora_entity.guid)
       expect(federation_entity.parent_guid).to eq(diaspora_entity.post.guid)
       expect(federation_entity.text).to eq(diaspora_entity.text)
+      expect(federation_entity.created_at).to eq(diaspora_entity.created_at)
+      expect(federation_entity.author_signature).to eq(diaspora_entity.signature.author_signature)
+      expect(federation_entity.signature_order.map(&:to_s)).to eq(diaspora_entity.signature.signature_order.order.split)
+      expect(federation_entity.additional_data).to eq(diaspora_entity.signature.additional_data)
+    end
+
+    it "builds a comment with edited_at" do
+      edited_at = Time.now.utc + 3600
+      diaspora_entity = FactoryBot.build(
+        :comment,
+        signature: FactoryBot.build(:comment_signature, additional_data: {"edited_at" => edited_at})
+      )
+      federation_entity = described_class.build(diaspora_entity)
+
+      expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Comment)
+      expect(federation_entity.author).to eq(diaspora_entity.author.diaspora_handle)
+      expect(federation_entity.guid).to eq(diaspora_entity.guid)
+      expect(federation_entity.parent_guid).to eq(diaspora_entity.post.guid)
+      expect(federation_entity.text).to eq(diaspora_entity.text)
+      expect(federation_entity.created_at).to eq(diaspora_entity.created_at)
+      expect(federation_entity.edited_at).to be_within(1.second).of(edited_at)
       expect(federation_entity.author_signature).to eq(diaspora_entity.signature.author_signature)
       expect(federation_entity.signature_order.map(&:to_s)).to eq(diaspora_entity.signature.signature_order.order.split)
       expect(federation_entity.additional_data).to eq(diaspora_entity.signature.additional_data)
     end
 
     it "builds a contact" do
-      diaspora_entity = FactoryGirl.build(:contact, receiving: true)
+      diaspora_entity = FactoryBot.build(:contact, receiving: true)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Contact)
@@ -54,11 +78,24 @@ describe Diaspora::Federation::Entities do
       expect(federation_entity.recipient).to eq(diaspora_entity.person.diaspora_handle)
       expect(federation_entity.sharing).to be_truthy
       expect(federation_entity.following).to be_truthy
+      expect(federation_entity.blocking).to be_falsey
+    end
+
+    it "builds a contact for a block" do
+      diaspora_entity = FactoryBot.create(:block)
+      federation_entity = described_class.build(diaspora_entity)
+
+      expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Contact)
+      expect(federation_entity.author).to eq(diaspora_entity.user.diaspora_handle)
+      expect(federation_entity.recipient).to eq(diaspora_entity.person.diaspora_handle)
+      expect(federation_entity.sharing).to be_falsey
+      expect(federation_entity.following).to be_falsey
+      expect(federation_entity.blocking).to be_truthy
     end
 
     context "Conversation" do
-      let(:participant) { FactoryGirl.create(:person) }
-      let(:diaspora_entity) { FactoryGirl.create(:conversation_with_message, participants: [participant]) }
+      let(:participant) { FactoryBot.create(:person) }
+      let(:diaspora_entity) { FactoryBot.create(:conversation_with_message, participants: [participant]) }
       let(:federation_entity) { described_class.build(diaspora_entity) }
 
       it "builds a conversation" do
@@ -87,7 +124,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a like" do
-      diaspora_entity = FactoryGirl.build(:like)
+      diaspora_entity = FactoryBot.build(:like)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Like)
@@ -100,7 +137,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a like with signature" do
-      diaspora_entity = FactoryGirl.build(:like, signature: FactoryGirl.build(:like_signature))
+      diaspora_entity = FactoryBot.build(:like, signature: FactoryBot.build(:like_signature))
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Like)
@@ -114,7 +151,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a message" do
-      diaspora_entity = FactoryGirl.create(:message)
+      diaspora_entity = FactoryBot.create(:message)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Message)
@@ -126,7 +163,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a participation" do
-      diaspora_entity = FactoryGirl.build(:participation)
+      diaspora_entity = FactoryBot.build(:participation)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Participation)
@@ -137,7 +174,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a photo" do
-      diaspora_entity = FactoryGirl.create(:photo)
+      diaspora_entity = FactoryBot.create(:photo)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Photo)
@@ -153,7 +190,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a poll participation" do
-      diaspora_entity = FactoryGirl.build(:poll_participation)
+      diaspora_entity = FactoryBot.build(:poll_participation, :with_poll_author)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::PollParticipation)
@@ -166,8 +203,8 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a poll participation with signature" do
-      signature = FactoryGirl.build(:poll_participation_signature)
-      diaspora_entity = FactoryGirl.build(:poll_participation, signature: signature)
+      signature = FactoryBot.build(:poll_participation_signature)
+      diaspora_entity = FactoryBot.build(:poll_participation, :with_poll_author, signature: signature)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::PollParticipation)
@@ -181,11 +218,12 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a profile" do
-      diaspora_entity = FactoryGirl.build(:profile_with_image_url)
+      diaspora_entity = FactoryBot.build(:profile_with_image_url)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Profile)
       expect(federation_entity.author).to eq(diaspora_entity.diaspora_handle)
+      expect(federation_entity.edited_at).to eq(diaspora_entity.updated_at)
       expect(federation_entity.first_name).to eq(diaspora_entity.first_name)
       expect(federation_entity.last_name).to eq(diaspora_entity.last_name)
       expect(federation_entity.image_url).to eq(diaspora_entity.image_url)
@@ -202,7 +240,7 @@ describe Diaspora::Federation::Entities do
     end
 
     it "builds a reshare" do
-      diaspora_entity = FactoryGirl.create(:reshare)
+      diaspora_entity = FactoryBot.create(:reshare)
       federation_entity = described_class.build(diaspora_entity)
 
       expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Reshare)
@@ -210,14 +248,12 @@ describe Diaspora::Federation::Entities do
       expect(federation_entity.guid).to eq(diaspora_entity.guid)
       expect(federation_entity.root_author).to eq(diaspora_entity.root.author.diaspora_handle)
       expect(federation_entity.root_guid).to eq(diaspora_entity.root.guid)
-      expect(federation_entity.public).to be_truthy
       expect(federation_entity.created_at).to eq(diaspora_entity.created_at)
-      expect(federation_entity.provider_display_name).to eq(diaspora_entity.provider_display_name)
     end
 
     context "Retraction" do
       it "builds a Retraction entity for a Photo retraction" do
-        target = FactoryGirl.create(:photo, author: alice.person)
+        target = FactoryBot.create(:photo, author: alice.person)
         retraction = Retraction.for(target)
         federation_entity = described_class.build(retraction)
 
@@ -228,7 +264,7 @@ describe Diaspora::Federation::Entities do
       end
 
       it "builds a Contact for a Contact retraction" do
-        target = FactoryGirl.create(:contact, receiving: false)
+        target = FactoryBot.create(:contact, receiving: false)
         retraction = ContactRetraction.for(target)
         federation_entity = described_class.build(retraction)
 
@@ -237,12 +273,41 @@ describe Diaspora::Federation::Entities do
         expect(federation_entity.recipient).to eq(target.person.diaspora_handle)
         expect(federation_entity.sharing).to be_falsey
         expect(federation_entity.following).to be_falsey
+        expect(federation_entity.blocking).to be_falsey
+      end
+
+      it "builds a Contact for a Contact retraction with block" do
+        target = FactoryBot.create(:contact, receiving: false)
+        FactoryBot.create(:block, user: target.user, person: target.person)
+        retraction = ContactRetraction.for(target)
+        federation_entity = described_class.build(retraction)
+
+        expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Contact)
+        expect(federation_entity.author).to eq(target.user.diaspora_handle)
+        expect(federation_entity.recipient).to eq(target.person.diaspora_handle)
+        expect(federation_entity.sharing).to be_falsey
+        expect(federation_entity.following).to be_falsey
+        expect(federation_entity.blocking).to be_truthy
+      end
+
+      it "builds a Contact for a Block retraction" do
+        target = FactoryBot.create(:block)
+        target.delete
+        retraction = ContactRetraction.for(target)
+        federation_entity = described_class.build(retraction)
+
+        expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::Contact)
+        expect(federation_entity.author).to eq(target.user.diaspora_handle)
+        expect(federation_entity.recipient).to eq(target.person.diaspora_handle)
+        expect(federation_entity.sharing).to be_falsey
+        expect(federation_entity.following).to be_falsey
+        expect(federation_entity.blocking).to be_falsey
       end
     end
 
     context "StatusMessage" do
       it "builds a status message" do
-        diaspora_entity = FactoryGirl.create(:status_message)
+        diaspora_entity = FactoryBot.create(:status_message)
         federation_entity = described_class.build(diaspora_entity)
 
         expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::StatusMessage)
@@ -259,7 +324,7 @@ describe Diaspora::Federation::Entities do
       end
 
       it "includes the photos" do
-        diaspora_entity = FactoryGirl.create(:status_message_with_photo)
+        diaspora_entity = FactoryBot.create(:status_message_with_photo)
         diaspora_photo = diaspora_entity.photos.first
         federation_entity = described_class.build(diaspora_entity)
         federation_photo = federation_entity.photos.first
@@ -277,7 +342,7 @@ describe Diaspora::Federation::Entities do
       end
 
       it "includes the location" do
-        diaspora_entity = FactoryGirl.create(:status_message_with_location)
+        diaspora_entity = FactoryBot.create(:status_message_with_location)
         diaspora_location = diaspora_entity.location
         federation_entity = described_class.build(diaspora_entity)
         federation_location = federation_entity.location
@@ -288,7 +353,7 @@ describe Diaspora::Federation::Entities do
       end
 
       it "includes the poll" do
-        diaspora_entity = FactoryGirl.create(:status_message_with_poll)
+        diaspora_entity = FactoryBot.create(:status_message_with_poll)
         diaspora_poll = diaspora_entity.poll
         federation_entity = described_class.build(diaspora_entity)
         federation_poll = federation_entity.poll

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -6,7 +8,7 @@ describe Workers::Mail::Mentioned do
   describe "#perform" do
     it "should call .deliver on the notifier object" do
       user = alice
-      sm = FactoryGirl.build(:status_message)
+      sm = FactoryBot.build(:status_message)
       m = Mention.new(person: user.person, mentions_container: sm)
 
       mail_double = double()

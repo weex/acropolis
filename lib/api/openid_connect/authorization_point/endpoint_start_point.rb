@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module OpenidConnect
     module AuthorizationPoint
@@ -12,12 +14,6 @@ module Api
 
         def handle_response_type(req, _res)
           @response_type = req.response_type
-        end
-
-        def replace_profile_scope_with_specific_claims(req)
-          profile_claims = %w(sub aud name nickname profile picture)
-          scopes_as_claims = req.scope.flat_map {|scope| scope == "profile" ? profile_claims : [scope] }.uniq
-          req.update_param("scope", scopes_as_claims)
         end
 
         private

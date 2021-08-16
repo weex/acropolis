@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -40,7 +42,7 @@ describe "attack vectors", type: :request do
     end
 
     it "public post should not be spoofed from another author" do
-      post = FactoryGirl.build(:status_message, public: true, author: eve.person)
+      post = FactoryBot.build(:status_message, public: true, author: eve.person)
 
       post_message(generate_payload(Diaspora::Federation::Entities.post(post), alice))
 
@@ -75,7 +77,7 @@ describe "attack vectors", type: :request do
     original_message = eve.post(:status_message, text: "store this!", to: eves_aspect.id)
 
     # someone else tries to make a message with the same guid
-    malicious_message = FactoryGirl.build(
+    malicious_message = FactoryBot.build(
       :status_message,
       id:     original_message.id,
       guid:   original_message.guid,
@@ -93,7 +95,7 @@ describe "attack vectors", type: :request do
     original_message = eve.post(:status_message, text: "store this!", to: eves_aspect.id)
 
     # eve tries to send me another message with the same ID
-    malicious_message = FactoryGirl.build(:status_message, id: original_message.id, text: "BAD!!!", author: eve.person)
+    malicious_message = FactoryBot.build(:status_message, id: original_message.id, text: "BAD!!!", author: eve.person)
 
     post_message(generate_payload(Diaspora::Federation::Entities.post(malicious_message), eve, bob), bob)
 

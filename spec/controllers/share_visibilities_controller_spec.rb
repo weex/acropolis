@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -15,7 +17,7 @@ describe ShareVisibilitiesController, :type => :controller do
 
       it 'succeeds' do
         put :update, params: {id: 42, post_id: @status.id}, format: :js
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'it calls toggle_hidden_shareable' do

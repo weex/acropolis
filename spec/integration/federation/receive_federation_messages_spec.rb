@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "integration/federation/federation_helper"
 require "integration/federation/shared_receive_relayable"
 require "integration/federation/shared_receive_retraction"
@@ -5,7 +7,7 @@ require "integration/federation/shared_receive_stream_items"
 
 describe "Receive federation messages feature" do
   before do
-    allow_callbacks(%i(queue_public_receive queue_private_receive receive_entity fetch_related_entity))
+    allow_callbacks(%i[queue_public_receive queue_private_receive receive_entity fetch_related_entity])
   end
 
   let(:sender) { remote_user_on_pod_b }
@@ -56,11 +58,12 @@ describe "Receive federation messages feature" do
           expect(AccountMigration.find_by(old_person: sender.person, new_person: new_user.person)).to be_performed
         end
 
-        it "doesn't accept the same migration for the second time" do
+        it "doesn't run the same migration for the second time" do
           run_migration
-          expect {
-            run_migration
-          }.to raise_error(ActiveRecord::RecordInvalid)
+          expect_any_instance_of(AccountMigration).not_to receive(:perform!)
+          run_migration
+          expect(AccountMigration.where(old_person: sender.person, new_person: new_user.person).count).to eq(1)
+          expect(AccountMigration.find_by(old_person: sender.person, new_person: new_user.person)).to be_performed
         end
 
         it "doesn't accept second migration for the same sender" do
@@ -81,7 +84,7 @@ describe "Receive federation messages feature" do
         end
 
         context "when our pod was left" do
-          let(:sender) { FactoryGirl.create(:user) }
+          let(:sender) { FactoryBot.create(:user) }
 
           it "locks the old user account access" do
             run_migration
@@ -105,13 +108,19 @@ describe "Receive federation messages feature" do
 
     context "reshare" do
       it "reshare of public post passes" do
-        post = FactoryGirl.create(:status_message, author: alice.person, public: true)
+        post = FactoryBot.create(:status_message, author: alice.person, public: true)
         reshare = Fabricate(
-          :reshare_entity, root_author: alice.diaspora_handle, root_guid: post.guid, author: sender_id)
+          :reshare_entity, root_author: alice.diaspora_handle, root_guid: post.guid, author: sender_id
+        )
 
         expect(Participation::Generator).to receive(:new).with(
           alice, instance_of(Reshare)
         ).and_return(double(create!: true))
+
+        expect(Diaspora::Federation::Dispatcher).to receive(:build) do |_user, participation, _opts|
+          expect(participation.target.guid).to eq(reshare.guid)
+          instance_double(:dispatch)
+        end
 
         post_message(generate_payload(reshare, sender))
 
@@ -120,9 +129,10 @@ describe "Receive federation messages feature" do
       end
 
       it "reshare of private post fails" do
-        post = FactoryGirl.create(:status_message, author: alice.person, public: false)
+        post = FactoryBot.create(:status_message, author: alice.person, public: false)
         reshare = Fabricate(
-          :reshare_entity, root_author: alice.diaspora_handle, root_guid: post.guid, author: sender_id)
+          :reshare_entity, root_author: alice.diaspora_handle, root_guid: post.guid, author: sender_id
+        )
         expect {
           post_message(generate_payload(reshare, sender))
         }.to raise_error ActiveRecord::RecordInvalid, "Validation failed: Only posts which are public may be reshared."
@@ -203,7 +213,7 @@ describe "Receive federation messages feature" do
       context "with message" do
         context "local" do
           let(:parent) {
-            FactoryGirl.build(:conversation, author: alice.person).tap do |target|
+            FactoryBot.build(:conversation, author: alice.person).tap do |target|
               target.participants << remote_user_on_pod_b.person
               target.participants << remote_user_on_pod_c.person
               target.save
@@ -230,7 +240,7 @@ describe "Receive federation messages feature" do
 
         context "remote" do
           let(:parent) {
-            FactoryGirl.build(:conversation, author: remote_user_on_pod_b.person).tap do |target|
+            FactoryBot.build(:conversation, author: remote_user_on_pod_b.person).tap do |target|
               target.participants << alice.person
               target.participants << remote_user_on_pod_c.person
               target.save

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When "I filter notifications by likes" do
   step %(I follow "Liked" within "#notifications_container .list-group")
 end
@@ -30,7 +32,7 @@ Then "the notification dropdown should be visible" do
 end
 
 Then "the notification dropdown scrollbar should be visible" do
-  expect(find(:css, ".ps-active-y")).to be_visible
+  expect(find(:css, ".ps--active-y")).to be_visible
 end
 
 Then /^there should be (\d+) notifications loaded$/ do |n|

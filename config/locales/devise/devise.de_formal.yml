@@ -62,7 +62,6 @@ de_formal:
       new:
         email: "E-Mail-Adresse"
         forgot_password: "Passwort vergessen?"
-        no_account: "Es existiert kein Benutzerkonto mit dieser E-Mail-Adresse"
         reset_password: "Passwort zurücksetzen"
         send_password_instructions: "Anleitung zum Zurücksetzen des Кennworts anfordern"
       no_token: "Sie können auf diese Seite nicht zugreifen, ohne von einer E-Mail zur Passwortrücksetzung zu kommen. Falls sie von einer E-Mail zur Passwortrücksetzung kommen, vergewissern Sie sich bitte, dass Sie die vollständige angegebene URL verwendet haben."
@@ -100,7 +99,7 @@ de_formal:
     unlocks:
       new:
         resend_unlock: "Entsperr-Anweisungen erneut senden"
-      send_instructions: "Sie werden in ein wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren Ihres Kontos erhalten."
+      send_instructions: "Sie werden in wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren Ihres Kontos erhalten."
       send_paranoid_instructions: "Falls Ihr Konto existiert, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen, um es zu entsperren."
       unlocked: "Ihr Konto wurde erfolgreich entsperrt. Bitte melden Sie sich an, um fortzufahren."
   errors:

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe Admin::PodsController, type: :controller do
   before do
-    @user = FactoryGirl.create :user
+    @user = FactoryBot.create :user
     Role.add_admin(@user.person)
 
     sign_in @user, scope: :user
@@ -22,7 +24,7 @@ describe Admin::PodsController, type: :controller do
     end
 
     it "returns the json data" do
-      3.times { FactoryGirl.create(:pod) }
+      3.times { FactoryBot.create(:pod) }
 
       get :index, format: :json
 
@@ -32,7 +34,7 @@ describe Admin::PodsController, type: :controller do
 
   describe "#recheck" do
     before do
-      @pod = FactoryGirl.create(:pod).reload
+      @pod = FactoryBot.create(:pod).reload
       allow(Pod).to receive(:find) { @pod }
       expect(@pod).to receive(:test_connection!)
     end

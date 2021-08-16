@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "load_config"
 rails_env = ENV["RAILS_ENV"] || ENV["RACK_ENV"] || "development"
 
@@ -46,15 +48,6 @@ Eye.application("diaspora") do
           stop_signals [:USR1, 0, :TERM, 10.seconds, :KILL]
         end
       end
-    end
-  end
-
-  with_condition(AppConfig.chat.enabled? && AppConfig.chat.server.enabled?) do
-    process :xmpp do
-      start_command "bin/bundle exec rails runner Prosody.start"
-      daemonize true
-      pid_file "tmp/pids/xmpp.pid"
-      stop_signals [:TERM, 10.seconds, :KILL]
     end
   end
 end

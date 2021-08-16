@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "load_config"
 
 port = ENV["PORT"]
@@ -17,13 +19,9 @@ before_fork do |_server, _worker|
   ActiveRecord::Base.connection.disconnect! # preloading app in master, so reconnect to DB
 
   # disconnect redis if in use
-  unless AppConfig.environment.single_process_mode?
-    Sidekiq.redis {|redis| redis.client.disconnect }
-  end
+  Sidekiq.redis(&:close)  unless AppConfig.environment.single_process_mode?
 
-  if AppConfig.server.embed_sidekiq_worker?
-    @sidekiq_pid ||= spawn("bin/bundle exec sidekiq")
-  end
+  @sidekiq_pid ||= spawn("bin/bundle exec sidekiq") if AppConfig.server.embed_sidekiq_worker?
 end
 
 after_fork do |server, worker|

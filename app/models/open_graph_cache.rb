@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OpenGraphCache < ApplicationRecord
   validates :title, :presence => true
   validates :ob_type, :presence => true
@@ -31,7 +33,9 @@ class OpenGraphCache < ApplicationRecord
   end
 
   def fetch_and_save_opengraph_data!
-    object = OpenGraphReader.fetch!(self.url)
+    uri = URI.parse(url.start_with?("http") ? url : "http://#{url}")
+    uri.normalize!
+    object = OpenGraphReader.fetch!(uri)
 
     return unless object
 

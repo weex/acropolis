@@ -20,11 +20,11 @@ app.Router = Backbone.Router.extend({
     "p/:id(/)": "singlePost",
     "people(/)": "peopleSearch",
     "people/:id(/)": "profile",
-    "people/:id/contacts(/)": "profile",
     "people/:id/photos(/)": "photos",
     "posts/:id(/)": "singlePost",
     "profile/edit(/)": "settings",
     "public(/)": "stream",
+    "local_public(/)": "stream",
     "stream(/)": "stream",
     "tags/:name(/)": "followed_tags",
     "u/:name(/)": "profile",
@@ -186,7 +186,7 @@ app.Router = Backbone.Router.extend({
   },
 
   spotlight: function() {
-    $("#invitations-button").click(function() {
+    $(".invitations-button").click(function() {
       app.helpers.showModal("#invitationsModal");
     });
   },

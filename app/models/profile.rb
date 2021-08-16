@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
 class Profile < ApplicationRecord
+  MAX_TAGS = 5
   self.include_root_in_json = false
 
   include Diaspora::Federated::Base
   include Diaspora::Taggable
 
   attr_accessor :tag_string
-  acts_as_taggable_on :tags
+  acts_as_ordered_taggable
   extract_tags_from :tag_string
   validates :tag_list, :length => { :maximum => 5 }
 
@@ -19,6 +22,7 @@ class Profile < ApplicationRecord
   validates :first_name, :length => { :maximum => 32 }
   validates :last_name, :length => { :maximum => 32 }
   validates :location, :length => { :maximum =>255 }
+  validates :gender, length: {maximum: 255}
 
   validates_format_of :first_name, :with => /\A[^;]+\z/, :allow_blank => true
   validates_format_of :last_name, :with => /\A[^;]+\z/, :allow_blank => true
@@ -49,7 +53,7 @@ class Profile < ApplicationRecord
     (self.person) ? self.person.diaspora_handle : self[:diaspora_handle]
   end
 
-  def image_url(size=:thumb_large)
+  def image_url(size: :thumb_large, fallback_to_default: true)
     result = if size == :thumb_medium && self[:image_url_medium]
                self[:image_url_medium]
              elsif size == :thumb_small && self[:image_url_small]
@@ -64,7 +68,7 @@ class Profile < ApplicationRecord
       else
         result
       end
-    else
+    elsif fallback_to_default
       ActionController::Base.helpers.image_path("user/default.png")
     end
   end
@@ -155,8 +159,9 @@ class Profile < ApplicationRecord
   end
 
   private
+
   def clearable_fields
-    self.attributes.keys - ["id", "created_at", "updated_at", "person_id"]
+    attributes.keys - %w[id created_at updated_at person_id tag_list]
   end
 
   def build_image_url(url)

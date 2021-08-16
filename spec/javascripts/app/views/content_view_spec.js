@@ -36,4 +36,40 @@ describe("app.views.Content", function(){
       expect(this.view.presenter().location).toEqual(factory.location());
     });
   });
+
+  describe("onVideoThumbClick", function() {
+    beforeEach(function() {
+      this.post = new app.models.StatusMessage({text: "[title](https://www.w3schools.com/html/mov_bbb.mp4)"});
+      this.view = new app.views.StatusMessage({model: this.post});
+
+      this.view.render();
+    });
+
+    afterEach(function() {
+      this.view.$("video").stop();
+    });
+
+    xit("hides video overlay", function() {
+      expect(this.view.$(".video-overlay").length).toBe(1);
+      this.view.$(".media-embed .thumb").click();
+      expect(this.view.$(".video-overlay")).toHaveClass("hidden");
+    });
+
+    xit("expands posts on click", function() {
+      this.view.$(".collapsible").height(500);
+      this.view.collapseOversized();
+
+      expect(this.view.$(".collapsed").length).toBe(1);
+      this.view.$(".media-embed .thumb").click();
+      expect(this.view.$(".opened").length).toBe(1);
+    });
+
+    xit("plays video", function(done) {
+      this.view.$("video").on("playing", function() {
+        done();
+      });
+
+      this.view.$(".media-embed .thumb").click();
+    });
+  });
 });

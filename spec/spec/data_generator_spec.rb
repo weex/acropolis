@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_subscribers do
   match do |posts|
     posts.map(&:subscribers).delete_if(&:empty?).any?
@@ -6,7 +8,7 @@ end
 
 # verifications of data generation (protect us from possible false positives in case of poor data preset)
 describe DataGenerator do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:generator) { DataGenerator.new(user) }
 
   describe "#generic_user_data" do
@@ -19,7 +21,7 @@ describe DataGenerator do
   end
 
   describe "#status_messages_flavours" do
-    let(:user) { FactoryGirl.create(:user_with_aspect) }
+    let(:user) { FactoryBot.create(:user_with_aspect) }
 
     it "creates posts of different types" do
       expect(generator).to receive(:status_message_with_activity).and_call_original

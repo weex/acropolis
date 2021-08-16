@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -103,7 +105,7 @@ describe TagsController, :type => :controller do
 
         it 'succeeds with mobile' do
           get :show, params: {name: "foo"}, format: :mobile
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it "returns the post with the correct age" do

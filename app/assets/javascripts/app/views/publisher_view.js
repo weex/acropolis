@@ -178,6 +178,9 @@ app.views.Publisher = Backbone.View.extend({
     if (gon.preloads.getting_started) {
       this.open();
       this.viewGettingStarted.show();
+      if (gon.preloads.mentioned_person) {
+        this.mention.addPersonToMentions(gon.preloads.mentioned_person);
+      }
     }
   },
 
@@ -281,13 +284,13 @@ app.views.Publisher = Backbone.View.extend({
   getUploadedPhotos: function() {
     var photos = [];
     $("li.publisher_photo img").each(function() {
-      var file = $(this).attr("src").substring("/uploads/images/".length);
+      var photo = $(this);
       photos.push(
         {
           "sizes": {
-            "small" : "/uploads/images/thumb_small_" + file,
-            "medium" : "/uploads/images/thumb_medium_" + file,
-            "large" : "/uploads/images/scaled_full_" + file
+            "small": photo.data("small"),
+            "medium": photo.attr("src"),
+            "large": photo.data("scaled")
           }
         }
       );
@@ -348,7 +351,7 @@ app.views.Publisher = Backbone.View.extend({
     };
 
     var previewPost = new app.views.PreviewPost({model: new app.models.Post(previewMessage)}).render().el;
-    return $("<div/>").append(previewPost).html();
+    return $("<div></div>").append(previewPost).html();
   },
 
   keyDown : function(evt) {
@@ -442,7 +445,7 @@ app.views.Publisher = Backbone.View.extend({
   },
 
   checkSubmitAvailability: function() {
-    if( this._submittable() ) {
+    if (this._submittable()) {
       this.setButtonsEnabled(true);
     } else {
       this.setButtonsEnabled(false);
@@ -481,7 +484,7 @@ app.views.Publisher = Backbone.View.extend({
   },
 
   _beforeUnload: function(e) {
-    if(this._submittable() && this.inputEl.val() !== this.prefillText){
+    if (this._submittable() && this.inputEl.val() !== this.prefillText) {
       var confirmationMessage = Diaspora.I18n.t("confirm_unload");
       (e || window.event).returnValue = confirmationMessage;       //Gecko + IE
       return confirmationMessage;                                  //Webkit, Safari, Chrome, etc.

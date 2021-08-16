@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -42,8 +44,6 @@ shared_examples_for "it removes the person associations" do
 end
 
 shared_examples_for "it keeps the person conversations" do
-  RSpec::Matchers.define_negated_matcher :remain, :change
-
   it "remains the person conversations" do
     expect {
       account_removal_method
@@ -52,18 +52,6 @@ shared_examples_for "it keeps the person conversations" do
       .and(remain(nil, "conversation visibilities of other participants empty?") {
         ConversationVisibility.where(conversation: Conversation.where(author: person)).empty?
       }.from(be_falsey))
-  end
-end
-
-shared_examples_for "it removes the person conversations" do
-  it "removes the person conversations" do
-    expect {
-      account_removal_method
-    }.to change(nil, "conversations empty?") { Conversation.where(author: person).empty? }
-      .to(be_truthy)
-      .and(change(nil, "conversation visibilities of other participants empty?") {
-        ConversationVisibility.where(conversation: Conversation.where(author: person)).empty?
-      }.to(be_truthy))
   end
 end
 

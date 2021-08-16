@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe "deleteing account", type: :request do
   def account_removal_method
     AccountDeleter.new(person).perform!
@@ -5,7 +7,7 @@ describe "deleteing account", type: :request do
   end
 
   context "of local user" do
-    subject(:user) { FactoryGirl.create(:user_with_aspect) }
+    subject(:user) { FactoryBot.create(:user_with_aspect) }
     let(:person) { user.person }
 
     before do

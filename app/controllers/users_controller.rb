@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -150,6 +152,8 @@ class UsersController < ApplicationController
       :auto_follow_back_aspect_id,
       :getting_started,
       :post_default_public,
+      :otp_required_for_login,
+      :otp_secret,
       email_preferences: UserPreference::VALID_EMAIL_TYPES.map(&:to_sym)
     )
   end

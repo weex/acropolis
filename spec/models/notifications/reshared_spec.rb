@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
 describe Notifications::Reshared, type: :model do
-  let(:sm) { FactoryGirl.build(:status_message, author: alice.person, public: true) }
-  let(:reshare) { FactoryGirl.build(:reshare, root: sm) }
+  let(:sm) { FactoryBot.build(:status_message, author: alice.person, public: true) }
+  let(:reshare) { FactoryBot.build(:reshare, root: sm) }
   let(:reshared_notification) { Notifications::Reshared.new(recipient: alice) }
 
   describe ".notify" do

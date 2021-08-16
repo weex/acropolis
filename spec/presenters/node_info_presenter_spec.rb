@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe NodeInfoPresenter do
   let(:presenter) { NodeInfoPresenter.new("1.0") }
   let(:hash) { presenter.as_json.as_json }
@@ -37,7 +39,11 @@ describe NodeInfoPresenter do
         },
         "metadata"          => {
           "nodeName" => AppConfig.settings.pod_name,
-          "xmppChat" => AppConfig.chat.enabled?
+          "camo"     => {
+            "markdown"   => AppConfig.privacy.camo.proxy_markdown_images?,
+            "opengraph"  => AppConfig.privacy.camo.proxy_opengraph_thumbnails?,
+            "remotePods" => AppConfig.privacy.camo.proxy_remote_pod_images?
+          }
         }
       )
     end
@@ -45,10 +51,6 @@ describe NodeInfoPresenter do
     context "when services are enabled" do
       before do
         AppConfig.services = {
-          "facebook"  => {
-            "enable"     => true,
-            "authorized" => true
-          },
           "twitter"   => {"enable" => true},
           "wordpress" => {"enable" => false},
           "tumblr"    => {
@@ -59,17 +61,13 @@ describe NodeInfoPresenter do
       end
 
       it "provides services" do
-        expect(hash).to include "services" => include("outbound" => %w(twitter facebook))
+        expect(hash).to include "services" => include("outbound" => ["twitter"])
       end
     end
 
     context "when some services are set to username authorized" do
       before do
         AppConfig.services = {
-          "facebook"  => {
-            "enable"     => true,
-            "authorized" => "bob"
-          },
           "twitter"   => {"enable" => true},
           "wordpress" => {
             "enable"     => true,
@@ -119,13 +117,19 @@ describe NodeInfoPresenter do
       end
     end
 
-    context "when chat is enabled" do
+    context "when camo is enabled" do
       before do
-        AppConfig.chat.enabled = true
+        AppConfig.privacy.camo.proxy_markdown_images = true
+        AppConfig.privacy.camo.proxy_opengraph_thumbnails = true
+        AppConfig.privacy.camo.proxy_remote_pod_images = true
       end
 
-      it "should mark the xmppChat metadata as true" do
-        expect(hash).to include "metadata" => include("xmppChat" => true)
+      it "should list enabled camo options in the metadata as true" do
+        expect(hash).to include "metadata" => include("camo" => {
+                                                        "markdown"   => true,
+                                                        "opengraph"  => true,
+                                                        "remotePods" => true
+                                                      })
       end
     end
 
@@ -158,7 +162,11 @@ describe NodeInfoPresenter do
           },
           "metadata"          => {
             "nodeName" => AppConfig.settings.pod_name,
-            "xmppChat" => AppConfig.chat.enabled?
+            "camo"     => {
+              "markdown"   => AppConfig.privacy.camo.proxy_markdown_images?,
+              "opengraph"  => AppConfig.privacy.camo.proxy_opengraph_thumbnails?,
+              "remotePods" => AppConfig.privacy.camo.proxy_remote_pod_images?
+            }
           }
         )
       end

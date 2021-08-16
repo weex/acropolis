@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 class Message < ApplicationRecord
   include Diaspora::Federated::Base
   include Diaspora::Fields::Guid
   include Diaspora::Fields::Author
+
+  include Reference::Source
 
   belongs_to :conversation, touch: true
 

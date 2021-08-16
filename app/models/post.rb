@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -8,6 +10,7 @@ class Post < ApplicationRecord
   include ApplicationHelper
 
   include Diaspora::Federated::Base
+  include Diaspora::Federated::Fetchable
 
   include Diaspora::Likeable
   include Diaspora::Commentable
@@ -47,6 +50,13 @@ class Post < ApplicationRecord
   }
 
   scope :all_public, -> { where(public: true) }
+
+  scope :all_local_public, -> {
+    where(" exists (
+      select 1 from people where posts.author_id = people.id
+      and people.pod_id is null)
+      and posts.public = true")
+  }
 
   scope :commented_by, ->(person)  {
     select('DISTINCT posts.*')

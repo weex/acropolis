@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2011 nov matake
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -26,7 +28,7 @@ module Api
     class DiscoveryController < ApplicationController
       def configuration
         render json: OpenIDConnect::Discovery::Provider::Config::Response.new(
-          issuer:                                      root_url,
+          issuer:                                      AppConfig.environment.url,
           registration_endpoint:                       api_openid_connect_clients_url,
           authorization_endpoint:                      new_api_openid_connect_authorization_url,
           token_endpoint:                              api_openid_connect_access_tokens_url,
