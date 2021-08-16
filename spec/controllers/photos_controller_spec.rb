@@ -54,14 +54,14 @@ describe PhotosController, :type => :controller do
     end
 
     it "doesn't allow mass assignment of person" do
-      new_user = FactoryGirl.create(:user)
+      new_user = FactoryBot.create(:user)
       @params[:photo][:author] = new_user
       post :create, params: @params
       expect(Photo.last.author).to eq(alice.person)
     end
 
     it "doesn't allow mass assignment of person_id" do
-      new_user = FactoryGirl.create(:user)
+      new_user = FactoryBot.create(:user)
       @params[:photo][:author_id] = new_user.id
       post :create, params: @params
       expect(Photo.last.author).to eq(alice.person)
@@ -79,19 +79,19 @@ describe PhotosController, :type => :controller do
 
   describe '#index' do
     it "succeeds without any available pictures" do
-      get :index, params: {person_id: FactoryGirl.create(:person).guid}
+      get :index, params: {person_id: FactoryBot.create(:person).guid}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "succeeds on mobile devices without any available pictures" do
-      get :index, params: {person_id: FactoryGirl.create(:person).guid}, format: :mobile
-      expect(response).to be_success
+      get :index, params: {person_id: FactoryBot.create(:person).guid}, format: :mobile
+      expect(response).to be_successful
     end
 
     it "succeeds on mobile devices with available pictures" do
       get :index, params: {person_id: bob.person.guid}, format: :mobile
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "displays the logged in user's pictures" do
@@ -145,11 +145,11 @@ describe PhotosController, :type => :controller do
 
       it "succeeds on the mobile site" do
         get :index, params: {person_id: @person.to_param}, format: :mobile
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "forces to sign in if the person is remote" do
-        p = FactoryGirl.create(:person)
+        p = FactoryBot.create(:person)
 
         get :index, params: {person_id: p.to_param}
         expect(response).to be_redirect
@@ -227,7 +227,7 @@ describe PhotosController, :type => :controller do
 
     it 'should return 200 for existing stuff on mobile devices' do
       get :show, params: {person_id: alice.person.guid, id: @alices_photo.id}, format: :mobile
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "doesn't leak private photos to the public" do

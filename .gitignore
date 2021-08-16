@@ -1,14 +1,10 @@
-# XMPP certificates, keys and user data
-config/certs/*.crt
-config/certs/*.key
-config/prosody.cfg.lua
-
 # Trademark sillyness
 app/views/home/_show.*
 app/views/terms/terms.*
 app/assets/images/custom/
 
 # Configuration files
+config/diaspora.toml
 config/diaspora.yml
 config/initializers/secret_token.rb
 .bundle

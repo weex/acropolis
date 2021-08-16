@@ -166,8 +166,6 @@ nb:
         login_required: "Du må først logge inn før du kan autorisere denne applikasjonen"
         title: "Oi! Noe gikk galt :("
       scopes:
-        aud:
-          description: "Dette gir aud-tilgang til applikasjonen"
         name:
           description: "Dette gir navneprivilegier til applikasjonen"
           name: "navn"
@@ -183,15 +181,9 @@ nb:
         profile:
           description: "Dette gir applikasjonen tilgang til å lese den utvidede profilen din"
           name: "den utvidede profilen"
-        read:
-          description: "Dette tillater at applikasjonen kan lese din strøm, dine samtaler og din fullstendige profil"
-          name: "les profil, strøm og samtaler"
         sub:
           description: "Dette gir underprivilegier til applikasjonen"
           name: "under"
-        write:
-          description: "Dette tillater at applikasjonen kan sende nye innlegg, skrive samtaler og sende reaksjoner"
-          name: "send innlegg, samtaler og reaksjoner"
       user_applications:
         index:
           access: "%{name} har tilgang til:"
@@ -230,7 +222,7 @@ nb:
       aspect_list_is_visible: "Kontakter i dette aspektet er i stand til å se hverandre."
       confirm_remove_aspect: "Er du sikker på at du vil slette dette aspektet?"
       rename: "Endre navn"
-      update: "Oppdatér"
+      update: "Oppdater"
       updating: "Oppdaterer"
     index:
       donate: "Doner"
@@ -285,7 +277,7 @@ nb:
       success: "La oss se hva de har å si! #sihallo"
   bookmarklet:
     explanation: "Publiser til diaspora* fra hvor som helst ved å bokmerke denne lenken => %{link}"
-    heading: "Diaspora Bookmarklet"
+    heading: "Bookmarklet for diaspora*"
     post_something: "Publiser noe på diaspora*"
   cancel: "Avbryt"
   color_themes:
@@ -296,8 +288,6 @@ nb:
     original: "Originalgrå"
     original_white: "Original, hvit bakgrunn"
   comments:
-    create:
-      error: "Lykkes ikke i å kommentere."
     new_comment:
       comment: "Kommenter"
       commenting: "Kommenterer ..."
@@ -408,11 +398,6 @@ nb:
       what_is_an_aspect_q: "Hva er en aspekt?"
       who_sees_post_a: "Et avgrenset innlegg vil bare være synlig for dem du har lagt inn i aspektet (eller aspektene, hvis det gjøres synlig for flere aspekter). Kontakter som ikke er med i aspektet har ingen mulighet for å se innlegget med mindre du publiserte det som offentlig. Personene du ikke har plassert i et aspekt vil bare kunne se dine offentlige innlegg."
       who_sees_post_q: "Hvem ser hva jeg publiserer til et aspekt?"
-    chat:
-      add_contact_roster_a: "Først må du slå på chat for noen av aspektene som den personen er med i. For å gjøre det, må du gå til %{contacts_page}, velge det aspektet og klikke på chatikonet for å slå på chat for dette aspektet. %{toggle_privilege} Du kan, hvis du foretrekker, lage et eget aspekt med navn \"Chat\" og legge til de du ønsker å chatte med i dette aspektet. Når du har gjort dette, åpner du chatgrensesnittet og velger personen du ønsker å chatte med."
-      add_contact_roster_q: "Hvordan chatter jeg med noen i diaspora*?"
-      contacts_page: "kontaktside"
-      title: "Chat"
     community_guidelines: "retningslinjer for samfunnet"
     faq: "FAQ"
     foundation_website: "diaspora*-stiftelsens nettside"
@@ -588,9 +573,11 @@ nb:
       byline: "Det sosiale nettverket der det er du som har kontrollen"
       choose_your_audience: "Velg publikum"
       choose_your_audience_info: "Med aspektene til diaspora* kan du velge akkurat hvem du vil dele noe med. Du kan være så offentlig eller privat som du ønsker. Del et morsomt bilde med hele verden eller en dyp hemmelighet med et par av dine nærmeste venner. Du har kontrollen."
+      diaspora_site_link: "føderale diaspora*-nettverket"
       headline: "Velkommen til %{pod_name}"
       own_your_data: "Bestem over dataene dine"
       own_your_data_info: "Mange nettverk bruker dataene dine til å tjene penger. De analyserer hva du gjør og så bruker de denne informasjonen til å vise deg reklame. diaspora* bruker ikke dataene dine til noen annet formål enn å la deg kontakte og dele med andre."
+      part_of_diaspora: "En del av det %{diaspora_site_link}"
     podmin:
       byline: "Du er i ferd med å endre Internett. La oss få deg på plass, skal vi?"
       configuration_info: "Åpne %{database_path} og %{diaspora_path} i et tekstredigeringsprogram og gå nøye gjennom dem. De er betydelig kommentert."
@@ -641,12 +628,14 @@ nb:
       public_feed: "Offentlig diaspora*-feed for %{name}"
       source_package: "Last ned kildekoden"
       statistics_link: "Statistikk for belgen"
+      switch_to_standard_mode: "Bytt til standardvisning"
+      switch_to_touch_optimized_mode: "Bytt til touch-optimalisert visning"
       whats_new: "Hva er nytt?"
     header:
       code: "Kode"
       logout: "logg ut"
-      profile: "profil"
-      settings: "innstillinger"
+      profile: "Profil"
+      settings: "Innstillinger"
       toggle_navigation: "Veksle navigasjon"
   likes:
     create:
@@ -920,7 +909,7 @@ nb:
     person:
       thats_you: "Det er deg!"
     profile_sidebar:
-      bio: "mitt livsløp (bio)"
+      bio: "Biografi"
       born: "Bursdag"
       gender: "Kjønn"
       location: "Sted"
@@ -972,7 +961,7 @@ nb:
       public: "Offentlig"
       settings: "Profilinnstillinger"
       update_profile: "Oppdater profil"
-      your_bio: "Om meg"
+      your_bio: "Din biografi"
       your_birthday: "Din fødselsdato"
       your_gender: "Ditt kjønn"
       your_location: "Hvor bor du?"
