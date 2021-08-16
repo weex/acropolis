@@ -49,21 +49,6 @@ defaults:
     unicorn_timeout: 90
     embed_sidekiq_worker: false
     sidekiq_workers: 1
-  chat:
-    enabled: false
-    server:
-      enabled: true
-      certs: "config/certs"
-      bosh:
-        proxy: false
-        proto: 'http'
-        address: '0.0.0.0'
-        port: 5280
-        bind: '/http-bind'
-      log:
-        info: 'log/prosody.log'
-        error: 'log/prosody.err'
-        debug: false
   map:
     mapbox:
       enabled: false
@@ -89,6 +74,7 @@ defaults:
   settings:
     pod_name: 'diaspora*'
     enable_registrations: true
+    enable_local_posts_stream: 'disabled'
     autofollow_on_join: true
     autofollow_on_join_user: 'hq@pod.diaspora.software'
     welcome_message:
@@ -150,15 +136,9 @@ defaults:
       title: 'diaspora* social network'
       description: 'diaspora* is the online social world where you are in control.'
     csp:
-      report_only: true
+      report_only: false
       report_uri:
   services:
-    facebook:
-      enable: false
-      app_id:
-      secret:
-      open_graph_namespace: 'joindiaspora'
-      authorized: false
     twitter:
       enable: false
       key:
@@ -194,15 +174,6 @@ defaults:
   admins:
     account:
     podmin_email:
-  relay:
-    outbound:
-      send: false
-      url: 'https://relay.iliketoast.net/receive/public'
-    inbound:
-      subscribe: false
-      scope: tags
-      include_user_tags: false
-      pod_tags:
 
 development:
   environment:
@@ -234,11 +205,10 @@ test:
     invitations:
       open: true
   services:
-    facebook:
+    twitter:
       enable: true
-      app_id: 'fake'
+      key: 'fake'
       secret: 'sdoigjosdfijg'
-      authorized: true
   mail:
     enable: true
 integration1:

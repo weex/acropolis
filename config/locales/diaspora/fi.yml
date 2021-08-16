@@ -159,12 +159,6 @@ fi:
           name: "kuva"
         profile:
           name: "Laajennettu profiili"
-        read:
-          description: "Tämä antaa sovellukselle oikeudet lukea virtasi, keskustelusi ja täysprofiilisi"
-          name: "lue profiili, virta ja keskustelut"
-        write:
-          description: "Tämä antaa sovellukselle oikeudet lähettää uusia julkaisuja, kirjoittaa keskusteluja ja lähettää reaktioita."
-          name: "lähetä julkaisut, keskustelut ja reaktiot"
       user_applications:
         index:
           access: "Käyttäjällä %{name} on pääsy näihin kohteisiin:"
@@ -269,8 +263,6 @@ fi:
     original: "Alkuperäinen harmaa"
     original_white: "Alkuperäinen valkoinen tausta"
   comments:
-    create:
-      error: "Kommentin luominen epäonnistui."
     new_comment:
       comment: "Kommentoi"
       commenting: "Kommentoidaan..."
@@ -381,10 +373,6 @@ fi:
       what_is_an_aspect_q: "Mikä on näkymä?"
       who_sees_post_a: "Jos teet rajoitetun julkaisun sen näkevät vain henkilöt, jotka olet sijoittanut kyseiseen näkymään (tai näkymiin). Henkilöt, jotka eivät kuulu kyseiseen näkymään, eivät voi mitenkään nähdä sellaista julkaisua ellet ole tehnyt siitä julkista. Vain julkiset julkaisut ovat sellaisten henkilöiden nähtävillä, jotka eivät kuulu mihinkään näkymistäsi."
       who_sees_post_q: "Kun julkaisen näkymälle kuka voi nähdä sen?"
-    chat:
-      add_contact_roster_q: "Kuinka keskustelen jonkun kanssa Diasporassa?"
-      contacts_page: "Kontaktit-sivu"
-      title: "Keskustelu"
     community_guidelines: "yhteisön suositukset"
     faq: "UKK"
     foundation_website: "Diaspora-säätiön kotisivu"
@@ -601,7 +589,6 @@ fi:
       public_feed: "Käyttäjän %{name} julkinen Diaspora-uutisvirta"
       source_package: "Lataa lähdekoodipaketti"
       statistics_link: "Podin tilastot"
-      toggle: "Mobiilisivusto päälle/pois"
       whats_new: "Uutta"
     header:
       code: "Lähdekoodi"
@@ -920,7 +907,6 @@ fi:
       updated: "Profiili päivitetty"
   public: "Julkinen"
   registrations:
-    closed: "Rekisteröityminen on suljettu tässä Diaspora-podissa."
     create:
       success: "Olet liittynyt Diasporaan!"
     invalid_invite: "Antamasi kutsulinkki ei ole enää voimassa!"
@@ -986,7 +972,6 @@ fi:
       share_to: "Jaa: %{provider}"
       title: "Hallitse yhdistettyjä palveluita"
     provider:
-      facebook: "Facebook"
       tumblr: "Tumblr"
       twitter: "Twitter"
       wordpress: "WordPress"
@@ -1172,8 +1157,6 @@ fi:
     getting_started:
       awesome_take_me_to_diaspora: "Loistavaa! Mennään Diasporaan"
       community_welcome: "Diaspora-yhteisö on iloinen saadessaan sinut mukaan!"
-      connect_to_facebook: "Voimme nopeuttaa asioita linkillä %{link} Diasporaan. Tämä noutaa nimesi ja valokuvasi ja mahdollistaa ristilähetyksen."
-      connect_to_facebook_link: "yhdistämällä Facebook-tilisi"
       hashtag_explanation: "Hashtagien avulla voit keskustella ja seurata keskusteluja kiinnostuksen kohteistasi. Ne ovat myös hyvä keino löytää ihmisiä Diasporassa."
       hashtag_suggestions: "Voit seurata tageja kuten #taide, #elokuvat, #gif jne."
       well_hello_there: "No, mutta hei!"

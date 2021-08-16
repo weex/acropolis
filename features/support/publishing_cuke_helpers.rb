@@ -6,18 +6,35 @@ module PublishingCukeHelpers
   end
 
   def append_to_publisher(txt)
-    status_message_text = find("#status_message_text").value
-    fill_in id: "status_message_text", with: "#{status_message_text} #{txt}"
+    update_publisher_with(txt) do |input|
+      fill_in id: "status_message_text", with: "#{input.value} #{txt}"
+    end
+  end
+
+  def type_into_publisher(txt)
+    update_publisher_with(txt) {|input| input.send_keys txt }
+  end
+
+  def update_publisher_with(txt)
+    input = find("#status_message_text")
+
+    yield input
+
     # trigger JavaScript event listeners
-    find("#status_message_text").native.send_key(:end)
+    input.native.send_key(:end)
+
+    expect(input).to have_value(txt) # Wait for all key presses being processed
   end
 
   def upload_file_with_publisher(path)
     page.execute_script(%q{$("input[name='qqfile']").css("opacity", '1');})
+    image_count = all(".publisher_photo img", wait: false).count
     with_scope("#publisher-textarea-wrapper") do
       attach_file("qqfile", Rails.root.join(path).to_s)
       # wait for the image to be ready
       page.assert_selector(".publisher_photo.loading", count: 0)
+      page.assert_selector(".publisher_photo img", count: image_count + 1)
+      page.assert_selector(".publisher_photo img.hidden", count: 0)
     end
   end
 
@@ -27,7 +44,7 @@ module PublishingCukeHelpers
   end
 
   def visible_text_from_markdown(text)
-    CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(Diaspora::MessageRenderer.new(text).markdownified.strip))
+    CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(Diaspora::MessageRenderer.new(text).markdownified)).strip
   end
 
   def submit_publisher

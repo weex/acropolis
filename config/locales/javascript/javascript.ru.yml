@@ -27,7 +27,7 @@ ru:
         no_info: "Нет дополнительной информации"
         not_available: "недоступно"
         offline_since: "недоступен с:"
-        pod: "Стручок"
+        pod: "Под"
         recheck:
           failure: "Проверка не выполнялась."
           success: "Под только что был перепроверен."
@@ -107,8 +107,6 @@ ru:
     confirm_unload: "Пожалуйста, подтвердите, что хотите покинуть страницу — введённые вами данные не будут сохранены."
     contacts:
       add_contact: "Добавить контакт"
-      aspect_chat_is_enabled: "Контакты из этого аспекта могут общаться с вами."
-      aspect_chat_is_not_enabled: "Контакты из этого аспекта не могут общаться с вами."
       error_add: "Невозможно добавить <%= name %> в аспект :("
       error_remove: "Невозможно удалить <%= name %> из аспекта :("
       remove_contact: "Удалить контакт"
@@ -145,7 +143,7 @@ ru:
       recent_notifications: "Последние уведомления"
       search: "Поиск"
       settings: "Настройки"
-      toggle_mobile: "Обычный/мобильный"
+      switch_to_touch_optimized_mode: "Включить сенсорный режим"
       toggle_navigation: "Переключение навигации"
       view_all: "Посмотреть всё"
     hide_post: "Скрыть эту запись?"

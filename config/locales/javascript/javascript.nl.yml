@@ -99,8 +99,6 @@ nl:
     confirm_unload: "Bevestig dat je deze pagina wilt verlaten - gegevens die je hebt ingevoerd, worden niet bewaard."
     contacts:
       add_contact: "Toevoegen contact"
-      aspect_chat_is_enabled: "Contactpersonen in dit aspect kunnen met jou chatten."
-      aspect_chat_is_not_enabled: "Contactpersonen in dit aspect kunnen niet met jou chatten."
       error_add: "Kon <%= name %> niet toevoegen aan het aspect :("
       error_remove: "Kon <%= name %> niet verwijderen uit het aspect :("
       remove_contact: "Verwijder contact"
@@ -137,7 +135,7 @@ nl:
       recent_notifications: "Recente meldingen"
       search: "Zoek"
       settings: "Instellingen"
-      toggle_mobile: "Omschakelen mobiel"
+      switch_to_touch_optimized_mode: "Schakel over naar de aanraakmodus"
       toggle_navigation: "Omschakelen navigatie"
       view_all: "Bekijk alle"
     hide_post: "Dit bericht verbergen?"

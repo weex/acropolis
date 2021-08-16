@@ -96,8 +96,6 @@ sv:
     confirm_unload: "Bekräfta att du vill gå från sidan. Du har osparad information här."
     contacts:
       add_contact: "Lägg till kontakt"
-      aspect_chat_is_enabled: "Kontakter i den här aspekten får chatta med dig"
-      aspect_chat_is_not_enabled: "Kontakter i den här aspekten får inte chatta med dig"
       error_add: "Kunde inte lägga till <%= name %> till aspekten. :-("
       error_remove: "Kunde inte ta bort <%= name %> från aspekten. :-("
       remove_contact: "Ta bort kontakt"
@@ -117,7 +115,7 @@ sv:
     getting_started:
       alright_ill_wait: "Okej, jag väntar."
       hey: "Hej, <%= name %>!"
-      no_tags: "Du, du följer ju inte några taggar! Vill du fortsätta ändå?"
+      no_tags: "Hörru, du följer ju inte några taggar! Vill du fortsätta ändå?"
       preparing_your_stream: "Förbereder din personliga ström..."
     header:
       admin: "Administratör"
@@ -134,7 +132,7 @@ sv:
       recent_notifications: "Tidigare notiser"
       search: "Sök"
       settings: "Inställningar"
-      toggle_mobile: "Växla mobiltelefonanpassning"
+      switch_to_touch_optimized_mode: "Växla till pekskärmläge"
       toggle_navigation: "Växla navigation"
       view_all: "Visa alla"
     hide_post: "Vill du dölja inlägget?"
@@ -169,6 +167,7 @@ sv:
       invalid_ext: "{file} har otillåten filändelse. Endast {extensions} tillåts."
       looking_good: "OMG, du ser grym ut!"
       size_error: "{file} är för stor, den största tillåtna filstorleken är {sizeLimit}."
+      upload_photos: "Ladda upp foton"
     poll:
       answer_count:
         one: "En röst"
@@ -183,6 +182,7 @@ sv:
       result: "Resultat"
       show_result: "Visa resultat"
       vote: "Rösta"
+      your_vote: "Din röst"
     profile:
       add_some: "Lägg till"
       bio: "Biografi"
@@ -238,6 +238,7 @@ sv:
     reshares:
       post: "Vill du dela vidare inlägget av <%= name %>?"
       successful: "Lyckades med att dela vidare inlägget."
+    show_all: "Visa alla"
     show_more: "Visa mer"
     stream:
       comment: "Kommentera"

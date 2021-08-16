@@ -96,8 +96,6 @@ es-AR:
     confirm_unload: "Por favor, confirmá que deseás salir de esta página. Los datos que has ingresado no serán guardados."
     contacts:
       add_contact: "Agregar contacto"
-      aspect_chat_is_enabled: "Los contactos de este aspecto pueden chatear con vos."
-      aspect_chat_is_not_enabled: "Los contactos de este aspecto no pueden chatear con vos."
       error_add: "No se puede agregar a <%= name %> a este aspecto :("
       error_remove: "No se puede eliminar a <%= name %> de este aspecto :("
       remove_contact: "Eliminar contacto"
@@ -134,7 +132,6 @@ es-AR:
       recent_notifications: "Notificaciones recientes"
       search: "Buscar"
       settings: "Opciones"
-      toggle_mobile: "Interfaz móvil"
       toggle_navigation: "Cambiar navegación"
       view_all: "Ver todo"
     hide_post: "¿Ocultar esta publicación?"
@@ -183,6 +180,7 @@ es-AR:
       result: "Resultados"
       show_result: "Mostrar resultados"
       vote: "Votar"
+      your_vote: "Tu voto"
     profile:
       add_some: "Agregar algo"
       bio: "Biografía"
@@ -238,6 +236,7 @@ es-AR:
     reshares:
       post: "¿Compartir la publicación de <%= name %>?"
       successful: "¡La publicación se compartió correctamente!"
+    show_all: "Mostrar todos"
     show_more: "Mostrar más"
     stream:
       comment: "Comentar"

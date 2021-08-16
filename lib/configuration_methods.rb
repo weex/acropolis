@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Configuration
-  KNOWN_SERVICES = [:twitter, :tumblr, :facebook, :wordpress].freeze
+  KNOWN_SERVICES = %i[twitter tumblr wordpress].freeze
 
   module Methods
     def pod_uri
@@ -50,20 +50,28 @@ module Configuration
         self["services.#{service}.authorized"] == true
     end
 
+    def local_posts_stream?(user)
+      return true if settings.enable_local_posts_stream == "admins" &&
+                     Role.is_admin?(user)
+      return true if settings.enable_local_posts_stream == "moderators" &&
+                     (Role.moderator?(user) || Role.is_admin?(user))
+
+      settings.enable_local_posts_stream == "everyone"
+    end
+
     def secret_token
       if heroku?
-        return ENV['SECRET_TOKEN'] if ENV['SECRET_TOKEN']
+        return ENV["SECRET_TOKEN"] if ENV["SECRET_TOKEN"]
+
         warn "FATAL: Running on Heroku with SECRET_TOKEN unset"
         warn "       Run heroku config:add SECRET_TOKEN=#{SecureRandom.hex(40)}"
-        Process.exit(1)
+        abort
       else
         token_file = File.expand_path(
-          '../config/initializers/secret_token.rb',
+          "../config/initializers/secret_token.rb",
           File.dirname(__FILE__)
         )
-        unless File.exist? token_file
-          `DISABLE_SPRING=1 bin/rake generate:secret_token`
-        end
+        system "DISABLE_SPRING=1 bin/rake generate:secret_token" unless File.exist? token_file
         require token_file
         Diaspora::Application.config.secret_key_base
       end
@@ -71,6 +79,7 @@ module Configuration
 
     def version_string
       return @version_string unless @version_string.nil?
+
       @version_string = version.number.to_s
       @version_string = "#{@version_string}-p#{git_revision[0..7]}" if git_available?
       @version_string
@@ -128,11 +137,6 @@ module Configuration
     end
 
     def bitcoin_donation_address
-      if AppConfig.settings.bitcoin_wallet_id.present?
-        warn "WARNING: bitcoin_wallet_id is now bitcoin_address. Change in diaspora.yml."
-        return AppConfig.settings.bitcoin_wallet_id
-      end
-
       if AppConfig.settings.bitcoin_address.present?
         AppConfig.settings.bitcoin_address
       end

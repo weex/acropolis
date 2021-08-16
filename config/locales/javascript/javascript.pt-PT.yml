@@ -10,15 +10,39 @@ pt-PT:
       pods:
         actions: "Ações"
         added: "Adicionado"
+        check: "realizar teste de ligação"
         follow_link: "abrir hiperligação num navegador"
+        last_check: "última verificação:"
         more_info: "Mostrar mais informação"
+        ms:
+          one: "<%= count %>ms"
+          other: "<%= count %>ms"
+        no_info: "De momento, não existe informação adicional disponível"
+        not_available: "indisponível"
         offline_since: "off-line desde:"
+        pod: "Servidor"
+        recheck:
+          failure: "A verificação não foi efetuada."
+          success: "O servidor acabou de ser novamente verificado."
+        response_time: "Tempo de resposta:"
+        server_software: "Software do servidor:"
         ssl: "SSL"
         ssl_disabled: "SSL desativado"
         ssl_enabled: "SSL ativado"
         states:
+          dns_failed: "Resolução de nome (DNS) falhou"
+          http_failed: "A ligação HTTP falhou"
+          net_failed: "A tentativa de ligação falhou"
           no_errors: "CONFIRMAR"
+          ssl_failed: "A ligação segura (SSL) falhou"
+          unchecked: "Não verificado"
+          version_failed: "Não é possível obter a versão do software"
         status: "Estado"
+        unknown: "desconhecido"
+    admins:
+      dashboard:
+        outdated: "O seu servidor está desatualizado."
+        up_to_date: "O seu servidor está atualizado!"
     and: "e"
     aspect_dropdown:
       add_to_aspect: "Adicionar contacto"
@@ -52,13 +76,11 @@ pt-PT:
     cancel: "Cancelar"
     comma: ","
     comments:
-      hide: "ocultar comentários"
+      hide: "Ocultar comentários"
       show: "Mostrar todos os comentários"
     confirm_dialog: "Tem a certeza?"
     contacts:
       add_contact: "Adicionar contacto"
-      aspect_chat_is_enabled: "Os contactos neste aspeto podem conversar consigo."
-      aspect_chat_is_not_enabled: "Os contactos neste aspeto não podem conversar consigo."
       error_add: "Não foi possível adicionar <%= name %> ao aspeto :("
       error_remove: "Não foi possível remover <%= name%> do aspeto :("
       remove_contact: "Remover contacto"
@@ -77,7 +99,7 @@ pt-PT:
       preparing_your_stream: "A preparar o seu fluxo personalizado..."
     header:
       admin: "Administrador"
-      close: "fechar"
+      close: "Fechar"
       contacts: "Contactos "
       conversations: "Conversações"
       help: "Ajuda"
@@ -87,17 +109,16 @@ pt-PT:
       moderator: "Moderador"
       notifications: "Notificações"
       profile: "Perfil"
-      recent_notifications: "Últimas Notificações"
+      recent_notifications: "Notificações recentes"
       search: "Procurar"
       settings: "Definições"
-      toggle_mobile: "Alternar móvel"
       toggle_navigation: "Alternar navegação"
       view_all: "Ver tudo"
     hide_post: "Ocultar esta publicação?"
     hide_post_failed: "Não foi possível ocultar esta publicação"
     ignore: "Ignorar"
     ignore_user: "Ignorar este utilizador?"
-    my_activity: "Minha atividade"
+    my_activity: "A minha atividade"
     my_aspects: "Os meus aspetos"
     my_stream: "Fluxo"
     notifications:
@@ -169,7 +190,7 @@ pt-PT:
         created: "O relatório foi criado com sucesso"
         exists: "O relatório já existe"
     reshares:
-      post: "Repartilhar a publicação de <%= name %>?"
+      post: "Voltar a partilhar a publicação de <%= name %>?"
       successful: "A publicação foi repartilhada com sucesso!"
     show_all: "Mostrar tudo"
     show_more: "Mostrar mais"
@@ -215,19 +236,23 @@ pt-PT:
       unlike: "Não gostar"
       via: "via <%= provider %>"
     tags:
-      wasnt_that_interesting: "OK, suponho que #<%= tagName %> não era assim tão interessante..."
+      wasnt_that_interesting: "Ok, eu suponho que #<%= tagName %> não era assim tão interessante..."
     timeago:
       day: "um dia"
       days:
+        one: "1 dia"
         other: "%d dias"
       hour: "cerca de uma hora"
       hours:
+        one: "cerca de 1 hora"
         other: "cerca de %d horas"
       minute: "cerca de um minuto"
       minutes:
+        one: "1 minuto"
         other: "%d minutos"
       month: "cerca de um mês"
       months:
+        one: "1 mês"
         other: "%d meses"
       prefixAgo: ""
       prefixFromNow: ""
@@ -236,6 +261,7 @@ pt-PT:
       suffixFromNow: "a partir de agora"
       year: "cerca de um ano"
       years:
+        one: "1 ano"
         other: "%d anos"
     viewer:
       reshared: "Repartilhado"

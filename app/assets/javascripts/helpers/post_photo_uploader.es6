@@ -54,6 +54,7 @@ Diaspora.PostPhotoUploader = class {
         }
       },
       validation: {
+        acceptFiles: "image/png, image/jpeg, image/gif",
         allowedExtensions: ["jpg", "jpeg", "png", "gif"],
         sizeLimit: (window.Promise && qq.supportedFeatures.scaling ? null : this.sizeLimit)
       },
@@ -66,7 +67,7 @@ Diaspora.PostPhotoUploader = class {
         onSubmit: (id, name) => this.onPictureSelected(id, name),
         onUpload: (id, name) => (this.func(this.onUploadStarted) && this.onUploadStarted(id, name)),
         onProgress: (id, fileName, loaded, total) =>
-          (this.func(this.onProgress) && this.onProgress(fileName, Math.round(loaded / total * 100))),
+          (this.func(this.onProgress) && this.onProgress(id, fileName, Math.round(loaded / total * 100))),
         onComplete: (id, name, json) => (this.func(this.onUploadCompleted) && this.onUploadCompleted(id, name, json)),
         onError: (id, name, errorReason) => this.showMessage("error", errorReason)
       }

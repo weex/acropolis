@@ -94,22 +94,17 @@ describe Configuration::Methods do
       allow(disabled).to receive(:enable?).and_return(false)
       allow(services).to receive(:twitter).and_return(enabled)
       allow(services).to receive(:tumblr).and_return(enabled)
-      allow(services).to receive(:facebook).and_return(disabled)
       allow(services).to receive(:wordpress).and_return(disabled)
       allow(@settings).to receive(:services).and_return(services)
       expect(@settings.configured_services).to include :twitter
       expect(@settings.configured_services).to include :tumblr
-      expect(@settings.configured_services).not_to include :facebook
       expect(@settings.configured_services).not_to include :wordpress
     end
   end
 
   describe "#show_service" do
     before do
-      AppConfig.services.twitter.authorized = true
       AppConfig.services.twitter.enable = true
-      AppConfig.services.facebook.authorized = true
-      AppConfig.services.facebook.enable = true
       AppConfig.services.wordpress.authorized = false
       AppConfig.services.wordpress.enable = true
       AppConfig.services.tumblr.authorized = "alice"
@@ -118,10 +113,6 @@ describe Configuration::Methods do
 
     it "shows service with no authorized key" do
       expect(AppConfig.show_service?("twitter", bob)).to be_truthy
-    end
-
-    it "shows service with authorized key true" do
-      expect(AppConfig.show_service?("facebook", bob)).to be_truthy
     end
 
     it "doesn't show service with authorized key false" do
@@ -134,6 +125,43 @@ describe Configuration::Methods do
 
     it "shows service with authorized key equal to username" do
       expect(AppConfig.show_service?("tumblr", alice)).to be_truthy
+    end
+  end
+
+  describe "#has_local_posts_stream" do
+    let!(:moderator) { create(:person) }
+    let!(:admin) { create(:person) }
+    before do
+      moderator.roles.create(name: "moderator")
+      admin.roles.create(name: "admin")
+    end
+
+    it "return false if show_local_posts_link is 'disabled'" do
+      AppConfig.settings.enable_local_posts_stream = "disabled"
+      expect(AppConfig.local_posts_stream?(admin)).to be false
+      expect(AppConfig.local_posts_stream?(moderator)).to be false
+      expect(AppConfig.local_posts_stream?(alice)).to be false
+    end
+
+    it "return true for admins if show_local_posts_link is 'admins'" do
+      AppConfig.settings.enable_local_posts_stream = "admins"
+      expect(AppConfig.local_posts_stream?(admin)).to be true
+      expect(AppConfig.local_posts_stream?(moderator)).to be false
+      expect(AppConfig.local_posts_stream?(alice)).to be false
+    end
+
+    it "return true for admins and moderators if show_local_posts_link is 'moderators'" do
+      AppConfig.settings.enable_local_posts_stream = "moderators"
+      expect(AppConfig.local_posts_stream?(admin)).to be true
+      expect(AppConfig.local_posts_stream?(moderator)).to be true
+      expect(AppConfig.local_posts_stream?(alice)).to be false
+    end
+
+    it "return true for everybody if show_local_posts_link is 'everyone'" do
+      AppConfig.settings.enable_local_posts_stream = "everyone"
+      expect(AppConfig.local_posts_stream?(admin)).to be true
+      expect(AppConfig.local_posts_stream?(moderator)).to be true
+      expect(AppConfig.local_posts_stream?(alice)).to be true
     end
   end
 

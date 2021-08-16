@@ -63,7 +63,7 @@ zh-TW:
       started_sharing_with: "你開始跟 <%= name %> 分享了！"
       stopped_sharing_with: "停止跟 <%= name %> 分享了。"
       toggle:
-        other: "在<%= count %>個社交面中"
+        other: "到<%= count %>個社交面中"
         zero: "選社交面"
       updating: "正在更新..."
     aspect_navigation:
@@ -91,8 +91,6 @@ zh-TW:
     confirm_unload: "請確認要離開這個頁面。你目前輸入的資料將不會保留。"
     contacts:
       add_contact: "加聯絡人"
-      aspect_chat_is_enabled: "這個社交面中的聯絡人可以跟你聊天。"
-      aspect_chat_is_not_enabled: "這個社交面中的聯絡人不能跟你聊天。"
       error_add: "沒辦法把 <%= name %> 加進這個社交面 :("
       error_remove: "沒辦法把 <%= name %> 從這個社交面中移除 :("
       remove_contact: "刪聯絡人"
@@ -129,7 +127,7 @@ zh-TW:
       recent_notifications: "最新消息"
       search: "搜尋"
       settings: "設定"
-      toggle_mobile: "切換行動版頁面"
+      switch_to_touch_optimized_mode: "切換到觸控模式"
       toggle_navigation: "瀏覽模式切換"
       view_all: "看全部"
     hide_post: "要隱藏貼文嗎？"
@@ -147,7 +145,7 @@ zh-TW:
       new_notifications:
         other: "有<%= count %>則還沒看過的通知"
     people:
-      edit_my_profile: "編輯自己的個人檔案"
+      edit_my_profile: "編輯個人檔案"
       helper:
         is_not_sharing: "<%= name %> 沒有跟你分享"
         is_sharing: "<%= name %> 正在跟你分享中"
@@ -222,12 +220,12 @@ zh-TW:
       question: "問題"
     remove_post: "要移除貼文嗎？"
     report:
-      name: "回報"
-      prompt: "請輸入回報的理由:"
+      name: "投訴"
+      prompt: "請輸入投訴的理由:"
       prompt_default: "比如說：內容牽涉人身攻擊"
       status:
-        created: "成功產生回報了"
-        exists: "已經有這筆回報了"
+        created: "投訴成功了"
+        exists: "已經有這筆投訴了"
     reshares:
       post: "要轉貼 <%= name %> 的貼文嗎？"
       successful: "貼文轉貼成功！"

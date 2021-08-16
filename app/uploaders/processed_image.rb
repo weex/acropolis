@@ -11,7 +11,7 @@ class ProcessedImage < CarrierWave::Uploader::Base
     "uploads/images"
   end
 
-  def extension_whitelist
+  def extension_allowlist
     %w[jpg jpeg png gif]
   end
 
@@ -20,10 +20,10 @@ class ProcessedImage < CarrierWave::Uploader::Base
   end
 
   version :thumb_small do
-    process resize_to_fill: [50, 50]
+    process resize_to_fill: [50, 50, combine_options: {unsharp: "1.5x1+0.7+0.02"}]
   end
   version :thumb_medium do
-    process resize_to_limit: [100, 100]
+    process resize_to_limit: [100, 100, combine_options: {unsharp: "1.5x1+0.7+0.02"}]
   end
   version :thumb_large do
     process resize_to_limit: [300, 1500]

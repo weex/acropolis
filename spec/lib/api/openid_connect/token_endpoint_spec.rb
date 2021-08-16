@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 describe Api::OpenidConnect::TokenEndpoint, type: :request do
-  let!(:client) { FactoryGirl.create(:o_auth_application_with_ppid) }
+  let!(:client) { FactoryBot.create(:o_auth_application_with_ppid) }
   let!(:auth) {
     Api::OpenidConnect::Authorization.find_or_create_by(
       o_auth_application: client, user: bob, redirect_uri: "http://localhost:3000/", scopes: ["openid"])
   }
   let!(:code) { auth.create_code }
-  let!(:client_with_specific_id) { FactoryGirl.create(:o_auth_application_with_ppid) }
+  let!(:client_with_specific_id) { FactoryBot.create(:o_auth_application_with_ppid) }
   let!(:auth_with_specific_id) do
     client_with_specific_id.client_id = "14d692cd53d9c1a9f46fd69e0e57443e"
     client_with_specific_id.jwks = File.read(jwks_file_path)
@@ -49,7 +49,9 @@ describe Api::OpenidConnect::TokenEndpoint, type: :request do
         decoded_token = OpenIDConnect::ResponseObject::IdToken.decode encoded_id_token,
                                                                       Api::OpenidConnect::IdTokenConfig::PUBLIC_KEY
         access_token = json["access_token"]
-        access_token_check_num = UrlSafeBase64.encode64(OpenSSL::Digest::SHA256.digest(access_token)[0, 128 / 8])
+        access_token_check_num = Base64.urlsafe_encode64(
+          OpenSSL::Digest::SHA256.digest(access_token)[0, 128 / 8], padding: false
+        )
         expect(decoded_token.at_hash).to eq(access_token_check_num)
       end
 
@@ -62,9 +64,11 @@ describe Api::OpenidConnect::TokenEndpoint, type: :request do
       end
 
       it "should not allow a nil code" do
-        post api_openid_connect_access_tokens_path, params: {grant_type: "authorization_code",
-             client_id: client.client_id, client_secret: client.client_secret,
-             redirect_uri: "http://localhost:3000/", code: nil}
+        post api_openid_connect_access_tokens_path, params: {grant_type:    "authorization_code",
+                                                             client_id:     client.client_id,
+                                                             client_secret: client.client_secret,
+                                                             redirect_uri:  "http://localhost:3000/",
+                                                             code:          nil}
         expect(JSON.parse(response.body)["error"]).to eq("invalid_request")
       end
     end
@@ -93,7 +97,9 @@ describe Api::OpenidConnect::TokenEndpoint, type: :request do
         decoded_token = OpenIDConnect::ResponseObject::IdToken.decode encoded_id_token,
                                                                       Api::OpenidConnect::IdTokenConfig::PUBLIC_KEY
         access_token = json["access_token"]
-        access_token_check_num = UrlSafeBase64.encode64(OpenSSL::Digest::SHA256.digest(access_token)[0, 128 / 8])
+        access_token_check_num = Base64.urlsafe_encode64(
+          OpenSSL::Digest::SHA256.digest(access_token)[0, 128 / 8], padding: false
+        )
         expect(decoded_token.at_hash).to eq(access_token_check_num)
       end
 
