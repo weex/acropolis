@@ -81,7 +81,6 @@ en:
           other: "The connection test returned an error for <%= count %> pods."
 
     aspects:
-      make_aspect_list_visible: "Make contacts in this aspect visible to each other?"
       name: "Name"
       create:
         add_a_new_aspect: "Add a new aspect"
@@ -122,10 +121,6 @@ en:
 
     contacts:
       add_contact: "Add contact"
-      aspect_chat_is_enabled: "Contacts in this aspect are able to chat with you."
-      aspect_chat_is_not_enabled: "Contacts in this aspect are not able to chat with you."
-      aspect_list_is_visible: "Contacts in this aspect are able to see each other."
-      aspect_list_is_not_visible: "Contacts in this aspect are not able to see each other."
       remove_contact: "Remove contact"
       error_add: "Couldn’t add <%= name %> to the aspect :("
       error_remove: "Couldn’t remove <%= name %> from the aspect :("
@@ -236,7 +231,6 @@ en:
       gender: "Gender"
       born: "Birthday"
       photos: "Photos"
-      contacts: "Contacts"
       posts: "Posts"
 
     conversation:
@@ -315,7 +309,7 @@ en:
       moderator: "Moderator"
       log_out: "Log out"
       toggle_navigation: "Toggle navigation"
-      toggle_mobile: "Toggle mobile"
+      switch_to_touch_optimized_mode: "Switch to touch-optimized mode"
 
       notifications: "Notifications"
       conversations: "Conversations"

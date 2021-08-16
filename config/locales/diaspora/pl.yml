@@ -171,12 +171,6 @@ pl:
         profile:
           description: "Pozwala aplikacji na czytanie profilu poszerzonego"
           name: "rozszerzony profil"
-        read:
-          description: "Pozwala aplikacji czytać Twój strumień, rozmowy oraz cały profil."
-          name: "czytaj profil, strumień i rozmowy"
-        write:
-          description: "Pozwala aplikacji dodawać nowe wpisy i reakcje oraz uczestniczyć w rozmowach."
-          name: "wysyłaj wpisy, rozmowy i reakcje"
       user_applications:
         index:
           access: "%{name} ma dostęp do:"
@@ -281,8 +275,6 @@ pl:
     original: "Oryginalny szary"
     original_white: "Oryginalny z białym tłem"
   comments:
-    create:
-      error: "Nie udało się dodać komentarza."
     new_comment:
       comment: "Skomentuj"
       commenting: "Dodawanie komentarza..."
@@ -343,6 +335,19 @@ pl:
     helper:
       correct_the_following_errors_and_try_again: "Popraw poniższe błędy i spróbuj ponownie."
     need_javascript: "Strona do poprawnego działania wymaga obsługi JavaScriptu. Jeśli ją wyłączyłeś, prosimy byś ją włączył i odświeżył stronę."
+  errors:
+    messages:
+      carrierwave_download_error: "nie może zostać pobrane"
+      carrierwave_integrity_error: "nie jest dozwolonym rodzajem pliku"
+      carrierwave_processing_error: "nie udało się przetworzyć"
+      content_type_blacklist_error: "Nie możesz wysyłać plików %{content_type}"
+      content_type_whitelist_error: "Nie możesz wysyłać plików %{content_type}"
+      extension_blacklist_error: "Nie możesz wysyłać plików %{extension}, niedozwolone: %{prohibited_types}"
+      extension_whitelist_error: "Nie możesz wysyłać plików %{extension}, dozwolone: %{allowed_types}"
+      max_size_error: "Plik musi być mniejszy niż %{max_size}"
+      min_size_error: "Plik musi być większy niż %{min_size}"
+      mini_magick_processing_error: "Nie udało się przetworzyć używając MiniMagick, czy na pewno to jest obraz? Błąd: %{e}"
+      rmagick_processing_error: "Nie udało się przetworzyć używając rmagick, czy na pewno to jest obraz?"
   fill_me_out: "Wypełnij pole"
   find_people: "Znajdź osoby lub #tagi"
   help:
@@ -363,8 +368,6 @@ pl:
       change_aspect_of_post_q: "Czy mogę zmienić aspekty, dla których wpis będzie widoczny, po wysłaniu tego wpisu?"
       contacts_know_aspect_a: "Nie. W żadnej sytuacji nie mogą oni zobaczyć nazwy aspektu."
       contacts_know_aspect_q: "Czy moje kontakty wiedzą w jakich aspektach je umieściłem?"
-      contacts_visible_a: "Jeśli zaznaczysz tą opcję, kontakty z danego aspektu będą mogły zobaczyć pod Twoim zdjęciem na stronie profilu, kto oprócz nich znajduje się w tym aspekcie. Najlepiej zaznaczać tą opcję tylko jeśli kontakty z tego aspektu znają się nawzajem. Nazwa aspektu jednak nadal pozostanie dla nich niewidoczna."
-      contacts_visible_q: "Co oznacza \"spraw, aby kontakty z tego aspektu widziały się nawzajem\"?"
       delete_aspect_a: "W liście aspektów na stronie głównej z lewej strony ustaw kursor nad aspektem, który chcesz usunąć. Kliknij ikonkę edycji w kształcie ołówka która pojawi się po prawej stronie. W okienku, które się pojawi, kliknij ikonę kosza na śmieci."
       delete_aspect_q: "Jak usunąć aspekt?"
       person_multiple_aspects_a: "Tak. Kliknij \"moje kontakty\" na swojej stronie kontaktów. Przy każdym z kontaktów jest menu po prawej, za pomocą którego możesz dodać go lub usunąć z dowolnych aspektów. Możesz też dodać go do nowego aspektu (lub z aspektu usunąć) klikając przycisk aspektów na jego stronie profilowej. Albo po prostu przesuń kursor nad jego imię widoczne gdziekolwiek w strumieniu, wtedy pojawi się jego \"wizytówka\". Tam możesz zmieniać aspekty, do których należy."
@@ -382,11 +385,6 @@ pl:
       what_is_an_aspect_q: "Czym jest aspekt?"
       who_sees_post_a: "Jeśli zamieszczasz wpis o ograniczonej widoczności, będzie on widoczny tylko dla ludzi którzy znajdują się w danym aspekcie (lub aspektach, jeśli post jest ograniczony do wielu aspektów). Kontakty które należą do innych aspektów nie będą miały jak zobaczyć wpisu, chyba że uczynisz go publicznym. Tylko publiczne posty będą widoczne dla kogokolwiek spoza Twoich aspektów."
       who_sees_post_q: "Kiedy udostępniam w aspekcie, kto widzi mój wpis?"
-    chat:
-      add_contact_roster_a: "Najpierw musisz włączyć czat dla aspektu w którym osoba się znajduje. Aby to zrobić, idź do %{contacts_page}, wybierz aspekt który chcesz zmienić i kliknij na ikonę czatu dla aspektu. %{toggle_privilege} Możesz, jeżeli wolisz, utworzyć specjalny aspekt nazwany \"Czat\" i dodać do niego wszystkie osoby z którymi chcesz czatować. Gdy już to zrobisz, możesz otworzyć interfejs czatu i wybrać osoby z którymi chcesz czatować."
-      add_contact_roster_q: "Jak mogę czatować z kimś na diasporze*?"
-      contacts_page: "strony kontaktów"
-      title: "Czat"
     community_guidelines: "zasady społeczności"
     faq: "często zadawane pytania"
     foundation_website: "Strona fundacji diaspora*"
@@ -616,7 +614,6 @@ pl:
       public_feed: "Publiczny kanał diaspory* użytkownika %{name}"
       source_package: "Pobierz archiwum z kodem źródłowym"
       statistics_link: "Statystyki poda"
-      toggle: "Przełącz widok mobilny"
       whats_new: "Co nowego?"
     header:
       code: "Kod"
@@ -979,7 +976,7 @@ pl:
       your_birthday: "Twoje urodziny"
       your_gender: "Twoja płeć"
       your_location: "Lokalizacja"
-      your_name: "Imię"
+      your_name: "Nazwa"
       your_photo: "Twoje zdjęcie"
       your_tags: "Opisz siebie w pięciu słowach"
       your_tags_placeholder: "np. #filmy #kotki #podróże #nauczyciel #warszawa"
@@ -988,7 +985,6 @@ pl:
       updated: "Profil został pomyślnie zaktualizowany"
   public: "Publiczny"
   registrations:
-    closed: "Ten pod diaspory* nie zezwala na rejestrację nowych użytkowników."
     create:
       success: "Dołączyłeś do diaspory*!"
     invalid_invite: "Podane łącze do zaproszenia jest nieważne!"
@@ -1056,7 +1052,6 @@ pl:
       share_to: "Udostępnij w serwisie %{provider}"
       title: "Zarządzaj połączonymi usługami"
     provider:
-      facebook: "Facebook"
       tumblr: "Tumblr"
       twitter: "Twitter"
       wordpress: "WordPress"
@@ -1127,6 +1122,7 @@ pl:
     total_users: "W sumie użytkowników"
     version: "Wersja"
   status_messages:
+    bad_aspects: "Nie można zastosować podanych aspektów (nie istnieją lub nie należą do ciebie)"
     new:
       mentioning: "Wspominasz o: %{person}"
     too_long: "Skróć swój status do mniej niż %{count} znaków. Obecnie jej długość to %{current_length} znaków."
@@ -1182,6 +1178,21 @@ pl:
         one: "1 osoba otagowana %{tag}"
         other: "%{count} osób otagowanych %{tag}"
         zero: "Nikogo otagowanego %{tag}"
+  two_factor_auth:
+    activated:
+      change_button: "Dezaktywuj"
+      status: "Uwierzytelnianie dwuskładnikowe jest aktywne"
+    confirm:
+      activate_button: "Potwierdź i aktywuj"
+      status: "Uwierzytelnianie dwuskładnikowe nie jest jeszcze w pełni aktywne, musisz je zatwierdzić tokenem TOTP"
+    deactivated:
+      change_button: "Aktywuj"
+      change_label: "Aktywuj uwierzytelnianie dwuskładnikowe"
+      status: "Uwierzytelnianie dwuskładnikowe nieaktywne"
+    flash:
+      success_activation: "Pomyślnie aktywowano uwierzytelnianie dwuskładnikowe"
+      success_deactivation: "Pomyślnie dezaktywowano uwierzytelnianie dwuskładnikowe"
+    title: "Uwierzytelnianie dwuskładnikowe"
   username: "Nazwa użytkownika"
   users:
     confirm_email:
@@ -1229,6 +1240,10 @@ pl:
       mentioned_in_comment: "ktoś wspomni o mnie w komentarzu"
       new_password: "Nowe hasło"
       private_message: "otrzymam prywatną wiadomość"
+      protocol_handler:
+        description: "Po wciśnięciu tego przycisku, przeglądarka poprosi cię o zezwolenie nam na otwieranie adresów rozpoczynających się od web+diaspora:// za pomocą twojego podu. Jest to funkcja eksperymentalna i jej obsługa zależy od twojej przeglądarki."
+        register: "Zarejestruj"
+        title: "Handler protokołu web+diaspora://"
       receive_email_notifications: "Wysyłaj powiadomienia e-mail gdy:"
       request_export: "Proszę o dane mojego profilu"
       request_export_photos: "Proszę o moje zdjęcia"
@@ -1246,8 +1261,6 @@ pl:
     getting_started:
       awesome_take_me_to_diaspora: "Świetnie! Zabierz mnie na diasporę*"
       community_welcome: "Społeczność diaspory* cieszy się, że ​​jesteś z nami!"
-      connect_to_facebook: "Możemy nieco przyśpieszyć poprzez %{link} do diaspory*. To spowoduje pobranie Twojej nazwy, zdjęcia i włączy równoczesne publikowanie wpisów w obu serwisach."
-      connect_to_facebook_link: "Podpięcie konta na Facebooku"
       hashtag_explanation: "Tagi pozwalają łatwo odnaleźć interesujące Cię tematy. Są także świetnym sposobem na nawiązywanie znajomości na diasporze*."
       hashtag_suggestions: "Spróbuj obserwować tagi takie jak #sztuka, #filmy, #gif, itd."
       well_hello_there: "No, witam!"

@@ -19,11 +19,11 @@ describe PostsController, type: :controller do
           expect_any_instance_of(PostService).to receive(:mark_user_notifications).with(post.id)
 
           get :show, params: {id: post.id}
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it "succeeds after removing a mention when closing the mentioned user's account" do
-          user = FactoryGirl.create(:user, username: "user")
+          user = FactoryBot.create(:user, username: "user")
           alice.share_with(user.person, alice.aspects.first)
 
           msg = alice.post(:status_message, text: "Mention @{User ; #{user.diaspora_handle}}", public: true)
@@ -32,7 +32,7 @@ describe PostsController, type: :controller do
           user.close_account!
 
           get :show, params: {id: msg.id}
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it "renders the application layout on mobile" do
@@ -41,11 +41,11 @@ describe PostsController, type: :controller do
         end
 
         it "succeeds on mobile with a reshare" do
-          reshare_id = FactoryGirl.create(:reshare, author: alice.person).id
+          reshare_id = FactoryBot.create(:reshare, author: alice.person).id
           expect_any_instance_of(PostService).to receive(:mark_user_notifications).with(reshare_id)
 
           get :show, params: {id: reshare_id}, format: :mobile
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 

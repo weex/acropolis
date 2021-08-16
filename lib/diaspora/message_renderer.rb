@@ -35,11 +35,12 @@ module Diaspora
 
       def append_and_truncate
         if options[:truncate]
-          @message = message.truncate options[:truncate]-options[:append].to_s.size
+          # TODO: Remove .dup when upgrading to Rails 6.x.
+          @message = @message.truncate(options[:truncate] - options[:append].to_s.size).dup
         end
 
-        message << options[:append].to_s
-        message << options[:append_after_truncate].to_s
+        @message << options[:append].to_s
+        @message << options[:append_after_truncate].to_s
       end
 
       def escape
@@ -244,7 +245,7 @@ module Diaspora
     # Extracts all the urls from the raw message and return them in the form of a string
     # Different URLs are seperated with a space
     def urls
-      @urls ||= Twitter::Extractor.extract_urls(plain_text_without_markdown).map {|url|
+      @urls ||= Twitter::TwitterText::Extractor.extract_urls(plain_text_without_markdown).map {|url|
         Addressable::URI.parse(url).normalize.to_s
       }
     end

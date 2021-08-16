@@ -4,17 +4,18 @@ require "integration/federation/federation_helper"
 
 describe AccountMigration, type: :model do
   describe "create!" do
-    include_context "with local old user"
+    let(:old_user) { FactoryBot.create(:user) }
+    let(:old_person) { old_user.person }
 
     it "locks old local user after creation" do
       expect {
-        AccountMigration.create!(old_person: old_person, new_person: FactoryGirl.create(:person))
+        AccountMigration.create!(old_person: old_person, new_person: FactoryBot.create(:person))
       }.to change { old_user.reload.access_locked? }.to be_truthy
     end
   end
 
-  let(:old_person) { FactoryGirl.create(:person) }
-  let(:new_person) { FactoryGirl.create(:person) }
+  let(:old_person) { FactoryBot.create(:person) }
+  let(:new_person) { FactoryBot.create(:person) }
   let(:account_migration) {
     AccountMigration.create!(old_person: old_person, new_person: new_person)
   }
@@ -28,7 +29,8 @@ describe AccountMigration, type: :model do
 
   describe "sender" do
     context "with remote old user" do
-      include_context "with remote old user"
+      let(:old_user) { remote_user_on_pod_c }
+      let(:old_person) { old_user.person }
 
       it "creates ephemeral user when private key is provided" do
         account_migration.old_private_key = old_user.serialized_private_key
@@ -41,12 +43,13 @@ describe AccountMigration, type: :model do
       it "raises when no private key is provided" do
         expect {
           account_migration.sender
-        }.to raise_error("can't build sender without old private key defined")
+        }.to raise_error("can't build sender without old private key and diaspora ID defined")
       end
     end
 
     context "with local old user" do
-      include_context "with local old user"
+      let(:old_user) { FactoryBot.create(:user) }
+      let(:old_person) { old_user.person }
 
       it "matches the old user" do
         expect(account_migration.sender).to eq(old_user)
@@ -61,14 +64,20 @@ describe AccountMigration, type: :model do
       }.to change(account_migration, :performed?).to be_truthy
     end
 
-    it "calls old_person.closed_account?" do
-      expect(account_migration.old_person).to receive(:closed_account?)
-      account_migration.performed?
+    it "is truthy when completed_at is set" do
+      expect(FactoryBot.create(:account_migration, completed_at: Time.zone.now).performed?).to be_truthy
+    end
+
+    it "is falsey when completed_at is null" do
+      account_migration = FactoryBot.create(:account_migration, completed_at: nil)
+      account_migration.old_person.lock_access!
+      expect(account_migration.performed?).to be_falsey
     end
   end
 
   context "with local new user" do
-    include_context "with local new user"
+    let(:new_user) { FactoryBot.create(:user) }
+    let(:new_person) { new_user.person }
 
     describe "subscribers" do
       it "picks remote subscribers of new user profile and old person" do
@@ -78,7 +87,7 @@ describe AccountMigration, type: :model do
       end
 
       context "with local old user" do
-        include_context "with local old user"
+        let(:old_person) { FactoryBot.create(:user).person }
 
         it "doesn't include old person" do
           expect(account_migration.subscribers).to be_empty
@@ -108,7 +117,7 @@ describe AccountMigration, type: :model do
     end
 
     context "with local old and remote new users" do
-      include_context "with local old user"
+      let(:old_person) { FactoryBot.create(:user).person }
 
       it "calls AccountDeleter#close_user" do
         expect(embedded_account_deleter).to receive(:close_user)
@@ -116,15 +125,16 @@ describe AccountMigration, type: :model do
       end
 
       it "resends contacts to the remote pod" do
-        contact = FactoryGirl.create(:contact, person: old_person, sharing: true)
+        contact = FactoryBot.create(:contact, person: old_person, sharing: true)
         expect(Diaspora::Federation::Dispatcher).to receive(:defer_dispatch).with(contact.user, contact)
         account_migration.perform!
       end
     end
 
     context "with local new and remote old users" do
-      include_context "with remote old user"
-      include_context "with local new user"
+      let(:old_user) { remote_user_on_pod_c }
+      let(:old_person) { old_user.person }
+      let(:new_person) { FactoryBot.create(:user).person }
 
       it "dispatches account migration message" do
         expect(account_migration).to receive(:sender).twice.and_return(old_user)
@@ -141,18 +151,96 @@ describe AccountMigration, type: :model do
 
         expect {
           account_migration.perform!
-        }.to raise_error "can't build sender without old private key defined"
+        }.to raise_error "can't build sender without old private key and diaspora ID defined"
       end
     end
 
     context "with local old and new users" do
-      include_context "with local old user"
-      include_context "with local new user"
+      let(:old_person) { FactoryBot.create(:user).person }
+      let(:new_person) { FactoryBot.create(:user).person }
 
       it "calls AccountDeleter#tombstone_user" do
         expect(embedded_account_deleter).to receive(:tombstone_user)
         account_migration.perform!
       end
+    end
+
+    context "with remote account merging (non-empty new person)" do
+      before do
+        FactoryBot.create(
+          :contact,
+          person: new_person,
+          user:   FactoryBot.create(:contact, person: old_person).user
+        )
+        FactoryBot.create(
+          :like,
+          author: new_person,
+          target: FactoryBot.create(:like, author: old_person).target
+        )
+        FactoryBot.create(
+          :participation,
+          author: new_person,
+          target: FactoryBot.create(:participation, author: old_person).target
+        )
+        FactoryBot.create(
+          :poll_participation,
+          author:      new_person,
+          poll_answer: FactoryBot.create(:poll_participation, author: old_person).poll_answer
+        )
+      end
+
+      it "runs without errors" do
+        expect {
+          account_migration.perform!
+        }.not_to raise_error
+        expect(new_person.likes.count).to eq(1)
+        expect(new_person.participations.count).to eq(1)
+        expect(new_person.poll_participations.count).to eq(1)
+        expect(new_person.contacts.count).to eq(1)
+      end
+    end
+
+    context "with local account merging (non-empty new user)" do
+      let(:old_user) { FactoryBot.create(:user) }
+      let(:old_person) { old_user.person }
+      let(:new_user) { FactoryBot.create(:user) }
+      let(:new_person) { new_user.person }
+
+      before do
+        FactoryBot.create(
+          :aspect,
+          user: new_user,
+          name: FactoryBot.create(:aspect, user: old_user).name
+        )
+        FactoryBot.create(
+          :contact,
+          user:   new_user,
+          person: FactoryBot.create(:contact, user: old_user).person
+        )
+        FactoryBot.create(
+          :tag_following,
+          user: new_user,
+          tag:  FactoryBot.create(:tag_following, user: old_user).tag
+        )
+      end
+
+      it "runs without errors" do
+        expect {
+          account_migration.perform!
+        }.not_to raise_error
+        expect(new_user.contacts.count).to eq(1)
+        expect(new_user.aspects.count).to eq(1)
+      end
+    end
+  end
+
+  describe "#newest_person" do
+    let!(:second_migration) {
+      FactoryBot.create(:account_migration, old_person: account_migration.new_person)
+    }
+
+    it "returns the newest account in the migration chain" do
+      expect(account_migration.newest_person).to eq(second_migration.new_person)
     end
   end
 end

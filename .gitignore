@@ -1,14 +1,10 @@
-# XMPP certificates, keys and user data
-config/certs/*.crt
-config/certs/*.key
-config/prosody.cfg.lua
-
 # Trademark sillyness
 app/views/home/_show.*
 app/views/terms/terms.*
 app/assets/images/custom/
 
 # Configuration files
+config/diaspora.toml
 config/diaspora.yml
 config/initializers/secret_token.rb
 .bundle
@@ -16,6 +12,7 @@ vendor/bundle/
 vendor/cache/
 config/database.yml
 config/oidc_key.pem
+config/schedule.yml
 
 # Generated files
 log/
@@ -53,7 +50,6 @@ tmp/
 .byebug_history
 .sass-cache/
 .DS_Store
-.idea
 .redcar
 .stgit*
 *.swap
@@ -72,6 +68,8 @@ capybara-*.html
 *.rbc
 
 # IDE
+.idea
+.vscode
 diaspora.iml
 
 # Dolphin's directory's preferences files

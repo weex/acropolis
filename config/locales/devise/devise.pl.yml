@@ -51,6 +51,9 @@ pl:
         subject: "Instrukcja odblokowania"
         unlock: "Odblokuj moje konto"
       welcome: "Witaj %{email}!"
+    omniauth_callbacks:
+      failure: "Nie udało się uwierzytelnić Cię z %{kind} z powodu „%{reason}”."
+      success: "Pomyślnie uwierzytelniono kontem %{kind}."
     passwords:
       edit:
         change_password: "Zmień hasło"
@@ -59,7 +62,6 @@ pl:
       new:
         email: "Adres e-mail"
         forgot_password: "Nie pamiętasz hasła?"
-        no_account: "Konto z podanym adresem e-mail nie istnieje"
         reset_password: "Resetuj hasło"
         send_password_instructions: "Wyślij mi instrukcję resetowania hasła"
       no_token: "Nie możesz pomyślnie odwiedzić tej strony w inny sposób niż poprzez kliknięcie odnośnika w e-mailu resetu hasła. Jeśli znalazłeś się tutaj właśnie przez tego typu e-mail, upewnij się, że kliknąłeś lub wkleiłeś pełny adres URL."
@@ -107,3 +109,8 @@ pl:
       expired: "wygasł, poproś o nowy"
       not_found: "nie znaleziono"
       not_locked: "nie był zablokowany"
+      not_saved:
+        few: "%{count} błędy uniemożliwiły zapisanie %{resource}:"
+        many: "%{count} błędów uniemożliwiło zapisanie %{resource}:"
+        one: "1 błąd uniemożliwił zapisanie %{resource}:"
+        other: "%{count} błędów uniemożliwiło zapisanie %{resource}:"

@@ -3,6 +3,7 @@
 class Poll < ApplicationRecord
   include Diaspora::Federated::Base
   include Diaspora::Fields::Guid
+  include Diaspora::Federated::Fetchable
 
   belongs_to :status_message
   has_many :poll_answers, -> { order "id ASC" }, dependent: :destroy
@@ -14,6 +15,8 @@ class Poll < ApplicationRecord
 
   validate :enough_poll_answers
   validates :question, presence: true
+
+  scope :all_public, -> { joins(:status_message).where(posts: {public: true}) }
 
   self.include_root_in_json = false
 

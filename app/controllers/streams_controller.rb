@@ -5,7 +5,7 @@
 #   the COPYRIGHT file.
 
 class StreamsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :public
   before_action :save_selected_aspects, :only => :aspects
 
   layout proc { request.format == :mobile ? "application" : "with_header" }
@@ -23,6 +23,14 @@ class StreamsController < ApplicationController
 
   def public
     stream_responder(Stream::Public)
+  end
+
+  def local_public
+    if AppConfig.local_posts_stream?(current_user)
+      stream_responder(Stream::LocalPublic)
+    else
+      head :not_found
+    end
   end
 
   def activity

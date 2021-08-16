@@ -10,10 +10,10 @@
 //= require charcount
 //= require jquery-placeholder
 //= require jquery.timeago
-//= require jquery.ui/ui/core
-//= require jquery.ui/ui/widget
-//= require jquery.ui/ui/mouse
-//= require jquery.ui/ui/sortable
+//= require jquery-ui/core
+//= require jquery-ui/widget
+//= require jquery-ui/mouse
+//= require jquery-ui/sortable
 //= require keycodes
 //= require jquery.autoSuggest.custom
 //= require fine-uploader/fine-uploader.core
@@ -45,5 +45,7 @@
 //= require api/authorization_page
 //= require bootstrap-markdown/bootstrap-markdown
 //= require helpers/markdown_editor
+//= require helpers/protocol_handler
 //= require jquery.are-you-sure
 //= require cropperjs/dist/cropper.js
+//= require pica

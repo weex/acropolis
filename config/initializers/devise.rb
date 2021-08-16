@@ -31,7 +31,7 @@ Devise.setup do |config|
       Rails.logger.warn("No smtp sender address set, mail may fail.")
       warn "WARNING: No smtp sender address set, mail may fail."
     end
-    config.mailer_sender = "please-change-me@config-diaspora-yml.com"
+    config.mailer_sender = "please-change-me@config-diaspora-toml.com"
   end
 
   # Configure the class responsible to send e-mails.
@@ -92,7 +92,7 @@ Devise.setup do |config|
   # It will change confirmation, password recovery and other workflows
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
-  # config.paranoid = true
+  config.paranoid = true
 
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
@@ -270,4 +270,8 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+
+  # if a user enables 2fa this would log them in without requiring them
+  # to enter a token
+  config.sign_in_after_reset_password = false
 end

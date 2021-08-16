@@ -156,7 +156,6 @@ lt:
       back_to_top: "Į viršų"
       powered_by: "TINKLAPĮ LEIDŽIA DIASPORA*"
       public_feed: "Viešas atsiliepimas apie Diaspora %{name}"
-      toggle: "toggle mobile site"
       whats_new: "Kas naujo?"
     header:
       code: "kodas"
@@ -274,6 +273,7 @@ lt:
       born: "gimimo data"
       gender: "lytis"
     show:
+      closed_account: "Ši paskyra buvo uždaryta."
       does_not_exist: "Asmuo neegzistuoja!"
   photos:
     destroy:
@@ -289,11 +289,15 @@ lt:
   profile: "Anketa"
   profiles:
     edit:
+      allow_search: "Leisti kitiems surasti jus diaspora* tinkle"
+      update_profile: "Atnaujinti profilį"
       your_tags: "You: in 5 #tags"
       your_tags_placeholder: "i.e. #diaspora #ironing #kittens #music"
+    update:
+      failed: "Nepavyko atnaujinti profilio"
+      updated: "Profilis atnaujintas"
   public: "Viešas"
   registrations:
-    closed: "Naujų paskyrų kūrimas šiame Diasporos serveryje yra uždarytas."
     create:
       success: "Prisijungei prie Diasporos!"
     new:
@@ -302,8 +306,11 @@ lt:
       enter_password_again: "Įveskite tą patį slaptažodį kaip ir anksčiau"
       enter_username: "Pasirinkite naudotojo vardą (naudokite tik raides, skaičius ir pabraukimus)"
   reshares:
+    comment_email_subject: "%{resharer} pasidalino %{author} įrašu"
     reshare:
+      deleted: "Originalų įrašą ištrynė jo autorius."
       reshare_confirmation: "Reshare %{author} - %{text}?"
+      reshared_via: "Pasidalinta per"
   search: "Paieška"
   services:
     create:
@@ -312,6 +319,7 @@ lt:
       success: "Atjungimas sėkmingas."
     index:
       disconnect: "atjungti"
+      edit_services: "Redaguoti paslaugas"
       logged_in_as: "sujungta su"
       really_disconnect: "atjungti %{service}?"
   settings: "Nustatymai"

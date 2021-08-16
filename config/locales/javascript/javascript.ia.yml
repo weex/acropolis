@@ -72,7 +72,7 @@ ia:
       updating: "actualisa…"
     aspect_navigation:
       add_an_aspect: "+ Adder un aspecto"
-      deselect_all: "Deseliger totes"
+      deselect_all: "Dismarcar totes"
       no_aspects: "Nulle aspecto seligite"
       select_all: "Seliger totes"
     aspects:
@@ -80,7 +80,6 @@ ia:
         add_a_new_aspect: "Adder un nove aspecto"
         failure: "Le creation del aspecto ha fallite."
         success: "Tu nove aspecto <%= name %> ha essite create"
-      make_aspect_list_visible: "Render contactos in iste aspecto visibile le unes pro le alteres?"
       name: "Nomine"
     bookmarklet:
       post_something: "Inviar a diaspora*"
@@ -96,10 +95,6 @@ ia:
     confirm_unload: "Per favor, confirma que tu vole quitar iste pagina. Le datos que tu ha inserite non essera salveguardate."
     contacts:
       add_contact: "Adder contacto"
-      aspect_chat_is_enabled: "Le contactos in iste aspecto pote chattar con te."
-      aspect_chat_is_not_enabled: "Le contactos in iste aspecto non pote chattar con te."
-      aspect_list_is_not_visible: "Le contactos in iste aspecto non pote vider le un le altere."
-      aspect_list_is_visible: "Le contactos in iste aspecto pote vider le un le altere."
       error_add: "Non poteva adder <%= name %> al aspecto."
       error_remove: "Non poteva remover <%= name %> del aspecto."
       remove_contact: "Remover contacto"
@@ -136,7 +131,7 @@ ia:
       recent_notifications: "Notificationes recente"
       search: "Cercar"
       settings: "Configuration"
-      toggle_mobile: "Alternar mobile"
+      switch_to_touch_optimized_mode: "Cambiar al modo tactile"
       toggle_navigation: "Alternar navigation"
       view_all: "Vider totes"
     hide_post: "Celar iste entrata?"
@@ -190,7 +185,6 @@ ia:
       add_some: "Adder alcunes"
       bio: "Bio"
       born: "Data de nascentia"
-      contacts: "Contactos"
       edit: "Modificar"
       gender: "Sexo"
       location: "Loco"

@@ -90,15 +90,18 @@ sc:
       week: "Chida"
     user_entry:
       account_closed: "Contu serradu"
+      admin: "Amministradore"
       diaspora_handle: "ID diaspora*"
       email: "P. eletr. (e-mail)"
       guid: "GUID"
       id: "ID"
       invite_token: "Getone de invitu"
       last_seen: "Bidu s'ùrtima borta"
+      moderator: "Moderadore"
       ? "no"
       : Nono
       nsfw: "#nsfw"
+      spotlight: "In evidèntzia"
       unknown: "Disconnotu"
       ? "yes"
       : Eja
@@ -106,14 +109,29 @@ sc:
       account_closing_scheduled: "Su contu de %{name} est programadu pro èssere serradu. At a èssere protzessadu in pagu tempus..."
       account_locking_scheduled: "Su contu de %{name} est programmadu pro èssere blocadu. At a èssere protzessadu in pagos momentos..."
       account_unlocking_scheduled: "Su contu de %{name} est programmadu pro èssere isblocadu. At a èssere protzessadu in pagos momentos..."
+      add_admin: "%{name}  est istadu postu comente amministradore."
       add_invites: "Annaghe invitos"
+      add_moderator: "%{name}  est istadu postu comente moderadore."
+      add_spotlight: "%{name} est istadu postu in evidèntzia in sa comunidade."
       are_you_sure: "Seguru ses de chèrrere serrare su contu?"
       are_you_sure_lock_account: "Seguru ses de chèrrere blocare custu contu?"
       are_you_sure_unlock_account: "Seguru ses de chèrrere isblocare custu contu?"
       close_account: "Serra su contu"
+      delete_admin: "%{name} est istadu bogadu dae sa lista de sos amministradores."
+      delete_moderator: "%{name} est istadu bogadu dae sa lista de sos moderadores."
+      delete_spotlight: "%{name} est istadu bogadu dae sa positzione in evidèntzia in sa comunidade."
+      does_not_exist: "S'impreadore no esistit!"
       email_to: "Indiritzos de p. eletrònica a ue imbiare sos invitos"
       invite: "Invita"
       lock_account: "Bloca su contu"
+      make_admin: "Pone comente amministradore"
+      make_moderator: "Pone comente moderadore"
+      make_spotlight: "Pone in evidèntzia in sa comunidade"
+      remove_admin: "Boga dae sos amministradores"
+      remove_moderator: "Boga dae sos moderadores"
+      remove_spotlight: "Boga dae sa positzione in evidèntzia in sa comunidade"
+      role_implemented: "%{name} tenet giai custu ruolu!"
+      role_removal_implemented: "%{name} est istadu giai bogadu dae custu ruolu!"
       under_13: "Ammustra sos impreadores chi tenent de mancu de 13 annos (Children's Online Privacy Protection Act)"
       unlock_account: "Isbloca su contu"
       users:
@@ -151,9 +169,6 @@ sc:
         login_required: "Depes intrare in su contu tuo in antis de pòdere autorizare custa aplicatzione"
         title: "Oh! B'est istadu unu problema :("
       scopes:
-        aud:
-          description: "Custu at a frunire sos permissos \"aud\" a s'aplicatzione"
-          name: "aud"
         name:
           description: "Custu at a frunire sos permissos de nùmeme a s'aplicatzione"
           name: "nùmene"
@@ -169,15 +184,9 @@ sc:
         profile:
           description: "Custu permitit a s'aplicatzione de lèghere su profilu intreu tuo"
           name: "profilu intreu"
-        read:
-          description: "Custu permitit a s'aplicatzione de lèghere su flussu tuo, sos arresonos tuos e su profilu intreu tuo"
-          name: "leghere su profilu, su flussu e sos arresonos"
         sub:
           description: "Custu at a frunire sos permissos \"sub\" a s'aplicatzione"
           name: "sub"
-        write:
-          description: "Custu permitit a s'aplicatzione de imbiare publicatziones noas, iscrìere arresonos, e imbiare reatziones"
-          name: "imbiare publicatziones, arresonos e reatziones"
       user_applications:
         index:
           access: "%{name} tenet atzessu a :"
@@ -190,6 +199,7 @@ sc:
         tos: "Abbista sos tèrmines de servìtziu de s'aplicatzione"
   are_you_sure: "Seguru ses?"
   are_you_sure_delete_account: "Seguru ses de bòlere serrare su contu tuo? Est una cosa chi non podet èssere annullada!"
+  are_you_sure_ignore_user: "As a ignorare custu impreadore. Seguru ses?"
   aspect_memberships:
     destroy:
       failure: "No est istadu possìbile bogare sa persone dae sa cara."
@@ -282,8 +292,6 @@ sc:
     original: "Murru originale"
     original_white: "Isfundu biancu originale"
   comments:
-    create:
-      error: "B'est istadu un'errore cummentende."
     new_comment:
       comment: "Cummenta"
       commenting: "Cummentende..."
@@ -344,6 +352,19 @@ sc:
     helper:
       correct_the_following_errors_and_try_again: "Currege custos errore e torra a proare."
     need_javascript: "Custu situ ìnternet tenet bisòngiu de JavaScript pro funtzionare comente si tocat. Si as istudadu JavaScript torra·lu a allùghere, pro praghere, e torra a carrigare custa pàgina."
+  errors:
+    messages:
+      carrierwave_download_error: "no est istadu iscarrigadu"
+      carrierwave_integrity_error: "no est de una casta de documentu permitida"
+      carrierwave_processing_error: "no est istadu protzessadu"
+      content_type_blacklist_error: "Non podes carrigare documentos %{content_type}"
+      content_type_whitelist_error: "Non podes carrigare documentos %{content_type}"
+      extension_blacklist_error: "Non podes carrigare documentos %{extension}, castas proibidas: %{prohibited_types}"
+      extension_whitelist_error: "Non podes carrigare documentos %{extension}, castas permitidas: %{allowed_types}"
+      max_size_error: "Su documentu diat dèpere èssere prus minore de %{max_size}"
+      min_size_error: "Su documentu diat dèpere èssere prus mannu de %{min_size}"
+      mini_magick_processing_error: "Manipuladura cun rmagick fallida, fortzis no est un'immàgine? Errore Originale: %{e}"
+      rmagick_processing_error: "Manipuladura cun rmagick fallida, fortzis no est un'immàgine?"
   fill_me_out: "Iscrie inoghe"
   find_people: "Agata persones o #etichetas"
   help:
@@ -364,8 +385,6 @@ sc:
       change_aspect_of_post_q: "A pustis de àere publicadu carchi cosa, potzo cambiare sa cara(as) chi la podent bìdere?"
       contacts_know_aspect_a: "Nono. Non podent bìdere sos nùmenes de sas caras, mai."
       contacts_know_aspect_q: "Sos cuntatos meos ischint in cale caras los apo postos?"
-      contacts_visible_a: "Si as a isseberare custa optzione sos cuntatos dae cussa cara ant a pòdere bìdere sos àteros chi bi sunt in intro, in s'ischeda \"Cuntatos\" in sa pàgina de su profilu tuo. (Pro como, petzi sos cuntatos chi sunt in su matessi pod tuo ant a pòdere bìdere s'ischeda \"Cuntatos\" in su profilu tuo.) Est mègius a isseberare custa optziones petzi si sos cuntatos in cussa cara si connoschent unu cun s'àteru, pro esèmpiu si sa cara est pro unu tzìrculu o una sotziedade in sa cale bi ses in intro tue. In cada manera no ant pòdere bìdere su matessi su nùmene de sa cara."
-      contacts_visible_q: "Ite cheret nàrrere \"permìtere a sos cuntatos in custa cara de si bìdere unu cun s'àteru\"?"
       delete_aspect_a: "Incarca \"Caras meas\" in sa barra laterale dae sa vista de su flussu e a pustis incarca in s'icona de sa matita a curtzu de sa cara chi cheres iscantzellare, o bae s sa pàgina de sos cuntatos tuos e ischerta sa cara chi t'interessat. Apustis incarca in s'icona de su botu de s'arga a pitzu de sa pàgina, a destra."
       delete_aspect_q: "Comente potzo iscantzellare una cara?"
       person_multiple_aspects_a: "Eja. Bae a sa pàgina de sos cuntatos tua e incarca in \"Cuntatos meos\". Pro cada cuntatu podes impreare su menù a destra pro los annànghere (o los bogare) dae totu sas caras chi boles. O los podes annànghere a una cara noa (o los bogare dae una) fintzas incarchende in su butone de s'ischertadore de caras in sa pàgina de su profilu issoro. O, fintzas, podes mòere su puntadore in subra de su nùmene issoro cando lu bides in su flussu, e una ventanedda at a aparire. As a pòdere cambiare sas caras in ue sunt dae ue."
@@ -383,11 +402,6 @@ sc:
       what_is_an_aspect_q: "Ite est una cara?"
       who_sees_post_a: "Cando faghes una publicatzione limitada cussa at a èssere visìbile pro sas persones chi as postu in cussa cara (o in cussas caras, si est fata in prus caras) in antis de fàghere sa publicatzione. Sos cuntatos chi non tenes in cussas caras no ant a pòdere bìdere cussa publicatzione. Sas publicatziones limitadas no ant a èssere mai visìbiles a chie non tenes in una de sas caras tuas."
       who_sees_post_q: "Cando pùblico in una cara, chie lu bidet?"
-    chat:
-      add_contact_roster_a: "In antis de totu depes abilitare sa tzarrada pro una de sas caras in ue est cussa persone. Pro lu fàghere intra in sa %{contacts_page}, issèbera sa cara chi boles e incarca in s'iscona de sa tzarrada pro abilitare sa tzarrada pro cussa cara. %{toggle_privilege} Dias podere, si preferis, creare una cara ispetziale mutida \"Tzarrada\" e annànghere sas persones cun sas cales cheres tzarrare in cussa cara."
-      add_contact_roster_q: "Comente potzo tzarrare cun calicunu in diaspora*?"
-      contacts_page: "pàgina de sos cuntatos"
-      title: "Tzarrada"
     community_guidelines: "normas de sa comunidade"
     faq: "Pregontas fitianas"
     foundation_website: "situ web de sa fundatzione diaspora*"
@@ -452,7 +466,7 @@ sc:
       char_limit_services_q: "E si so cumpartzinde sa publicatzione mea cun unu servìtziu ligadu chi tenet unu lìmite de caràteres prus minore?"
       character_limit_a: "65,535 caràteres. Sunt 65,395 caràteres in prus de sos chi tenes in Twitter! ;)"
       character_limit_q: "Cale est su lìmite de caràteres pro sas publicatziones?"
-      embed_multimedia_a: "De sòlitu bastat a incollare su ligàmene URL (es: http://www.youtube.com/watch?v=nnnnnnnnnnn ) in sa publicatzione tua e su vìdeu o su documentu àudio at a èssere insertadu automaticamente. Sos sitos suportados incluint: YouTube, Vimeo, SoundCloud, Flickr e calicun'àteru. diaspora* impreat oEmbed pro custa funtzionalidade. Prus tempus colat e prus sitos e mitzas de cuntenutos amus a suportare, nde semus annanghinde semper. Ammenta·ti de impreare semper sos ligàmenes intreos – cussos incurtzados no andant bene; perunu operadore a pustis de s'URL de base – e iseta carchi segundu in antis de torrare a carrigare sa pàgina a pustis de sa publicatzione pro bìdere s'anteprima."
+      embed_multimedia_a: "De sòlitu bastat a incollare su ligàmene URL (es: http://www.youtube.com/watch?v=nnnnnnnnnnn ) in sa publicatzione tua e su vìdeu o su documentu àudio at a èssere insertadu automaticamente. Sos sitos suportados incluint: YouTube, Vimeo, SoundCloud, Flickr e calicun'àteru. diaspora* impreat oEmbed pro custa funtzionalidade. Si as a publicare unu ligàmene diretu a unu documentu àudio o a unu vìdeu diaspora* l'at a integrare impreende unu riprodutore HTML5 istandard. Prus tempus colat e prus sitos e mitzas de cuntenutos amus a suportare, nde semus annanghinde semper. Ammenta·ti de impreare semper sos ligàmenes intreos – cussos incurtzados no andant bene; perunu operadore a pustis de s'URL de base – e iseta carchi segundu in antis de torrare a carrigare sa pàgina a pustis de sa publicatzione pro bìdere s'anteprima."
       embed_multimedia_q: "Comente potzo insertare unu vìdeu, unu documentu àudio o àteros cuntenutos multimediales esternos in una publicatzione?"
       format_text_a: "diaspora* Impreat unu sistema semplificadu chi si mutit %{markdown}. Su publicadore tenet butones chi agiudant a formatare su testu. Si cheres formatare manualmente sa publicatzione tua, podes agatare sa sintassi Markdown intrea %{here}. Su butone pro s'anteprima est meda de agiudu inoghe, ca ti permitit de bìdere comente ant a aparire sas publicatziones tuas in antis chi tue las cumpartzas. Ammenta·ti chi non las podes acontzare a pustis de sa publicatzione e, pro custu motivu, de impreare s'anteprima pro èssere seguru chi totu siat a postu in antis de incarcare Cumpartzi!"
       format_text_q: "Comente potzo formatare su testu in sas publicatziones meas (grassetu, corsivu etz.)?"
@@ -563,9 +577,11 @@ sc:
       byline: "Su mundu sotziale in lìnia in ue tenes su controllu"
       choose_your_audience: "Issèbera su pùblicu tuo"
       choose_your_audience_info: "Sas caras de diaspora* ti permitint de cumpartzire cun petzi cussas persones cun las cales cheres tue. Podes èssere pùblicu o privadu cantu cheres. Cumpartzire una fotografia ispassiosa cun totu su mundu, o unu segretu de importu cun petzi sos amigos tuos. Tenes tue su controllu."
+      diaspora_site_link: "retza federada de diaspora*"
       headline: "Bene bènnidu in %{pod_name}"
       own_your_data: "Sos datos tuos sunt petzi tuos"
       own_your_data_info: "Medas retzas sotziales impreant sos datos tuos pro fàghere dinare analizende sas interatziones tuas pro ti bèndere cosa. diaspora* no impreat sos datos tuos pro cale si siat punna chi non siet sa de ti permìtere de ti connètere e de cumpartzire cun sos àteros."
+      part_of_diaspora: "Parte de su %{diaspora_site_link}"
     podmin:
       byline: "Istas pro cambiare ìnternet. Incumintzamus, ite naras?"
       configuration_info: "Aberi %{database_path} e %{diaspora_path} in s'editore de testu preferidu dae tie e revisiona·los cun atentzione. Sunt cummentados estensivamente."
@@ -616,7 +632,8 @@ sc:
       public_feed: "Flussu de diaspora* pùblicu de %{name}"
       source_package: "Iscàrriga su pachete de su còdighe mitza"
       statistics_link: "Istatìsticas pod"
-      toggle: "Allughe/istuda sa versione mòbile"
+      switch_to_standard_mode: "Cola a sa modalidade predefinida"
+      switch_to_touch_optimized_mode: "Cola a sa modalidade tàtile otimizada"
       whats_new: "Ite b'est de nou?"
     header:
       code: "Còdighe"
@@ -958,7 +975,11 @@ sc:
       updated: "Profilu agiornadu"
   public: "Pùblicu"
   registrations:
-    closed: "Sas registratziones sunt serradas in custu pod de diaspora*."
+    closed:
+      another_pod: "un'àteru pod"
+      closed_pod: "Custu pod est, in custu momentu, serradu pro sas registratziones noas. Nointames, ti podes aunire su matessi a sa retza de diaspora* registrende·ti in %{wiki}. Essende totu sos pods connessos intre issos, as a tènnere atzessu a sos matessi cuntenutos in cue."
+      find_pods: "Podes agatare una lista de pods in ue ti podes registrare in %{poduptime}"
+      other_questions: "Si tenes cale si siat àtera pregunta chi pertocat a s'issèberu de unu pod, leghe·ti sa %{wiki} nostra"
     create:
       success: "Ti ses registradu in diaspora*!"
     invalid_invite: "Su ligàmene de invitu chi as impreadu no est prus vàlidu!"
@@ -1024,7 +1045,6 @@ sc:
       share_to: "Cumpartzi in %{provider}"
       title: "Amministra sos servìtzios connessos"
     provider:
-      facebook: "Facebook"
       tumblr: "Tumblr"
       twitter: "Twitter"
       wordpress: "WordPress"
@@ -1092,6 +1112,7 @@ sc:
     total_users: "Impreadores totales"
     version: "Versione"
   status_messages:
+    bad_aspects: "Sos IDs insertados non sunt curretos (no esistint o non sunt possedidos)"
     new:
       mentioning: "Ses numenende: %{person}"
     too_long: "Pro praghere iscrie un'istadu cun prus pagu de %{count} caràteres. In custu momentu bi sunt %{current_length} caràteres."
@@ -1145,6 +1166,41 @@ sc:
         one: "1 persone etichetadas cun %{tag}"
         other: "%{count} persones etichetadas cun %{tag}"
         zero: "Nemos etichetadu cun %{tag}"
+  two_factor_auth:
+    activated:
+      change_button: "Disativa"
+      change_label: "Disativa s'autenticatzione in duas fases insertende sa crae de intrada tua"
+      status: "Autenticatzione in duas fases ativada"
+    confirm:
+      activate_button: "Cunfirma e ativa"
+      input_explanation: "A pustis de s'iscansidura o de s'insertadura de su còdighe segretu, inserta su còdighe de ses tzifras chi as a bìdere e cunfirma s'impostatzione."
+      input_title: "Cunfirma cun unu getone TOTP"
+      manual_explanation: "S'in casu mai non potzas iscansire su còdighe QR in manera automàtica podes insertare su còdighe segretu manualmente in s'aplicatzione."
+      manual_explanation_cont: "Semus impreende craes de intrada bàlidas pro una borta ebbia (TOTP) basadas subra su tempus cun getones a ses tzifras. S'in casu mai s'aplicatzione tua ti pedat un'intervallu de tempus e un's'algoritmu, inserta pare-pare 30 segundos e sha1. <br /> Sos ispàtzios bi sunt pro leghibilidade ebbia, inserta su còdighe chene de issos."
+      scan_explanation: "Pro praghere iscansi su còdighe QR cun un'aplicatzione cun capatzidade TOTP, che a andOTP (Android), FreeOTP (iOS), SailOTP (SailfishOS)."
+      scan_title: "Iscansi su còdighe QR"
+      status: "S'autenticatzione in duas fases no est galu ativada de su totu, depes cunfirmare s'ativatzione cun unu getone TOTP"
+      title: "Cunfirma s'ativatzione"
+    deactivated:
+      change_button: "Ativa"
+      change_label: "Ativa s'autenticatzione in duas fases"
+      status: "Autenticatzione in duas fases disativada"
+    explanation: "S'autenticatzione in duas fases est una manera poderosa pro t'assegurare de èssere s'ùnicu in gradu de atzèdere a su contu tuo. Cando faghes s'atzessu, inserta unu còdighe de 6 tzifras in paris cun sa crae tua pro dimustrare s'identidade tua. Dae cara: si perdes su telèfonu e sos còdighes de riprìstinu creados cando ativas custa funtzionalidade, as a tènnere s'atzessu a su contu de diaspora* tuo blocadu pro semper."
+    flash:
+      error_token: "Su getone fiat non curretu o non vàlidu"
+      success_activation: "Autenticatzione in duas fases ativada chene problemas"
+      success_deactivation: "Autenticatzione in duas fases disativada chene problemas"
+    input_token:
+      label: "Getone in duas fases"
+      placeholder: "getone in duas fases a ses tzifras"
+    recovery:
+      button: "Ingendra còdighes de recùperu noos"
+      explanation: "S'in casu mai as a pèrdere s'atzessu a su telèfonu tuo as a pòdere impreare unu de sos còdighes de recùperu inoghe in suta pro torrare a otènnere s'atzessu a su contu tuo. Ampara bene sos còdighes de recùperu. Pro fàghere un'esèmpiu, los dias pòdere imprentare e pònnere cun àteros documentos de importu."
+      explanation_short: "Sos còdighes de recùperu ti permitint de torrare a otènnere s'atzessu a su contu tuo si as pèrdidu su telèfonu tuo. Ammenta·ti chi podes impreare cada còdighe de recùperu una borta ebbia."
+      invalidation_notice: "Si as pèrdidu sos còdighes de recùperu tuos, los podes torrare a ingendrare inoghe. Sos còdighes de recùperu betzos ant a èssere invalidados."
+      reminder: "Si nono, podes impreare unu de sos còdighes de recùperu."
+      title: "Còdighes de recùperu"
+    title: "Autenticatzione in duas fases"
   username: "Nùmene impreadore"
   users:
     confirm_email:
@@ -1186,11 +1242,17 @@ sc:
       export_in_progress: "In custu momentu semus protzessende sos datos tuos. Pro praghere, torra a verificare a pustis de carchi momentu."
       export_photos_in_progress: "Semus elaborande sas fotos tuas. Pro piaghere torra a compidare intre pagu."
       following: "Impostatziones de cumpartzidura"
+      last_exported_html: "(Ùrtimu agiornamentu %{timeago})"
       liked: "a calicunu agradat una publicatzione tua"
       mentioned: "ses numenadu in una publicatzione"
       mentioned_in_comment: "ti ant numenadu in unu cummentu"
       new_password: "Crae noa"
       private_message: "as retzidu unu messàgiu privadu"
+      protocol_handler:
+        browser: "Custu protocollu est atualmente in istadu isperimentale e su sutzessu de sas interatziones impreende·lu at a dipèndere dae s'esploradore tuo. Si cheres manigiare o bogare custu gestore, lu podes fàghere impreende sas impostatziones de s'esploradore tuo. Custu butone at a èssere semper abilitadu, e as a dèpere impostare su gestore separatamente in cada esploradore chi as a impreare."
+        description: "web+diaspora:// est unu protocollu web nou chi amos introduidu. Cada ligàmene a una pàgina de diaspora* in unu situ esternu chi impreat custu protocollu podet èssere abertu in su pod in ue est registradu su contu de diaspora* tuo. Incarca su butone inoghe in suta pro impostare s'esploradore tuo pro impreare %{pod_url} pro reconnòschere ligàmenes esternos web+diaspora://."
+        register: "Registra su gestore web+diaspora:// in custu esploradore"
+        title: "Gestore de protocollu web+diaspora://"
       receive_email_notifications: "Retzi notìficas pro mèdiu de e-lìteras cando:"
       request_export: "Pedi sos datos de su profilu meu"
       request_export_photos: "Pedire sas fotografias meas"
@@ -1208,8 +1270,6 @@ sc:
     getting_started:
       awesome_take_me_to_diaspora: "Fantasticu! Faghe·mi intrare in diaspora*"
       community_welcome: "Sa comunidade de diaspora* est cuntenta de ti tènnere a bordu cun nois!"
-      connect_to_facebook: "Podimus fàghere in manera unu pagu prus lestra impreende %{link} a diaspora*. Gasi as a carrigare su nùmene e sa fotografia tua, e as a abilitare sa cumpartzidura de sas publicatziones."
-      connect_to_facebook_link: "Su collegamentu de su contu tuo de Facebook"
       hashtag_explanation: "Sos cantzelletos ti permitint de chistionare de sos interessos tuos e de los sighire. Sunt fintzas una manera ispantosa de connòschere gente noa in diaspora*."
       hashtag_suggestions: "Proa a sighire etichetas comente a #art, #movies, #gif, etz."
       well_hello_there: "Salude!"

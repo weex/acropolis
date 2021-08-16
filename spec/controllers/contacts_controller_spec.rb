@@ -14,14 +14,14 @@ describe ContactsController, :type => :controller do
     context 'format mobile' do
       it "succeeds" do
         get :index, format: :mobile
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
     context 'format html' do
       it "succeeds" do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "doesn't assign contacts" do
@@ -34,16 +34,16 @@ describe ContactsController, :type => :controller do
     context "format json" do
       context "for the contacts search" do
         before do
-          @person1 = FactoryGirl.create(:person)
+          @person1 = FactoryBot.create(:person)
           bob.share_with(@person1, bob.aspects.first)
-          @person2 = FactoryGirl.create(:person)
-          @person3 = FactoryGirl.create(:person)
+          @person2 = FactoryBot.create(:person)
+          @person3 = FactoryBot.create(:person)
           bob.contacts.create(person: @person3, aspects: [bob.aspects.first], receiving: true, sharing: true)
         end
 
         it "succeeds" do
           get :index, params: {q: @person1.first_name}, format: :json
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it "responds with json" do
@@ -108,7 +108,7 @@ describe ContactsController, :type => :controller do
         context "with an aspect id" do
           before do
             @aspect = bob.aspects.create(name: "awesome contacts")
-            @person = FactoryGirl.create(:person)
+            @person = FactoryBot.create(:person)
             bob.share_with(@person, @aspect)
           end
 
@@ -133,7 +133,7 @@ describe ContactsController, :type => :controller do
   describe '#spotlight' do
     it 'succeeds' do
       get :spotlight
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'gets queries for users in the app config' do

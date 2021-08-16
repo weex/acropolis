@@ -31,7 +31,6 @@ class PhotosController < ApplicationController
         format.all do
           gon.preloads[:person] = @presenter.as_json
           gon.preloads[:photos_count] = Photo.visible(current_user, @person).count(:all)
-          gon.preloads[:contacts_count] = Contact.contact_contacts_for(current_user, @person).count(:all)
           render "people/show", layout: "with_header"
         end
         format.mobile { render "people/show" }
@@ -120,7 +119,7 @@ class PhotosController < ApplicationController
       file_name = params[:qqfile]
       # get file content type
       att_content_type = request.content_type.to_s == "" ? "application/octet-stream" : request.content_type.to_s
-      # create tempora##l file
+      # create temporal file
       file = Tempfile.new(file_name, encoding: "BINARY")
       # put data into this file from raw post request
       file.print request.raw_post.force_encoding("BINARY")
@@ -133,34 +132,11 @@ class PhotosController < ApplicationController
   end
 
   def legacy_create
-    photo_params = params.require(:photo).permit(:pending, :set_profile_photo, aspect_ids: [])
-    if photo_params[:aspect_ids] == "all"
-      photo_params[:aspect_ids] = current_user.aspects.map(&:id)
-    elsif photo_params[:aspect_ids].is_a?(Hash)
-      photo_params[:aspect_ids] = params[:photo][:aspect_ids].values
-    end
+    base_params = photo_params
+    uploaded_file = file_handler(params)
 
-    photo_params[:user_file] = file_handler(params)
-
-    @photo = current_user.build_post(:photo, photo_params)
-
-    if @photo.save
-
-      unless @photo.pending
-        unless @photo.public?
-          aspects = current_user.aspects_from_ids(photo_params[:aspect_ids])
-          current_user.add_to_streams(@photo, aspects)
-        end
-        current_user.dispatch_post(@photo, to: photo_params[:aspect_ids])
-      end
-
-      if photo_params[:set_profile_photo]
-        profile_params = {image_url:        @photo.url(:thumb_large),
-                          image_url_medium: @photo.url(:thumb_medium),
-                          image_url_small:  @photo.url(:thumb_small)}
-        current_user.update_profile(profile_params)
-      end
-
+    @photo = photo_service.create_from_params_and_file(base_params, uploaded_file)
+    if @photo
       respond_to do |format|
         format.json { render(layout: false, json: {"success" => true, "data" => @photo}.to_json) }
         format.html { render(layout: false, json: {"success" => true, "data" => @photo}.to_json) }
@@ -185,5 +161,9 @@ class PhotosController < ApplicationController
       format.json { render(layout: false, json: {"success" => false, "error" => message}.to_json) }
       format.html { render(layout: false, json: {"success" => false, "error" => message}.to_json) }
     end
+  end
+
+  def photo_service
+    @photo_service ||= PhotoService.new(current_user, false)
   end
 end

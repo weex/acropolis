@@ -15,7 +15,7 @@
           = t(".configure_your_pod")
         != t(".configuration_info",
              database_path: content_tag(:code, "config/database.yml"),
-             diaspora_path: content_tag(:code, "config/diaspora.yml"))
+             diaspora_path: content_tag(:code, "config/diaspora.toml"))
 
     .col-md-4
       .landing-info-card
@@ -31,7 +31,7 @@
           %span.entypo-key
           = t(".make_yourself_an_admin")
         != t(".make_yourself_an_admin_info",
-             wiki: link_to("diaspora* wiki", "https://wiki.diasporafoundation.org/FAQ_for_pod_maintainers#What_are_roles_and_how_do_I_use_them.3F_.2F_Make_yourself_an_admin"),
+             wiki: link_to("diaspora* wiki", "https://wiki.diasporafoundation.org/Permalink:FAQ_-_Add_admin"),
              admin_dashboard: link_to(t("javascripts.header.admin"), admin_dashboard_path))
 
   .row

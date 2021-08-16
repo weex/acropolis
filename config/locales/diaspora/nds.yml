@@ -254,7 +254,6 @@ nds:
       change_aspect_of_post_q: "Kann ik de Aspekte ännern, de een Bidrag seen künnt, wenn ik em schon afschickt heb?"
       contacts_know_aspect_a: "Nee. Se künnt den Noom von den Aspekt ünner keene Ümstände sehn."
       contacts_know_aspect_q: "Weet miene Kontakte, in welche Aspekte ik jüm doon heb?"
-      contacts_visible_q: "Wat heet „Kontakte in dissen Aspekt to sik sülbst sichtbor moken“?"
       delete_aspect_q: "Wie lösch ik een Aspekt?"
       person_multiple_aspects_q: "Kann ik eene Person in mehrere Aspekte daun?"
       post_multiple_aspects_q: "Kann ik Inhalt an mehrere Aspekte op eenmol schrieben?"
@@ -265,9 +264,6 @@ nds:
       title: "Aspekte"
       what_is_an_aspect_q: "Wat is een Aspekt?"
       who_sees_post_q: "Wer sütt dat, wenn ik wat an bestimmte Aspekte schriev?"
-    chat:
-      contacts_page: "Kontaktesiet"
-      title: "Tippschnack"
     faq: "FAQ"
     foundation_website: "Websiet von de diaspora* foundation"
     getting_help:
@@ -387,7 +383,6 @@ nds:
       public_feed: "Öffentliche diaspora*-Feed för %{name}"
       source_package: "Lod dat Quellcodepaket rünner"
       statistics_link: "Podstatistiken"
-      toggle: "Mobile Ansicht ümschalten"
       whats_new: "Wat gift dat Nee’es?"
     header:
       code: "Code"
@@ -584,7 +579,6 @@ nds:
       updated: "Profil aktualisiert"
   public: "Öffentlich"
   registrations:
-    closed: "Registrerungen sind op dissen diaspora*-Pod schloten."
     create:
       success: "Du bist nu bi diaspora*!"
     invalid_invite: "Dien Inlodungslink is nich mehr gültig!"
@@ -635,7 +629,6 @@ nds:
       not_logged_in: "Grood nich anmeld."
       really_disconnect: "Verbinnung to %{service} trennen?"
     provider:
-      facebook: "Facebook"
       tumblr: "Tumblr"
       twitter: "Twitter"
       wordpress: "WordPress"
@@ -790,7 +783,6 @@ nds:
     getting_started:
       awesome_take_me_to_diaspora: "Toll! Bring mi to diaspora*"
       community_welcome: "De Gemeenschaft von diaspora* freit sik, di an Boord to hebben!"
-      connect_to_facebook_link: "Mit dien Facebook-Konto verbinnen"
       hashtag_explanation: "Mit Hashtags kannst du öber diene Interessen schnacken und jüm folgen.  Se sind ok eene tolle Mööglichkeit, üm nee'e Lüüd op diaspora* kennen to lernen."
       hashtag_suggestions: "Verseuk mol, Tags wie #Kunst, #Filme, #gif oder so to folgen"
       well_hello_there: "Naja, hallo erstmol!"

@@ -46,8 +46,8 @@ DiasporaFederation.configure do |config|
           full_name:        "#{person.profile.first_name} #{person.profile.last_name}".strip,
           url:              AppConfig.pod_uri,
           photo_large_url:  person.image_url,
-          photo_medium_url: person.image_url(:thumb_medium),
-          photo_small_url:  person.image_url(:thumb_small),
+          photo_medium_url: person.image_url(size: :thumb_medium),
+          photo_small_url:  person.image_url(size: :thumb_small),
           public_key:       person.serialized_public_key,
           searchable:       person.searchable,
           first_name:       person.profile.first_name,
@@ -117,8 +117,13 @@ DiasporaFederation.configure do |config|
     end
 
     on :fetch_public_entity do |entity_type, guid|
-      entity = Diaspora::Federation::Mappings.model_class_for(entity_type).find_by(guid: guid, public: true)
-      Diaspora::Federation::Entities.post(entity) if entity.is_a? Post
+      entity = Diaspora::Federation::Mappings.model_class_for(entity_type).all_public.find_by(guid: guid)
+      case entity
+      when Post
+        Diaspora::Federation::Entities.post(entity)
+      when Poll
+        Diaspora::Federation::Entities.status_message(entity.status_message)
+      end
     end
 
     on :fetch_person_url_to do |diaspora_id, path|

@@ -39,7 +39,6 @@ describe NodeInfoPresenter do
         },
         "metadata"          => {
           "nodeName" => AppConfig.settings.pod_name,
-          "xmppChat" => AppConfig.chat.enabled?,
           "camo"     => {
             "markdown"   => AppConfig.privacy.camo.proxy_markdown_images?,
             "opengraph"  => AppConfig.privacy.camo.proxy_opengraph_thumbnails?,
@@ -52,10 +51,6 @@ describe NodeInfoPresenter do
     context "when services are enabled" do
       before do
         AppConfig.services = {
-          "facebook"  => {
-            "enable"     => true,
-            "authorized" => true
-          },
           "twitter"   => {"enable" => true},
           "wordpress" => {"enable" => false},
           "tumblr"    => {
@@ -66,17 +61,13 @@ describe NodeInfoPresenter do
       end
 
       it "provides services" do
-        expect(hash).to include "services" => include("outbound" => %w(twitter facebook))
+        expect(hash).to include "services" => include("outbound" => ["twitter"])
       end
     end
 
     context "when some services are set to username authorized" do
       before do
         AppConfig.services = {
-          "facebook"  => {
-            "enable"     => true,
-            "authorized" => "bob"
-          },
           "twitter"   => {"enable" => true},
           "wordpress" => {
             "enable"     => true,
@@ -126,16 +117,6 @@ describe NodeInfoPresenter do
       end
     end
 
-    context "when chat is enabled" do
-      before do
-        AppConfig.chat.enabled = true
-      end
-
-      it "should mark the xmppChat metadata as true" do
-        expect(hash).to include "metadata" => include("xmppChat" => true)
-      end
-    end
-
     context "when camo is enabled" do
       before do
         AppConfig.privacy.camo.proxy_markdown_images = true
@@ -181,7 +162,6 @@ describe NodeInfoPresenter do
           },
           "metadata"          => {
             "nodeName" => AppConfig.settings.pod_name,
-            "xmppChat" => AppConfig.chat.enabled?,
             "camo"     => {
               "markdown"   => AppConfig.privacy.camo.proxy_markdown_images?,
               "opengraph"  => AppConfig.privacy.camo.proxy_opengraph_thumbnails?,

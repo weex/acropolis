@@ -24,12 +24,22 @@ describe PollParticipation, type: :model do
         bob.participate_in_poll!(status, poll.poll_answers.first)
       }.to_not raise_error
     end
+
+    it "has unique DB index for author-person" do
+      pp = FactoryBot.create(:poll_participation)
+      pp2 = FactoryBot.create(:poll_participation, author: pp.author)
+      expect {
+        # rubocop:disable Rails/SkipsModelValidations
+        pp2.update_attribute(:poll_id, pp.poll_id)
+        # rubocop:enable Rails/SkipsModelValidations
+      }.to raise_error ActiveRecord::RecordNotUnique
+    end
   end
 
   it_behaves_like "it is relayable" do
-    let(:remote_parent) { FactoryGirl.create(:status_message_with_poll, author: remote_raphael) }
+    let(:remote_parent) { FactoryBot.create(:status_message_with_poll, author: remote_raphael) }
     let(:local_parent) {
-      FactoryGirl.create(:status_message_with_poll, author: local_luke.person).tap do |status_message|
+      FactoryBot.create(:status_message_with_poll, author: local_luke.person).tap do |status_message|
         local_luke.add_to_streams(status_message, [local_luke.aspects.first])
       end
     }
@@ -38,7 +48,7 @@ describe PollParticipation, type: :model do
       local_luke.participate_in_poll!(remote_parent, remote_parent.poll.poll_answers.first)
     }
     let(:remote_object_on_local_parent) {
-      FactoryGirl.create(:poll_participation, poll_answer: local_parent.poll.poll_answers.first, author: remote_raphael)
+      FactoryBot.create(:poll_participation, poll_answer: local_parent.poll.poll_answers.first, author: remote_raphael)
     }
     let(:relayable) { PollParticipation::Generator.new(alice, status, poll.poll_answers.first).build }
   end

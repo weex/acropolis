@@ -60,9 +60,13 @@ app.models.Post.Interactions = Backbone.Model.extend({
   unlike : function() {
     var self = this;
     this.userLike().destroy({success : function() {
+      self.post.set({participation: false});
       self.trigger('change');
       self.set({"likes_count" : self.get("likes_count") - 1});
       self.likes.trigger("change");
+    },
+      error: function(model, response) {
+        app.flashMessages.handleAjaxError(response);
     }});
   },
 
@@ -79,6 +83,10 @@ app.models.Post.Interactions = Backbone.Model.extend({
       self.trigger('change'); //updates after sync
       if (options.success) { options.success(); }
     });
+  },
+
+  removedComment: function() {
+    this.set({"comments_count": this.get("comments_count") - 1});
   },
 
   reshare : function(){
