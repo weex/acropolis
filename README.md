@@ -1,3 +1,14 @@
+# C4 fork of diaspora\*
+
+![Build Status](https://github.com/weex/diaspora/actions/workflows/ci.yml/badge.svg)
+
+
+WARNING: This codebase is moving fast and possibly breaking things. If you find a bug, please [make an issue](https://github.com/weex/diaspora/issues/new) with a [clear problem statement](https://rfc.zeromq.org/spec/42/#24-development-process).
+
+We are accelerating development on diaspora\* via [C4 process](https://rfc.zeromq.org/spec/42/). Further reasoning can be found [in this thread](https://discourse.diasporafoundation.org/t/experimental-fork-based-on-c4/4095). Tooling for making your own C4 fork of any project is [here](https://github.com/weex/c4-tools).
+
+Each pull request that was merged has a comment (i.e. [UpstreamPR8203](https://github.com/diaspora/diaspora/pull/8203)) that helps find the original PR without unnecessary spam.
+
 # diaspora\*
 ### A privacy-aware, distributed, open source social network
 
