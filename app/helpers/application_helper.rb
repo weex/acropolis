@@ -16,7 +16,7 @@ module ApplicationHelper
   def changelog_url
     return AppConfig.settings.changelog_url.get if AppConfig.settings.changelog_url.present?
 
-    url = "https://github.com/diaspora/diaspora/blob/master/Changelog.md"
+    url = "https://github.com/c4social/diaspora/pulls?q=is:merged"
     return url if AppConfig.git_revision.blank?
 
     url.sub("/master/", "/#{AppConfig.git_revision}/")
