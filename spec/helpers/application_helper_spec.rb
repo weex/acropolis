@@ -136,7 +136,7 @@ describe ApplicationHelper, :type => :helper do
     it "displays the changelog for the current git revision if set" do
       expect(changelog_url_setting).to receive(:present?).and_return(false)
       expect(AppConfig).to receive(:git_revision).twice.and_return("123")
-      expect(changelog_url).to eq("https://github.com/c4social/diaspora/blob/123/Changelog.md")
+      expect(changelog_url).to eq("https://github.com/c4social/diaspora/commits/main")
     end
 
     it "displays the configured changelog url if set" do

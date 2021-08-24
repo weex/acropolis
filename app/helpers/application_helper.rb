@@ -19,7 +19,7 @@ module ApplicationHelper
     url = "https://github.com/c4social/diaspora/pulls?q=is:merged"
     return url if AppConfig.git_revision.blank?
 
-    url.sub("/master/", "/#{AppConfig.git_revision}/")
+    url = "https://github.com/c4social/diaspora/commits/main"
   end
 
   def source_url
