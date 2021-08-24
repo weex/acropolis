@@ -21,7 +21,7 @@ services:
 
   unicorn:
     container_name: diaspora_unicorn
-    image: ultrahang/diaspora:latest
+    image: dsterry/diaspora
     restart: always
     command: bin/bundle exec unicorn -c config/unicorn.rb -E production
     volumes:
@@ -34,7 +34,7 @@ services:
 
   sidekiq:
     container_name: diaspora_sidekiq
-    image: ultrahang/diaspora:latest
+    image: dsterry/diaspora
     restart: always
     command: bin/bundle exec sidekiq
     volumes:

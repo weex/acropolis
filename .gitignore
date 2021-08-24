@@ -46,6 +46,10 @@ public/assets/
 public/source.tar*
 tmp/
 
+# docker-compose
+data/
+redis/
+
 # Temporary files of every sort
 .byebug_history
 .sass-cache/
