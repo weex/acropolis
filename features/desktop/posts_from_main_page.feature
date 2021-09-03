@@ -23,7 +23,7 @@ Feature: posting from the main page
       And ".options_and_submit" is hidden
       When I expand the publisher
       Then I should see "You can use Markdown to format your post" within ".markdownIndications"
-      Then I should see "All aspects" within ".options_and_submit"
+      Then I should see "Public" within ".options_and_submit"
       Then I should see a ".md-write-tab" within ".md-header"
       Then I should see a ".md-preview-tab" within ".md-header"
 
