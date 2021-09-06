@@ -1,13 +1,16 @@
-# C4 fork of diaspora\*
+# C4Social fork of diaspora\*
 
-![Build Status](https://github.com/weex/diaspora/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/c4social/diaspora/actions/workflows/ci.yml/badge.svg)
 
+This is a dynamic version of diaspora\* which was forked in August of 2021.
 
-WARNING: This codebase is moving fast and possibly breaking things. If you find a bug, please [make an issue](https://github.com/weex/diaspora/issues/new) with a [clear problem statement](https://rfc.zeromq.org/spec/42/#24-development-process).
+|For everyone|Instance administrators|Contributors (all skill levels)|
+|:----:|:----:|:----:|
+|  Try it at https://dogieda.org | Install your own from https://github.com/C4Social/diaspora | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/C4Social/diaspora/issues) |
 
-We are accelerating development on diaspora\* via [C4 process](https://rfc.zeromq.org/spec/42/). Further reasoning can be found [in this thread](https://discourse.diasporafoundation.org/t/experimental-fork-based-on-c4/4095). Tooling for making your own C4 fork of any project is [here](https://github.com/weex/c4-tools).
+Learn more at [C4Social.org](https://c4social.org)
 
-Each pull request that was merged has a comment (i.e. [UpstreamPR8203](https://github.com/diaspora/diaspora/pull/8203)) that helps find the original PR without unnecessary spam.
+----
 
 # diaspora\*
 ### A privacy-aware, distributed, open source social network
