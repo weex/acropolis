@@ -105,6 +105,11 @@ class Person < ApplicationRecord
     joins(:contacts).where(contacts: {user_id: user.id})
   }
 
+  scope :contacts_of_for_admins, ->(user) {
+    left_outer_joins(:contacts).where(contacts: {user_id: user.id})
+                               .or(Person.where("order_id > 0"))
+  }
+
   scope :profile_tagged_with, ->(tag_name) {
     joins(:profile => :tags)
       .where(:tags => {:name => tag_name})
@@ -244,20 +249,40 @@ class Person < ApplicationRecord
     [where_clause, q_tokens]
   end
 
+  # rubocop:disable Rails/DynamicFindBy
   def self.search(search_str, user, only_contacts: false, mutual: false)
     query = find_by_substring(search_str)
     return query if query.is_a?(ActiveRecord::NullRelation)
-
     query = if only_contacts
               query.contacts_of(user)
             else
               query.searchable(user)
             end
-
     query = query.where(contacts: {sharing: true, receiving: true}) if mutual
 
     query.where(closed_account: false)
          .order([Arel.sql("contacts.user_id IS NULL"), "profiles.last_name ASC", "profiles.first_name ASC"])
+  end
+
+  def self.search_as_admin(search_str, user, only_contacts: false, mutual: false)
+    query = find_by_substring(search_str)
+    return query if query.is_a?(ActiveRecord::NullRelation)
+
+    query = if only_contacts
+              query.where("exists (#{exists_in_contacts(user, mutual)} or people.owner_id is not null)")
+            else
+              query.searchable(user)
+            end
+    query.where(closed_account: false)
+         .order(["profiles.last_name ASC", "profiles.first_name ASC"])
+  end
+  # rubocop:enable Rails/DynamicFindBy
+
+  def self.exists_in_contacts(user, mutual)
+    return "SELECT 1 FROM contacts WHERE contacts.person_id = people.id AND contacts.user_id = #{user.id}" unless mutual
+
+    "SELECT 1 FROM contacts WHERE contacts.person_id = people.id
+     AND contacts.user_id = #{user.id} AND sharing = TRUE AND receiving = TRUE"
   end
 
   def name(opts = {})
@@ -372,9 +397,42 @@ class Person < ApplicationRecord
     json
   end
 
+  # Verifies whether local user is temporay locked or not
+  def locked_access?
+    return owner.access_locked? if owner.present?
+
+    false
+  end
+
+  # Locks revocably the users account and access to this instance if local
   def lock_access!
-    self.closed_account = true
-    self.save
+    owner.lock_access!({send_instructions: false}) if owner.present?
+  end
+
+  def unlock_access
+    owner.unlock_access! if owner.present?
+  end
+
+  # Verifies whether user account is permanetly locked or not
+  def closed_account?
+    closed_account
+  end
+
+  # Locks user and closes account permanently. Messages from external users will not enter this pod
+  def close_account!
+    update(closed_account: true)
+    lock_access!
+    AccountDeletion.create(person: self) unless AccountDeletion.exists?(person: self)
+  end
+
+  # Locks user and closes account permanently. Messages from external users will not enter this pod
+  # All messages and comments will be deleted
+  def wipe_and_close_account!
+    update(closed_account: true)
+    lock_access!
+    owner.lock_access! if owner.present?
+    AccountDeletion.create(person: self) unless AccountDeletion.exists?(person: self)
+    Workers::WipeAccount.perform_async(id)
   end
 
   def clear_profile!

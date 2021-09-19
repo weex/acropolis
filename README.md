@@ -1,3 +1,17 @@
+# C4Social fork of diaspora\*
+
+![Build Status](https://github.com/c4social/diaspora/actions/workflows/ci.yml/badge.svg)
+
+This is a dynamic version of diaspora\* which was forked in August of 2021.
+
+|For everyone|Instance administrators|Contributors (all skill levels)|
+|:----:|:----:|:----:|
+|  Try it at https://dogieda.org | Install your own from https://github.com/C4Social/diaspora | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/C4Social/diaspora/issues) |
+
+Learn more at [C4Social.org](https://c4social.org)
+
+----
+
 # diaspora\*
 ### A privacy-aware, distributed, open source social network
 

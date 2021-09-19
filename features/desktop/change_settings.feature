@@ -38,7 +38,7 @@ Feature: Change settings
   Scenario: Change my post default aspects
     When I go to the stream page
     And I expand the publisher
-    Then I should see "All aspects" within ".aspect-dropdown"
+    Then I should see "Public" within ".aspect-dropdown"
     When I go to the edit user page
     And I press the aspect dropdown
     And I toggle the aspect "Family"
@@ -48,7 +48,7 @@ Feature: Change settings
     And I expand the publisher
     Then I should see "Family" within ".aspect-dropdown"
 
-  Scenario: Change my post default to public
+  Scenario: Change my post default to all aspects
     When I press the aspect dropdown
     And I toggle the aspect "Public"
     And I press "Change" within "#post-default-aspects"

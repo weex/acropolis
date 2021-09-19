@@ -32,7 +32,7 @@ describe Stream::Multi do
 
     it "provides no opts if welcome? is not set" do
       allow(@stream).to receive(:welcome?).and_return(false)
-      expect(@stream.send(:publisher_opts)).to eq(public: false)
+      expect(@stream.send(:publisher_opts)).to eq(public: true)
     end
   end
 
