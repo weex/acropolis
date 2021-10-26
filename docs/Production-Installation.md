@@ -59,13 +59,14 @@ docker-compose run --rm unicorn bin/rake db:create db:migrate
 ```
 
 ### Create data storage location 
+```
 sudo chown -R 942:942 data
 mkdir tmp
 sudo chown -R 942:942 tmp
+```
 
 ### Start diaspora
-docker-compose up -d
-
+`docker-compose up -d`
 
 ### Connect Reverse Proxy
 Nginx config should look like this:
