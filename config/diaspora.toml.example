@@ -277,9 +277,9 @@
 ## General settings
 [configuration.settings]
 
-## Pod name (default="diaspora*")
+## Pod name (default="Acropolis")
 ## The pod name displayed in various locations, including the header.
-#pod_name = "diaspora*"
+#pod_name = "Acropolis"
 
 ## Allow registrations (default=true)
 ## Set this to false to prevent people from signing up to your pod
@@ -363,11 +363,11 @@
 ## by your welcome message.
 #subject = "Welcome Message"
 
-## Welcome Message text (default="Hello %{username}, welcome to diaspora*.")
+## Welcome Message text (default="Hello %{username}, welcome to Acropolis and the diaspora* network.")
 ## The content of your welcome message.
 ## The placeholder "%{username}" will be replaced by the username
 ## of the new user.
-#text = "Hello %{username}, welcome to diaspora*."
+#text = "Hello %{username}, welcome to Acropolis and the diaspora* network."
 
 ## Invitation settings
 [configuration.settings.invitations]
@@ -486,8 +486,8 @@
 ## Title will be used for the opengraph og:site_name property while description will be used
 ## for description and og:description.
 [configuration.settings.default_metas]
-#title = "diaspora* social network"
-#description = "diaspora* is the online social world where you are in control."
+#title = "Acropolis"
+#description = "This pod is compatible with the diaspora* social network, where you are in control."
 
 ## CSP (Content Security Policy) header
 ## CSP allows limiting origins from where resources are allowed to be loaded. This

@@ -239,12 +239,12 @@ en:
       donate: "Donate"
       keep_pod_running: "Keep %{pod} running fast and buy servers their coffee fix with a monthly donation!"
       donate_liberapay: "Donate to liberapay"
-      welcome_to_diaspora: "Welcome to diaspora*, %{name}!"
+      welcome_to_diaspora: "Welcome to Acropolis and the diaspora* network, %{name}!"
       introduce_yourself: "This is your stream. Jump in and introduce yourself."
 
       new_here:
         title: "Welcome new users"
-        follow: "Follow %{link} and welcome new users to diaspora*!"
+        follow: "Follow %{link} and welcome new users to Acropolis and the diaspora* network!"
         learn_more: "Learn more"
 
       help:
@@ -266,7 +266,7 @@ en:
         mail_podmin: "Podmin email"
       services:
         heading: "Connect services"
-        content: "You can connect the following services to diaspora*:"
+        content: "You can connect the following services to Acropolis:"
 
     aspect_stream:
       stay_updated: "Stay updated"
@@ -283,8 +283,8 @@ en:
 
   bookmarklet:
     heading: "Bookmarklet"
-    post_something: "Post to diaspora*"
-    explanation: "Post to diaspora* from anywhere by bookmarking this link => %{link}."
+    post_something: "Post to Acropolis"
+    explanation: "Post to Acropolis from anywhere by bookmarking this link => %{link}."
 
   color_themes:
     dark: "Dark"
@@ -376,14 +376,14 @@ en:
     getting_help:
       title: "Getting help"
       getting_started_q: "Help! I need some basic help to get me started!"
-      getting_started_a: "You’re in luck. Try the %{tutorial_series} on our project site. It will take you step-by-step through the registration process and teach you all the basic things you need to know about using diaspora*."
+      getting_started_a: "You’re in luck. Try the %{tutorial_series} on our project site. It will take you step-by-step through the registration process and teach you all the basic things you need to know about using diaspora* (of which Acropolis is a fork)."
       get_support_q: "What if my question is not answered in this FAQ? Where else can I get support?"
       get_support_a_website: "Visit our %{link}"
       get_support_a_tutorials: "Check out our %{tutorials}"
       get_support_a_wiki: "Search the %{link}"
       get_support_a_irc: "Join us on %{irc} (live chat)"
       get_support_a_faq: "Read our %{faq} page on wiki"
-      get_support_a_hashtag: "Ask in a public post on diaspora* using the %{question} hashtag"
+      get_support_a_hashtag: "Ask in a public post on the diaspora* network using the %{question} hashtag"
       get_support_a_discourse: "Search for existing discussions relating to your enquiry or open a new thread in our %{discourse} platform"
     account_and_data_management:
       title: "Account and data management"
@@ -432,7 +432,7 @@ en:
     pods:
       title: "Pods"
       what_is_a_pod_q: "What is a pod?"
-      what_is_a_pod_a: "A pod is a server running the diaspora* software and connected to the diaspora* network. “Pod” is a metaphor referring to pods on plants which contain seeds, in the way that a server contains a number of user accounts. There are many different pods. You can add friends from other pods and communicate with them. There’s no need to open an account on different pods! One is enough – in this way, you can think of a diaspora* pod as similar to an email provider. There are public pods, private pods, and with some effort you can even run your own."
+      what_is_a_pod_a: "A pod is a server running the diaspora* or Acropolis software and connected to the diaspora* network. “Pod” is a metaphor referring to pods on plants which contain seeds, in the way that a server contains a number of user accounts. There are many different pods. You can add friends from other pods and communicate with them. There’s no need to open an account on different pods! One is enough – in this way, you can think of a diaspora* pod as similar to an email provider. There are public pods, private pods, and with some effort you can even run your own."
       find_people_q: "I just joined a pod, how can I find people to share with?"
       find_people_a: "If you want to invite your friends to join diaspora*, use the invitation link or the email link in the side-bar. Follow #tags to discover others who share your interests, and add those who post things that interest you to an aspect. Shout out that you’re #newhere in a public post."
       use_search_box_q: "How do I use the search box to find particular individuals?"
@@ -593,7 +593,7 @@ en:
       getting_help_info: "We listed some %{faq} including some additional tips and tricks and solutions for the most common problems. Also feel free to %{irc}."
       faq_for_podmins: "FAQ for pod maintainers in our wiki"
       contact_irc: "contact us on IRC"
-      contribute_info: "Make diaspora* even better! If you find any bugs please %{report_bugs}."
+      contribute_info: "Make Acropolis even better! If you find any bugs please %{report_bugs}."
       report_bugs: "report them"
 
   invitation_codes:
@@ -607,14 +607,14 @@ en:
       no_more: "You have no more invitations."
       empty: "Please enter at least one email address."
       note_already_sent: "Invitations have already been sent to: %{emails}"
-      closed: "Invitations are closed on this diaspora* pod."
+      closed: "Invitations are closed on this Acropolis pod."
     new:
       language: "Language"
-      invite_someone_to_join: "Invite someone to join diaspora*!"
+      invite_someone_to_join: "Invite someone to join Acropolis!"
       comma_separated_plz: "You can enter multiple email addresses separated by commas."
       send_an_invitation: "Send an invitation"
       sending_invitation: "Sending invitation..."
-      paste_link: "Share this link with your friends to invite them to diaspora*, or email them the link directly."
+      paste_link: "Share this link with your friends to invite them to Acropolis, or email them the link directly."
       codes_left:
         zero: "No invites left on this code"
         one: "One invite left on this code"
@@ -628,13 +628,13 @@ en:
       code: "Code"
       toggle_navigation: "Toggle navigation"
     application:
-      powered_by: "Powered by the C4 fork of diaspora*"
+      powered_by: "Powered by Acropolis"
       whats_new: "What’s new?"
       statistics_link: "Pod statistics"
       discourse: "Project discussions and support"
       switch_to_touch_optimized_mode: "Switch to touch-optimized mode"
       switch_to_standard_mode: "Switch to standard mode"
-      public_feed: "Public diaspora* feed for %{name}"
+      public_feed: "Public feed for %{name}"
       back_to_top: "Back to top"
       source_package: "Download the source code package"
       be_excellent: "Be excellent to each other! ♥"
@@ -738,16 +738,16 @@ en:
 
   notifier:
     a_post_you_shared: "a post."
-    a_private_message: "There’s a new private message in diaspora* for you to check out."
-    a_limited_post_comment: "There’s a new comment on a limited post in diaspora* for you to check out."
+    a_private_message: "There’s a new private message for you to check out."
+    a_limited_post_comment: "There’s a new comment on a limited post for you to check out."
     email_sent_by_diaspora: "This email was sent by %{pod_name}. If you'd like to stop getting emails like this,"
     click_here: "Click here"
     hello: "Hello %{name}!"
     thanks: "Thanks,"
     to_change_your_notification_settings: "to change your notification settings"
     single_admin:
-        subject: "A message about your diaspora* account:"
-        admin: "Your diaspora* administrator"
+        subject: "A message about your account:"
+        admin: "Your Acropolis administrator"
     started_sharing:
         subject: "%{name} started sharing with you on diaspora*"
         sharing: "has started sharing with you!"
@@ -758,7 +758,7 @@ en:
     also_commented:
         limited_subject: "There's a new comment on a post you commented"
     mentioned:
-        subject: "%{name} has mentioned you on diaspora*"
+        subject: "%{name} has mentioned you on Acropolis"
         limited_post: "You were mentioned in a limited post."
     mentioned_in_comment:
         limited_post: "You were mentioned in a comment to a limited post."
@@ -785,7 +785,7 @@ en:
       body: |-
         Hello %{name},
 
-        diaspora* has detected an attempt to access your session which might be unauthorised. To avoid any chance of your data being compromised, you have been signed out. Don’t worry; you can safely sign in again now.
+        Acropolis has detected an attempt to access your session which might be unauthorised. To avoid any chance of your data being compromised, you have been signed out. Don’t worry; you can safely sign in again now.
 
         A request has been made using a incorrect or missing CSRF token. This might be completely innocent, but it could be a cross-site request forgery (CSRF) attack.
 
@@ -802,7 +802,7 @@ en:
         If you see this message repeatedly, please check the points above, including any browser add-ons.
 
         Thank you,
-        The diaspora* email robot!
+        The Acropolis email robot!
     report_email:
         type:
           post: "post"
@@ -822,7 +822,7 @@ en:
 
           Cheers,
 
-          The diaspora* email robot!
+          The Acropolis email robot!
 
           [1]: %{url}
     export_email:
@@ -834,7 +834,7 @@ en:
 
         Cheers,
 
-        The diaspora* email robot!
+        The Acropolis email robot!
     export_failure_email:
       subject: "We’re sorry, there was an issue with your data, %{name}"
       body: |-
@@ -845,7 +845,7 @@ en:
 
         Sorry,
 
-        The diaspora* email robot!
+        The Acropolis email robot!
     export_photos_email:
       subject: "Your photos are ready for download, %{name}"
       body: |-
@@ -855,7 +855,7 @@ en:
 
         Cheers,
 
-        The diaspora* email robot!
+        The Acropolis email robot!
     export_photos_failure_email:
       subject: "There was an issue with your photos, %{name}"
       body: |-
@@ -866,13 +866,13 @@ en:
 
         Sorry,
 
-        The diaspora* email robot!
-    invited_you: "%{name} invited you to diaspora*"
+        The Acropolis email robot!
+    invited_you: "%{name} invited you to Acropolis"
     invite:
       message: |-
         Hello!
 
-        You have been invited to join diaspora* by %{user}!
+        You have been invited to join Acropolis by %{user}!
 
         Click this link to get started
 
@@ -883,9 +883,9 @@ en:
 
         Love,
 
-        The diaspora* email robot!
+        The Acropolis email robot!
 
-        P.S.: Just in case you don't know (yet) what diaspora* is, [here][2] is the answer!
+        P.S.: Learn more about the diaspora* network (which Acropolis connects to) [here][2]!
 
         [1]: %{invite_url}
         [2]: %{diasporafoundation_url}
@@ -894,17 +894,17 @@ en:
       body: |-
         Hello,
 
-        It looks as though you no longer want your account at %{pod_url}, as you haven’t used it for %{after_days} days. To ensure our active users get the best performance from this diaspora* pod, we’d like to remove unwanted accounts from our database.
+        It looks as though you no longer want your account at %{pod_url}, as you haven’t used it for %{after_days} days. To ensure our active users get the best performance from this Acropolis pod, we’d like to remove unwanted accounts from our database.
 
-        We’d love you to stay part of diaspora*’s community, and you’re welcome to keep your account live if you want to.
+        We’d love you to stay part of the Acropolis/diaspora* community, and you’re welcome to keep your account live if you want to.
 
-        If you want to keep your account live, all you need to do is to sign in to your account before %{remove_after}. When you sign in, take a moment to have a look around diaspora*. It has changed a lot since you last looked in, and we think you’ll like the improvements we’ve made. Follow some #tags to find content you love.
+        If you want to keep your account live, all you need to do is to sign in to your account before %{remove_after}. When you sign in, take a moment to have a look around. It may have changed since you last looked, and we think you’ll like the improvements we’ve made. Follow some #tags to find content you love.
 
         Sign in here: %{login_url}. If you’ve forgotten your sign-in details, you can ask for a reminder on that page.
 
         Hoping to see you again,
 
-        The diaspora* email robot!
+        The Acropolis email robot!
   api:
     openid_connect:
       authorizations:
@@ -1108,7 +1108,7 @@ en:
       your_location: "Your location"
       your_photo: "Your photo"
       update_profile: "Update profile"
-      allow_search: "Allow for people to search for you within diaspora*"
+      allow_search: "Allow for people to search for you within Acropolis and the diaspora* network"
       nsfw_explanation: "NSFW (“not safe for work”) is diaspora*’s self-governing community standard for content which may not be suitable to view while at work. If you plan to share such material frequently, please check this option so that everything you share will be hidden from people’s streams unless they choose to view them."
       nsfw_explanation2: "If you choose not to select this option, please add the #nsfw tag each time you share such material."
       nsfw_check: "Mark everything I share as NSFW"
@@ -1131,7 +1131,7 @@ en:
       terms: "By creating an account you accept the %{terms_link}."
       terms_link: "terms of service"
     create:
-      success: "You’ve joined diaspora*!"
+      success: "You’ve joined Acropolis!"
     closed:
       closed_pod: "This pod is currently closed to new registrations. However, you can still join the diaspora* network by registering on %{wiki}. Because all pods are interconnected, you will have access to the same content there."
       another_pod: "another pod"
@@ -1144,7 +1144,7 @@ en:
       part_of_network: "%{pod_url} is the diaspora* server (called a pod) where you registered. Log in there using your username, %{username}. Once logged in, you will be able to reach the whole diaspora* network, even users registered on other pods."
       your_id: "Your diaspora* id is %{id}. Share it with everyone so they can find you on the network."
       help: "If you need help, have a look at the tutorials or the help section. If you don't find anything, then post a public message with the #question tag so people can help you."
-      welcome: "Welcome aboard, enjoy diaspora*!"
+      welcome: "Welcome aboard, enjoy Acropolis and the diaspora* network!"
   reshares:
     create:
       error: "Failed to reshare."
@@ -1167,7 +1167,7 @@ en:
       not_logged_in: "Currently not logged in."
       really_disconnect: "Disconnect %{service}?"
       edit_services: "Edit services"
-      services_explanation: "Connecting to third-party sharing services gives you the ability to publish your posts to them as you write them in diaspora*."
+      services_explanation: "Connecting to third-party sharing services gives you the ability to publish your posts to them as you write them in Acropolis."
       share_to: "Share to %{provider}"
     create:
       success: "Authentication successful."
@@ -1220,7 +1220,7 @@ en:
       visibility_dropdown: "Use this dropdown to change visibility of your post. (We suggest you make this first one public.)"
       title: "Set up connected services"
       share: "Share"
-      outside: "Public messages will be available for others outside of diaspora* to see."
+      outside: "Public messages will be available for others outside of the diaspora* network to see."
       logged_in: "Logged in to %{service}"
       manage: "Manage connected services"
       atom_feed: "Atom feed"
@@ -1349,7 +1349,7 @@ en:
 
       close_account:
         dont_go: "Hey, please don’t go!"
-        make_diaspora_better: "We’d love you to stay and help us make diaspora* better instead of leaving. If you really do want to leave, however, here’s what will happen next:"
+        make_diaspora_better: "We’d love you to stay and help us make Acropolis (and the diaspora* network) better instead of leaving. If you really do want to leave, however, here’s what will happen next:"
         mr_wiggles: "Mr Wiggles will be sad to see you go"
         what_we_delete: "We will delete all of your posts and profile data as soon as possible. Your comments on other people’s posts will still appear, but they will be associated with your diaspora* ID rather than your name."
         locked_out: "You will get signed out and locked out of your account until it has been deleted."
@@ -1370,7 +1370,7 @@ en:
       no_user_ignored_message: "You are not currently ignoring any other user"
 
     destroy:
-      success: "Your account has been locked. It may take 20 minutes for us to finish closing your account. Thank you for trying diaspora*."
+      success: "Your account has been locked. It may take 20 minutes for us to finish closing your account. Thank you for using Acropolis."
       no_password: "Please enter your current password to close your account."
       wrong_password: "The entered password didn’t match your current password."
 
@@ -1380,7 +1380,7 @@ en:
       awesome_take_me_to_diaspora: "Awesome! Take me to diaspora*"
       who_are_you: "Who are you?"
       what_are_you_in_to: "What are you into?"
-      hashtag_explanation: "Hashtags allow you to talk about and follow your interests. They’re also a great way to find new people on diaspora*."
+      hashtag_explanation: "Hashtags allow you to talk about and follow your interests. They’re also a great way to find new people on the diaspora* network."
       hashtag_suggestions: "Try following tags like #art, #movies, #gif, etc."
 
     update:
@@ -1408,7 +1408,7 @@ en:
 
   two_factor_auth:
     title: "Two-factor authentication"
-    explanation: "Two-factor authentication is a powerful way to ensure you are the only one able to sign in to your account. When signing in, you will enter a 6-digit code along with your password to prove your identity. Be careful though: if you lose your phone and the recovery codes created when you activate this feature, access to your diaspora* account will be blocked forever."
+    explanation: "Two-factor authentication is a powerful way to ensure you are the only one able to sign in to your account. When signing in, you will enter a 6-digit code along with your password to prove your identity. Be careful though: if you lose your phone and the recovery codes created when you activate this feature, access to your Acropolis account will be blocked forever."
     activated:
       status: "Two-factor authentication activated"
       change_label: "Deactivate two-factor authentication by entering your password"

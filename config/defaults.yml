@@ -72,7 +72,7 @@ defaults:
       root:
       key:
   settings:
-    pod_name: 'diaspora*'
+    pod_name: 'Acropolis'
     enable_registrations: true
     enable_local_posts_stream: 'disabled'
     autofollow_on_join: true
@@ -80,7 +80,7 @@ defaults:
     welcome_message:
       enabled: false
       subject: 'Welcome Message'
-      text: 'Hello %{username}, welcome to diaspora*.'
+      text: 'Hello %{username}, welcome to Acropolis and the diaspora* network.'
     invitations:
       open: true
       count: 25
@@ -133,8 +133,8 @@ defaults:
     changelog_url:
     default_color_theme: "original"
     default_metas:
-      title: 'diaspora* social network'
-      description: 'diaspora* is the online social world where you are in control.'
+      title: 'Acropolis'
+      description: 'This pod is compatible with the diaspora* social network, where you are in control.'
     csp:
       report_only: false
       report_uri:
