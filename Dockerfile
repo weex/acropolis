@@ -1,7 +1,7 @@
 FROM ruby:2.6-slim-buster
 
 LABEL maintainer="weex"
-LABEL source="https://github.com/weex/diaspora"
+LABEL source="https://github.com/magicstone-dev/acropolis"
 
 ENV RAILS_ENV=production \
     UID=942 \
@@ -37,10 +37,9 @@ RUN addgroup --GID ${GID} diaspora \
 USER diaspora
 
 WORKDIR /diaspora
-RUN git clone --depth 1 https://github.com/weex/diaspora.git
+RUN git clone --depth 1 https://github.com/magicstone-dev/acropolis.git
 RUN mv /diaspora/diaspora/* /diaspora/
-RUN mkdir /diaspora/log \
-    && cp config/database.yml.example config/database.yml
+RUN cp config/database.yml.example config/database.yml
 
 RUN gem install bundler \
     && script/configure_bundler \
