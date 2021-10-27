@@ -1,49 +1,23 @@
-# C4Social fork of diaspora\*
+# Acropolis (recent fork of diaspora\*)
 
-![Build Status](https://github.com/c4social/diaspora/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/magicstone-dev/acropolis/actions/workflows/ci.yml/badge.svg)
 
-This is a dynamic version of diaspora\* which was forked in August of 2021.
+Acropolis was forked from diaspora\* in August 2021. The idea for the fork is to optimize toward community, that is making it as easy as possible to contribute. We're following a protocol that basically says if you are addressing a valid problem, your code gets merged. Everything else follows from that.
 
 |For everyone|Instance administrators|Contributors (all skill levels)|
 |:----:|:----:|:----:|
-|  Try it at https://dogieda.org | Install your own from https://github.com/C4Social/diaspora | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/C4Social/diaspora/issues) |
+|  Try it at https://dogieda.org | Install your own from https://github.com/magicstone-dev/acropolis | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/magicstone-dev/acropolis/issues) |
 
-Learn more at [C4Social.org](https://c4social.org)
-
-----
-
-# diaspora\*
-### A privacy-aware, distributed, open source social network
-
-[Project site](https://diasporafoundation.org) |
-[Wiki](https://wiki.diasporafoundation.org) |
-[Bugtracker](https://github.com/diaspora/diaspora/issues) |
-[Discussions and Support](https://discourse.diasporafoundation.org/) |
-[License](/COPYRIGHT) |
-[Authors](https://github.com/diaspora/diaspora/contributors)
+Learn more at [magicstone.dev](https://magicstone.dev)
 
 ## Installation
 
+We're running our test instance via Docker and docker-compose. If you'd like to do the same, please see [Production-Installation.md](/docs/Production-Installation.md). Note: Upgrades are still rough since there's no built-in upgrade process for docker-compose.
 
-You don't have to install diaspora\* to use the network. There are many servers connected to diaspora\*s network which are open to anyone, and you can create an account on one of these servers. Have a look at our [tips for finding a home](https://wiki.diasporafoundation.org/Choosing_a_pod), or you can just go straight to the [list of open servers](https://diaspora.podupti.me) to sign up.
+## Development
 
-Want to own your data and install diaspora\*? Whether you just want to try it out, want to install it on your server or want to contribute and need a development setup, our [installation guide](INSTALLING.md) will get you started!
+To get setup for development, follow our [Dev Setup guide](INSTALLING.md)
 
-Please see [Production-Installation.md](/docs/Production-Installation.md).
+## Background and Upstream
 
-
-## Questions?
-
-Have a look at our FAQs [for users](https://wiki.diasporafoundation.org/FAQ_for_users), [for pod administrators](https://wiki.diasporafoundation.org/FAQ_for_pod_maintainers) or [for developers](https://wiki.diasporafoundation.org/FAQ_for_developers).
-
-Still haven't found an answer? Talk to us! Read [how we communicate](https://wiki.diasporafoundation.org/How_we_communicate). We're here to answer all your questions.
-
-## Contribute
-
-To keep diaspora\* growing and improving we need all help we can get. Whether you can contribute [code](https://wiki.diasporafoundation.org/Getting_started_with_contributing), [ideas](https://wiki.diasporafoundation.org/How_we_communicate#Discourse), [translations](https://wiki.diasporafoundation.org/Contribute_translations), [bug reports](https://wiki.diasporafoundation.org/How_to_report_a_bug) or simply extend the community as a [helpful user](https://wiki.diasporafoundation.org/Welcoming_committee) or [pod administrator](https://wiki.diasporafoundation.org/Installation), your help is welcome!
-
-Everyone interacting in diaspora’s codebases, issue trackers, chat rooms, the wiki, and the Discourse is expected to follow the diaspora\* [code of conduct](/CODE_OF_CONDUCT.md).
-
-## Security
-
-Found a security issue? Please disclose it responsibly. We have a team of developers listening to [security@diasporafoundation.org](mailto:security@diasporafoundation.org). The PGP fingerprint is [AB0D AB02 0FC5 D398 03AB 3CE1 6F70 243F 27AD 886A](https://pgp.mit.edu/pks/lookup?op=get&search=0x6F70243F27AD886A).
+For more background on the software, see the upstream repo at [https://github.com/diaspora/diaspora](https://github.com/diaspora/diaspora).
