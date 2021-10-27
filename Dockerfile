@@ -38,7 +38,7 @@ USER diaspora
 
 WORKDIR /diaspora
 RUN git clone --depth 1 https://github.com/magicstone-dev/acropolis.git
-RUN mv /diaspora/diaspora/* /diaspora/
+RUN mv /diaspora/acropolis/* /diaspora/
 RUN cp config/database.yml.example config/database.yml
 
 RUN gem install bundler \
