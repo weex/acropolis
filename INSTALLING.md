@@ -1,5 +1,5 @@
 # Dev Server Setup
-For the C4Social fork of diaspora*
+For Acropolis, the Magic Stone fork of diaspora*
 
 In this document we will setup a development environment for our fork of diaspora*. This is not the only way you can install the system for development and may not even be the best way, but it is one that was tested to work as of the last checked date.
 
