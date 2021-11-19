@@ -16,15 +16,31 @@ Diaspora.Pages.UsersGettingStarted = function() {
       var firstNameField = $("#profile_first_name");
       firstNameField.val(firstNameField.data("cachedValue"));
 
+      var lastNameField = $("#profile_last_name");
+      lastNameField.val(lastNameField.data("cachedValue"));
+
       /* flash message prompt */
-      var message = Diaspora.I18n.t("getting_started.hey", {'name': $("#profile_first_name").val()});
+      var name = firstNameField.val() + " " + lastNameField.val();
+      var message = Diaspora.I18n.t("getting_started.hey", {'name': name.trim()});
       app.flashMessages.success(message);
     });
 
     $("#profile_first_name").bind("change", function(){
+      var lastName = $("#profile_last_name");
+      lastName.data("cachedValue", lastName.val());
+
       $(this).data("cachedValue", $(this).val());
       $('#edit_profile').submit();
       $('#gs-name-form-spinner').removeClass("hidden");
+    });
+
+    $("#profile_last_name").bind("change", function () {
+      var firstName = $("#profile_first_name");
+      firstName.data("cachedValue", firstName.val());
+
+      $(this).data("cachedValue", $(this).val());
+      $("#edit_profile").submit();
+      $("#gs-name-form-spinner").removeClass("hidden");
     });
 
     $("#profile_first_name").bind("blur", function(){
@@ -34,6 +50,15 @@ Diaspora.Pages.UsersGettingStarted = function() {
     $("#profile_first_name").bind("focus", function(){
       $(this).addClass("active_input");
     });
+
+    $("#profile_last_name").bind("blur", function () {
+      $(this).removeClass("active_input");
+    });
+
+    $("#profile_last_name").bind("focus", function () {
+      $(this).addClass("active_input");
+    });
+
 
     $("#awesome_button").bind("click", function(){
       var confirmMessage = Diaspora.I18n.t("getting_started.no_tags");
