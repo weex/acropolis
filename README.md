@@ -14,6 +14,8 @@ Learn more at [magicstone.dev](https://magicstone.dev)
 
 We're running our test instance via Docker and docker-compose. If you'd like to do the same, please see [Production-Installation.md](/docs/Production-Installation.md). Note: Upgrades are still rough since there's no built-in upgrade process for docker-compose.
 
+[YunoHost installation](https://github.com/YunoHost-Apps/acropolis_ynh) is coming soon.
+
 ## Development
 
 To get setup for development, follow our [Dev Setup guide](INSTALLING.md)
