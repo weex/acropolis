@@ -306,3 +306,6 @@ group :development, :test do
   # For `assigns` in controller specs
   gem "rails-controller-testing", "1.0.5"
 end
+
+# rake
+gem 'tty-prompt', '~> 0.23', require: false
