@@ -22,7 +22,7 @@ describe NodeInfoPresenter do
       expect(hash).to eq(
         "version"           => "1.0",
         "software"          => {
-          "name"    => "diaspora",
+          "name"    => "acropolis",
           "version" => AppConfig.version_string
         },
         "protocols"         => {
@@ -148,7 +148,7 @@ describe NodeInfoPresenter do
         expect(NodeInfoPresenter.new("2.0").as_json.as_json).to eq(
           "version"           => "2.0",
           "software"          => {
-            "name"    => "diaspora",
+            "name"    => "acropolis",
             "version" => AppConfig.version_string
           },
           "protocols"         => ["diaspora"],
