@@ -295,11 +295,11 @@
 ## Setting this to everyone shows the local posts stream to all users.
 # enable_local_posts_stream= "disabled"|"admins"|"moderators"|"everyone"
 
-## Auto-follow on sign-up (default=true)
+## Auto-follow on sign-up (default=false)
 ## Users will automatically follow a specified account on creation.
 ## Set this to false if you don't want your users to automatically
 ## follow an account upon creation.
-#autofollow_on_join = true
+#autofollow_on_join = false
 
 ## Auto-follow account (default="hq@pod.diaspora.software")
 ## The diaspora* HQ account keeps users up to date with news about Diaspora.
