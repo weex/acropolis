@@ -28,7 +28,7 @@ class NodeInfoPresenter
   end
 
   def add_static_data(doc)
-    doc.software.name = "diaspora"
+    doc.software.name = "acropolis"
     doc.protocols.protocols << "diaspora"
   end
 

@@ -32,6 +32,7 @@
         "name": {
           "description": "The canonical name of this server software.",
           "enum": [
+            "acropolis",
             "diaspora",
             "friendica",
             "redmatrix"
