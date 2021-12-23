@@ -6,7 +6,7 @@ Acropolis was forked from diaspora\* in August 2021. The idea for the fork is to
 
 |For everyone|Instance administrators|Contributors (all skill levels)|
 |:----:|:----:|:----:|
-|  Try it at https://dogieda.org | Install your own from https://github.com/magicstone-dev/acropolis | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/magicstone-dev/acropolis/issues) |
+| [Find a pod](https://acropolis.fediverse.observer/list) | Install your own from https://github.com/magicstone-dev/acropolis | Report an issue, submit code or docs, or solve a problem at the  [Issue tracker](https://github.com/magicstone-dev/acropolis/issues) |
 
 Learn more at [magicstone.dev](https://magicstone.dev)
 
