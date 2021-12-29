@@ -2,14 +2,16 @@ require 'tty-prompt'
 
 namespace :admin do
 
-  task :create, [:username, :email, :password] => [:environment] do |task, args|
+  # task :create, [:username, :email, :password] => [:environment] do |task, args|
+  task :create => :environment do |task, args|
 
     puts"********** testinggggg ***********"
 
     # user_params = {username: args[:username], email: args[:email], password: args[:password], password_confirmation: args[:password]}
-    # user = User.build(user_params)
-    # user.save!
-    # Role.add_admin(user)
+    user_params = {username: "thomas", email: "thomas@yopmail.com", password: "password", password_confirmation: "password"}
+    user = User.build(user_params)
+    user.save!
+    Role.add_admin(user)
 
     # prompt = TTY::Prompt.new
     # begin
