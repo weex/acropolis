@@ -125,10 +125,13 @@ Rails.application.routes.draw do
     get :recovery_codes
   end
 
-  devise_for :users, controllers: {sessions: :sessions}, skip: :registration
+  devise_for :users, controllers: { sessions:      :sessions,
+                                    registrations: :registrations,
+                                    confirmations: :confirmations }#, skip: :registration
   devise_scope :user do
-    get "/users/sign_up" => "registrations#new",    :as => :new_user_registration
-    post "/users"        => "registrations#create", :as => :user_registration
+    get "/users/sign_up" => "registrations#new"#,   :as => :new_user_registration
+    # post "/users"        => "registrations#create", :as => :user_registration
+    get "/users/sign_in" => "sessions#new"
     get "/registrations_closed" => "registrations#registrations_closed", :as => :registrations_closed
   end
 

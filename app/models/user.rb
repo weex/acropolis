@@ -28,7 +28,7 @@ class User < ApplicationRecord
          otp_backup_code_length:     16,
          otp_number_of_backup_codes: 10
 
-  devise :registerable,
+  devise :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :lockable, :lastseenable, :lock_strategy => :none, :unlock_strategy => :none
 
@@ -579,6 +579,10 @@ class User < ApplicationRecord
     end
   end
 
+  def check_and_verify_captcha?
+    AppConfig.settings.captcha.enable? ? valid_with_captcha? : true
+  end
+
   def flag_for_removal(remove_after)
     # flag inactive user for future removal
     if AppConfig.settings.maintenance.remove_old_users.enable?
@@ -599,6 +603,13 @@ class User < ApplicationRecord
     true
   end
 
+  protected
+
+  def after_confirmation
+    self.send_welcome_message
+    WelcomeMailer.send_welcome_email(self).deliver_now
+  end
+
   private
 
   def clearable_fields
@@ -606,6 +617,7 @@ class User < ApplicationRecord
                          serialized_private_key getting_started
                          disable_mail show_community_spotlight_in_stream
                          strip_exif email remove_after export exporting
-                         exported_photos_file exporting_photos)
+                         exported_photos_file exporting_photos confirmation_sent_at
+                         confirmation_token confirmed_at)
   end
 end
