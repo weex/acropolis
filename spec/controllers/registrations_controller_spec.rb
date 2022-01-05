@@ -9,13 +9,16 @@ describe RegistrationsController, type: :controller do
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
+  let(:language) { I18n.locale.to_s }
+  let(:code) {InvitationCode.create(user: bob)}
   let(:valid_params) {
     {
       user: {
         username:              "jdoe",
         email:                 "jdoe@example.com",
         password:              "password",
-        password_confirmation: "password"
+        password_confirmation: "password",
+        language:              language
       }
     }
   }
@@ -36,7 +39,6 @@ describe RegistrationsController, type: :controller do
     end
 
     it "does not redirect if there is a valid invite token" do
-      code = InvitationCode.create(user: bob)
       get :new, params: {invite: {token: code.token}}
       expect(response).not_to be_redirect
     end
@@ -48,7 +50,6 @@ describe RegistrationsController, type: :controller do
     end
 
     it "does redirect if there are no invites available with this code" do
-      code = InvitationCode.create(user: bob)
       code.update_attributes(count: 0)
 
       get :new, params: {invite: {token: code.token}}
@@ -56,7 +57,6 @@ describe RegistrationsController, type: :controller do
     end
 
     it "does redirect when invitations are closed now" do
-      code = InvitationCode.create(user: bob)
       AppConfig.settings.invitations.open = false
 
       get :new, params: {invite: {token: code.token}}
@@ -66,7 +66,6 @@ describe RegistrationsController, type: :controller do
     it "does not redirect when the registration is open" do
       AppConfig.settings.enable_registrations = true
 
-      code = InvitationCode.create(user: bob)
       code.update_attributes(count: 0)
 
       get :new, params: {invite: {token: code.token}}
@@ -78,52 +77,52 @@ describe RegistrationsController, type: :controller do
     render_views
 
     context "with valid parameters" do
+      subject do
+        post :create, params: valid_params
+      end
+
       it "creates a user" do
-        expect {
-          get :create, params: valid_params
-        }.to change(User, :count).by(1)
+        subject
+        user = User.find_by(email: 'jdoe@example.com')
+        expect(user).to_not be_nil
+        expect(user.language).to eq(language)
       end
 
       it "assigns @user" do
-        get :create, params: valid_params
+        subject
         expect(assigns(:user)).to be_truthy
       end
 
       it "sets the flash" do
-        get :create, params: valid_params
+        subject
         expect(flash[:notice]).not_to be_blank
       end
 
-      it "redirects to the home path" do
-        get :create, params: valid_params
-        expect(response).to be_redirect
-        expect(response.location).to match(/^#{getting_started_url}$/)
+      it 'redirects to login path' do
+        subject
+        expect(response).to redirect_to login_path
       end
 
       context "with invite code" do
+        subject do
+          post :create, params: valid_params
+        end
+
         it "reduces number of available invites when the registration is closed" do
           AppConfig.settings.enable_registrations = false
-
-          code = InvitationCode.create(user: bob)
-
           expect {
-            get :create, params: valid_params.merge(invite: {token: code.token})
+            post :create, params: valid_params.merge(invite: {token: code.token})
           }.to change { code.reload.count }.by(-1)
         end
 
         it "doesn't reduce number of available invites when the registration is open" do
-          code = InvitationCode.create(user: bob)
-
           expect {
-            get :create, params: valid_params.merge(invite: {token: code.token})
+            post :create, params: valid_params.merge(invite: {token: code.token})
           }.not_to change { code.reload.count }
         end
 
         it "links inviter with the user" do
-          code = InvitationCode.create(user: bob)
-
           post :create, params: valid_params.merge(invite: {token: code.token})
-
           expect(User.find_by(username: "jdoe").invited_by).to eq(bob)
         end
       end
@@ -152,9 +151,6 @@ describe RegistrationsController, type: :controller do
 
       it "doesn't reduce number of available invites" do
         AppConfig.settings.enable_registrations = false
-
-        code = InvitationCode.create(user: bob)
-
         expect {
           get :create, params: invalid_params.merge(invite: {token: code.token})
         }.not_to change { code.reload.count }

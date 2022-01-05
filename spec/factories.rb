@@ -68,6 +68,7 @@ FactoryBot.define do
     password { "bluepin7" }
     password_confirmation(&:password)
     serialized_private_key { OpenSSL::PKey::RSA.generate(1024).export }
+    confirmed_at {Time.now.utc}
     transient do
       profile { nil }
     end

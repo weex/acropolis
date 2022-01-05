@@ -18,6 +18,10 @@ module SessionsHelper
     AppConfig.mail.enable? && devise_mapping.recoverable? && controller_name != "passwords"
   end
 
+  def display_confirmation_link?
+    devise_mapping.confirmable? && controller_name != "confirmations"
+  end
+
   def flash_class(name)
     {notice: "success", alert: "danger", error: "danger"}[name.to_sym]
   end

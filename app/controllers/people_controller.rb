@@ -15,8 +15,7 @@ class PeopleController < ApplicationController
   respond_to :json, :only => [:index, :show]
 
   rescue_from ActiveRecord::RecordNotFound do
-    render :file => Rails.root.join('public', '404').to_s,
-           :format => :html, :layout => false, :status => 404
+    head :not_found
   end
 
   rescue_from Diaspora::AccountClosed do

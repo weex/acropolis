@@ -13,36 +13,16 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     raise unless resource.check_and_verify_captcha?
     super
-    if @user.persisted?
-      @user.process_invite_acceptence(invite) if invite.present?
-      @user.seed_aspects
+    if resource.persisted?
+      resource.process_invite_acceptence(invite) if invite.present?
+      resource.seed_aspects
     end
   rescue
-    @user.errors.delete(:person)
-    flash.now[:error] = @user.errors.full_messages.join(" - ")
-    logger.info "event=registration status=failure errors='#{@user.errors.full_messages.join(', ')}'"
+    resource.errors.delete(:person)
+    flash.now[:error] = resource.errors.full_messages.join(" - ")
+    logger.info "event=registration status=failure errors='#{resource.errors.full_messages.join(', ')}'"
     render action: "new"
   end
-
-  # def create
-  #   @user = User.build(user_params)
-  #   if @user.sign_up
-  #     flash[:notice] = t("registrations.create.success")
-  #     @user.process_invite_acceptence(invite) if invite.present?
-  #     @user.seed_aspects
-  #     @user.send_welcome_message
-  #     WelcomeMailer.send_welcome_email(@user).deliver_now
-  #     sign_in_and_redirect(:user, @user)
-  #     logger.info "event=registration status=successful user=#{@user.diaspora_handle}"
-  #     render action: "new"
-  #   else
-  #     @user.errors.delete(:person)
-
-  #     flash.now[:error] = @user.errors.full_messages.join(" - ")
-  #     logger.info "event=registration status=failure errors='#{@user.errors.full_messages.join(', ')}'"
-  #     render action: "new"
-  #   end
-  # end
 
   def registrations_closed
     render "registrations/registrations_closed"
@@ -88,11 +68,4 @@ class RegistrationsController < Devise::RegistrationsController
 
   helper_method :invite
 
-  # def user_params
-  #   params.require(:user).permit(
-  #     :username, :email, :getting_started, :password, :password_confirmation, :language, :disable_mail,
-  #     :show_community_spotlight_in_stream, :auto_follow_back, :auto_follow_back_aspect_id,
-  #     :remember_me, :captcha, :captcha_key
-  #   )
-  # end
 end

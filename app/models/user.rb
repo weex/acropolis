@@ -117,6 +117,7 @@ class User < ApplicationRecord
   def process_invite_acceptence(invite)
     self.invited_by = invite.user
     invite.use! unless AppConfig.settings.enable_registrations?
+    save
   end
 
   def invitation_code
@@ -550,6 +551,10 @@ class User < ApplicationRecord
     person.closed_account
   end
 
+  def postpone_email_change?
+     false
+  end
+
   def clear_account!
     clearable_fields.each do |field|
       self[field] = nil
@@ -617,7 +622,6 @@ class User < ApplicationRecord
                          serialized_private_key getting_started
                          disable_mail show_community_spotlight_in_stream
                          strip_exif email remove_after export exporting
-                         exported_photos_file exporting_photos confirmation_sent_at
-                         confirmation_token confirmed_at)
+                         exported_photos_file exporting_photos confirmed_at)
   end
 end
