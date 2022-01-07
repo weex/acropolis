@@ -1,0 +1,26 @@
+= form_for resource, as:           resource_name,
+                     url:          confirmation_path(resource_name),
+                     html:         {method: :post, class: "block-form"},
+                     autocomplete: "off" do |f|
+  %fieldset
+    - if mobile
+      %legend
+        = image_tag("branding/logos/header-logo2x.png", height: 40, width: 40)
+        = AppConfig.settings.pod_name
+
+    - if mobile
+      = f.label :email, t("registrations.new.email"), class: "control-label", id: "emailLabel"
+    - else
+      = f.label :email, t("registrations.new.email"), class: "sr-only control-label", id: "emailLabel"
+      %i.entypo-mail
+    = f.email_field :email,
+                    autofocus:   true,
+                    class:       "input-block-level form-control",
+                    data:        {content: t("users.edit.your_email_private")},
+                    placeholder: t("registrations.new.email"),
+                    required:    true,
+                    title:       t("registrations.new.enter_email"),
+                    aria:        {labelledby: "emailLabel"}
+
+
+  = f.submit t("devise.confirmations.new.resend_confirmation"), class: "btn btn-large btn-block btn-primary"

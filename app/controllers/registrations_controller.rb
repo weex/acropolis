@@ -6,31 +6,51 @@
 
 class RegistrationsController < Devise::RegistrationsController
   before_action :check_registrations_open_or_valid_invite!, except: :registrations_closed
-
+  before_action :configure_sign_up_params, only: [:create]
   layout -> { request.format == :mobile ? "application" : "with_header_with_footer" }
 
   def create
-    @user = User.build(user_params)
-
-    if @user.sign_up
-      flash[:notice] = t("registrations.create.success")
-      @user.process_invite_acceptence(invite) if invite.present?
-      @user.seed_aspects
-      @user.send_welcome_message
-      WelcomeMailer.send_welcome_email(@user).deliver_now
-      sign_in_and_redirect(:user, @user)
-      logger.info "event=registration status=successful user=#{@user.diaspora_handle}"
-    else
-      @user.errors.delete(:person)
-
-      flash.now[:error] = @user.errors.full_messages.join(" - ")
-      logger.info "event=registration status=failure errors='#{@user.errors.full_messages.join(', ')}'"
-      render action: "new"
+    build_resource(sign_up_params)
+    raise unless resource.check_and_verify_captcha?
+    super
+    if resource.persisted?
+      resource.process_invite_acceptence(invite) if invite.present?
+      resource.seed_aspects
     end
+  rescue
+    resource.errors.delete(:person)
+    flash.now[:error] = resource.errors.full_messages.join(" - ")
+    logger.info "event=registration status=failure errors='#{resource.errors.full_messages.join(', ')}'"
+    render action: "new"
   end
 
   def registrations_closed
     render "registrations/registrations_closed"
+  end
+
+  protected
+
+  def build_resource(hash = nil)
+    super(hash)
+    return if hash.nil? # return for 'new'
+    resource.language = hash[:language]
+    resource.language ||= I18n.locale.to_s
+    resource.color_theme = hash[:color_theme]
+    resource.color_theme ||= AppConfig.settings.default_color_theme
+    resource.set_person(Person.new((hash[:person] || {}).except(:id)))
+    resource.generate_keys
+    resource.valid?
+    errors = resource.errors
+    errors.delete :person
+    return if errors.size > 0
+  end
+
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email, :getting_started, :password, :password_confirmation, :language, :disable_mail, :show_community_spotlight_in_stream, :auto_follow_back, :auto_follow_back_aspect_id, :remember_me, :captcha, :captcha_key])
+  end
+
+  def after_inactive_sign_up_path_for(_resource)
+    login_path
   end
 
   private
@@ -48,11 +68,4 @@ class RegistrationsController < Devise::RegistrationsController
 
   helper_method :invite
 
-  def user_params
-    params.require(:user).permit(
-      :username, :email, :getting_started, :password, :password_confirmation, :language, :disable_mail,
-      :show_community_spotlight_in_stream, :auto_follow_back, :auto_follow_back_aspect_id,
-      :remember_me, :captcha, :captcha_key
-    )
-  end
 end

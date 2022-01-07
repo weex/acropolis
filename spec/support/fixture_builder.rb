@@ -2,13 +2,13 @@
 
 def create_basic_users
   # Users
-  alice = FactoryBot.create(:user_with_aspect, username: "alice", strip_exif: false)
+  alice = FactoryBot.create(:user_with_aspect, username: "alice", strip_exif: false, confirmed_at: Time.now.utc)
   alices_aspect = alice.aspects.where(name: "generic").first
 
-  eve = FactoryBot.create(:user_with_aspect, username: "eve")
+  eve = FactoryBot.create(:user_with_aspect, username: "eve", confirmed_at: Time.now.utc)
   eves_aspect = eve.aspects.where(name: "generic").first
 
-  bob = FactoryBot.create(:user_with_aspect, username: "bob")
+  bob = FactoryBot.create(:user_with_aspect, username: "bob", confirmed_at: Time.now.utc)
   bobs_aspect = bob.aspects.where(name: "generic").first
   FactoryBot.create(:aspect, name: "empty", user: bob)
 
@@ -16,10 +16,10 @@ def create_basic_users
   connect_users(bob, bobs_aspect, eve, eves_aspect)
 
   # Set up friends - 2 local, 1 remote
-  local_luke = FactoryBot.create(:user_with_aspect, username: "luke")
+  local_luke = FactoryBot.create(:user_with_aspect, username: "luke", confirmed_at: Time.now.utc)
   lukes_aspect = local_luke.aspects.where(name: "generic").first
 
-  local_leia = FactoryBot.create(:user_with_aspect, username: "leia")
+  local_leia = FactoryBot.create(:user_with_aspect, username: "leia", confirmed_at: Time.now.utc)
   leias_aspect = local_leia.aspects.where(name: "generic").first
 
   remote_raphael = FactoryBot.create(:person, diaspora_handle: "raphael@remote.net")
@@ -30,7 +30,7 @@ def create_basic_users
   local_luke.contacts.create(person: remote_raphael, aspects: [lukes_aspect])
 
   # Set up a follower
-  peter = FactoryBot.create(:user_with_aspect, username: "peter")
+  peter = FactoryBot.create(:user_with_aspect, username: "peter", confirmed_at: Time.now.utc)
   peters_aspect = peter.aspects.where(name: "generic").first
 
   peter.contacts.create!(person: alice.person, aspects: [peters_aspect], sharing: false, receiving: true)

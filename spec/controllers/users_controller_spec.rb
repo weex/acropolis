@@ -173,8 +173,7 @@ describe UsersController, :type => :controller do
 
     describe 'email' do
       it "disallows the user to change their new (unconfirmed) mail when it is the same as the old" do
-        @user.email = "my@newemail.com"
-        put :update, params: {id: @user.id, user: {email: "my@newemail.com"}}
+        put :update, params: {id: @user.id, user: {email: @user.email}}
         @user.reload
         expect(@user.unconfirmed_email).to eql(nil)
       end

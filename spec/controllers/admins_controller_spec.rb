@@ -7,6 +7,7 @@
 describe AdminsController, type: :controller do
   before do
     @user = FactoryBot.create :user
+    @user.confirm
     sign_in @user, scope: :user
   end
 

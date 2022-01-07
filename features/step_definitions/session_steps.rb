@@ -82,3 +82,8 @@ end
 When /^I fill in the new user form$/ do
   fill_in_new_user_form
 end
+
+And /^confirm the user "([^"]*)"$/ do |username|
+  @me = User.find_by_username(username)
+  @me.confirm
+end
