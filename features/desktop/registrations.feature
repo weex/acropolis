@@ -8,6 +8,9 @@ Feature: New user registration
     Given I am on the new user registration page
     When I fill in the new user form
     And I press "Create account"
+    And confirm the user "ohai"
+    Then I should be on the new user session page
+    When I sign in manually as "ohai" with password "secret"
     Then I should be on the getting started page
     And I should see the 'getting started' contents
 

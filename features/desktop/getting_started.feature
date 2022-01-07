@@ -5,6 +5,9 @@ Feature: new user registration
     When I go to the new user registration page
     And I fill in the new user form
     And I submit the form
+    And confirm the user "ohai"
+    Then I should be on the new user session page
+    When I sign in manually as "ohai" with password "secret"
     Then I should be on the getting started page
     Then I should see the 'getting started' contents
 

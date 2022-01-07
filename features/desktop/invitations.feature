@@ -10,6 +10,9 @@ Feature: Invitations
     And I am on my acceptance form page
     And I fill in the new user form
     And I press "Create account"
+    And confirm the user "ohai"
+    Then I should be on the new user session page
+    When I sign in manually as "ohai" with password "secret"
     Then I should be on the getting started page
     And I should see "Well, hello there!"
     When I fill in the following:
@@ -23,6 +26,9 @@ Feature: Invitations
     And I am on my acceptance form page
     And I fill in the new user form
     And I press "Create account"
+    And confirm the user "ohai"
+    Then I should be on the new user session page
+    When I sign in manually as "ohai" with password "secret"
     Then I should be on the getting started page
     And I should see "Well, hello there!"
     And I should be able to friend "alice@alice.alice"
